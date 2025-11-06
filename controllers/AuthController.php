@@ -1,92 +1,88 @@
 <?php
+// controllers/AuthController.php
 
-  class AuthController extends Controller {
+require_once 'models/User.php';
 
-    public function login() {
-      session_start();
-      if (isset($_SESSION['user'])) {
-        header("Location:?c=dashboard&m=index");
-        exit();
-      }
+class AuthController {
+    
+    private $userModel;
 
-      $this->loadView("auth/login", ['title' => 'Login'], "auth");
+    public function __construct() {
+        $this->userModel = new User();
     }
 
-    public function loginProcess() {
-      session_start();
+    /**
+     * Menangani logika LOGIN (POST) dan tampilan (GET)
+     */
+    public function handleLogin() {
+        $error = '';
+        $success = '';
 
-      $username = $_POST['username'] ?? '';
-      $password = $_POST['password'] ?? '';
+        // Cek jika ada pesan sukses dari registrasi
+        if (isset($_GET['status']) && $_GET['status'] == 'sukses') {
+            $success = "Registrasi berhasil! Silakan login.";
+        }
 
-      $userModel = $this->loadModel("user");
-      $user = $userModel->getByUsername($username);
+        // Cek jika form disubmit
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email_or_username = trim($_POST['email_username']);
+            $password = $_POST['password'];
 
-      if ($user && password_verify($password, $user->password)) {
-          $_SESSION['user'] = [
-              'id' => $user->id,
-              'username' => $user->username
-          ];
-          header("Location:?c=dashboard&m=index");
-          exit();
-      } else {
-          $this->loadView("auth/login", [
-              'title' => 'Login',
-              'error' => 'Username atau password salah'
-          ], 'auth');
-      }
+            if (empty($email_or_username) || empty($password)) {
+                $error = "Email/Username dan Password wajib diisi!";
+            } else {
+                $user = $this->userModel->getUserByEmailOrUsername($email_or_username);
+                
+                if ($user && password_verify($password, $user['password_hash'])) {
+                    // Login sukses
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['username'] = $user['username'];
+                    header("Location: dashboard.php");
+                    exit;
+                } else {
+                    $error = "Email/Username atau Password salah!";
+                }
+            }
+        }
+
+        // Tampilkan view login
+        // Variabel $error dan $success akan bisa diakses di dalam view
+        require 'views/auth/Login.php';
     }
 
+    /**
+     * Menangani logika REGISTER (POST) dan tampilan (GET)
+     */
+    public function handleRegister() {
+        $error = '';
 
-    public function register() {
-      session_start();
-      if (isset($_SESSION['user'])) {
-        header("Location:?c=dashboard&m=index");
-        exit();
-      }
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $username = trim($_POST['username']);
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
 
-      $this->loadView("auth/register", ['title' => 'Register'], "auth");
+            if (empty($username) || empty($email) || empty($password)) {
+                $error = "Semua kolom wajib diisi!";
+            } elseif ($password !== $confirm_password) {
+                $error = "Password dan Konfirmasi Password tidak cocok!";
+            } elseif (strlen($password) < 6) {
+                $error = "Password minimal 6 karakter.";
+            } else {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                
+                if ($this->userModel->createUser($username, $email, $hashed_password)) {
+                    // Sukses, arahkan ke login
+                    header("Location: login.php?status=sukses");
+                    exit;
+                } else {
+                    $error = "Email atau Username sudah terdaftar!";
+                }
+            }
+        }
+
+        // Tampilkan view register
+        require 'views/auth/Register.php';
     }
-
-    public function registerProcess() {
-      $username = $_POST['username'] ?? '';
-      $fullName = $_POST['full_name'] ?? '';
-      $email = $_POST['email'] ?? '';
-      $telepon = $_POST['telepon'] ?? '';
-      $password = $_POST['password'] ?? '';
-      $confirmPassword = $_POST['confirm'] ?? '';
-
-  if ($password !== $confirmPassword) {
-    return $this->loadView("auth/register", [
-      'title' => 'Register',
-      'error' => 'Password tidak sama'
-    ], 'auth');
-  }
-
-  $userModel = $this->loadModel("user");
-
-  if ($userModel->getByUsername($username)) {
-    return $this->loadView("auth/register", [
-      'title' => 'Register',
-      'error' => 'Username sudah digunakan'
-    ], 'auth');
-  }
-
-  if ($userModel->getByEmail($email)) {
-    return $this->loadView("auth/register", [
-      'title' => 'Register',
-      'error' => 'Email sudah terdaftar'
-    ], 'auth');
-  }
-
-  $userModel->create($username, $fullName, $email, $telepon, $password);
-  header("Location:?c=auth&m=login");
-  exit();
-    }
-
-    public function logout() {
-      session_start();
-      session_destroy();
-      header("Location:?c=auth&m=login");
-      exit();
-    }
-  }
+}
+?>
