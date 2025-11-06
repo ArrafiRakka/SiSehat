@@ -28,6 +28,7 @@ class BMIController {
         // Variabel $bmi_score & $bmi_category akan bisa diakses di dalam view
         
         $pageTitle = "BMI Calculator"; // Set judul halaman
+        $pageCSS = "bmi.css";
         
         require '../views/layouts/Header.php';
         require '../views/BMI/BMI.php';
