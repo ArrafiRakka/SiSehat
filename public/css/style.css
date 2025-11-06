@@ -1,51 +1,368 @@
+/* ==============================================
+   1. GLOBAL STYLES (Berlaku di semua halaman)
+   ============================================== */
 body {
-    font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0;
-    display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    min-height: 100vh;
+    
+    /* -- PERUBAHAN KUNCI -- */
+    display: flex;
+    flex-direction: column;
 }
-.header-bar {
-    width: 100%; background-color: #d9534f; padding: 10px 20px;
-    color: white; font-size: 1.2rem; font-weight: bold; box-sizing: border-box;
-}
-.form-container {
-    background-color: #ffffff; padding: 2.5rem; border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); width: 100%;
-    max-width: 400px; margin-top: 3rem; position: relative; overflow: hidden;
-}
-.form-container::before {
-    content: ''; position: absolute; top: -100px; left: -100px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, #f8f9fa 20%, transparent 70%);
-    opacity: 0.5; z-index: 0;
-}
+
+/* Style 'h2' umum (dipakai di login/register) */
 h2 {
-    text-align: center; color: #333; margin-bottom: 2rem;
-    font-size: 2rem; font-weight: bold; position: relative; z-index: 1;
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
 }
-.form-group { margin-bottom: 1.25rem; position: relative; z-index: 1; }
+
+/* ==============================================
+   2. AUTH STYLES (Login & Register)
+   ============================================== */
+
+/* Wrapper ini untuk menengahkan form di halaman auth */
+.auth-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    
+    /* -- PERUBAHAN KUNCI -- */
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* Menengahkan form (horizontal) */
+    justify-content: center; /* Menengahkan form (vertikal) */
+    
+    /* Hapus 'min-height: calc()' dan GANTI DENGAN INI: */
+    flex-grow: 1; /* <-- INI JAWABANNYA */
+    
+    /* Kasih sedikit padding agar form tidak nempel header jika layarnya pendek */
+    padding: 2rem 0;
+}
+
+/* Header bar khusus halaman login/register */
+.header-bar {
+    width: 100%;
+    background-color: #d9534f;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-sizing: border-box;
+    z-index: 1000;
+    
+    /* -- PERUBAHAN KUNCI -- */
+    height: 60px; /* Tinggi pasti */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    flex-shrink: 0; /* <-- TAMBAHKAN INI (Sangat penting) */
+    position: sticky;
+    top: 0;
+}
+
+/* Box form login/register */
+.form-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dekorasi kurva di form */
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #f8f9fa 20%, transparent 70%);
+    opacity: 0.5;
+    z-index: 0;
+}
+
+/* Grup form (label + input) */
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 1;
+}
+
 .form-group label {
-    display: block; margin-bottom: 5px; font-weight: bold;
-    color: #555; font-size: 0.9rem;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    font-size: 0.9rem;
 }
+
 .form-group input {
-    width: 100%; padding: 12px 15px; border: 1px solid #ccc;
-    border-radius: 5px; box-sizing: border-box; font-size: 1rem;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
+
+/* Tombol submit auth */
 .btn-submit {
-    width: 100%; padding: 12px; background-color: #d9534f; border: none;
-    border-radius: 5px; color: white; font-size: 1rem; font-weight: bold;
-    cursor: pointer; transition: background-color 0.3s ease; margin-top: 1rem;
-    position: relative; z-index: 1;
+    width: 100%;
+    padding: 12px;
+    background-color: #d9534f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 1;
 }
-.btn-submit:hover { background-color: #c9302c; }
+
+.btn-submit:hover {
+    background-color: #c9302c;
+}
+
 .form-link {
-    text-align: center; margin-top: 1.5rem; color: #555;
-    position: relative; z-index: 1;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #555;
+    position: relative;
+    z-index: 1;
 }
-.form-link a { color: #007bff; text-decoration: none; }
-.form-link a:hover { text-decoration: underline; }
+
+.form-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-link a:hover {
+    text-decoration: underline;
+}
+
+/* Pesan error/sukses */
 .message {
-    text-align: center; padding: 10px; margin-bottom: 1rem;
-    border-radius: 5px; font-size: 0.9rem; position: relative; z-index: 1;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
 }
-.message.error { background-color: #f2dede; color: #a94442; border: 1px solid #ebccd1; }
-.message.success { background-color: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+
+.message.error {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+}
+
+.message.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+}
+
+
+/* ==============================================
+   3. DASHBOARD LAYOUT STYLES
+   ============================================== */
+
+/* Navbar utama (merah) untuk dashboard */
+.navbar {
+    width: 100%;
+    background-color: #d9534f;
+    padding: 0 20px;
+    color: white;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 60px;
+    /* Beda dari .header-bar, ini 'fixed' */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 20px 15px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+    background-color: #c9302c;
+}
+
+.navbar-logout {
+    font-size: 1.2rem;
+}
+
+/* Wrapper konten utama dashboard */
+.main-content {
+    width: 100%; /* Agar memenuhi lebar */
+    margin-top: 60px; /* HARUS SAMA dengan tinggi .navbar */
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box; /* Tambahan penting */
+}
+
+
+/* ==============================================
+   4. PAGE-SPECIFIC STYLES (BMI Calculator)
+   ============================================== */
+
+.bmi-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    /* 'margin: 0 auto' tidak perlu jika .main-content sudah 'justify-content: center' */
+}
+
+/* Override 'h2' global, khusus untuk BMI */
+.bmi-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-align: center; /* Pastikan tetap di tengah */
+}
+
+.bmi-container .subtitle {
+    color: #777;
+    margin-bottom: 2rem;
+}
+
+.bmi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group-bmi {
+    text-align: left;
+}
+
+.form-group-bmi label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.form-group-bmi input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.btn-calculate {
+    padding: 12px;
+    background-color: #d9534f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-calculate:hover {
+    background-color: #c9302c;
+}
+
+/* Hasil BMI */
+.bmi-result {
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+}
+
+.bmi-result .score {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.bmi-result .category {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.score.underweight { color: #3498db; }
+.score.normal { color: #2ecc71; }
+.score.overweight { color: #f39c12; }
+.score.obese { color: #e74c3c; }
+
+/* Legenda BMI */
+.bmi-legend {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2.5rem;
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.legend-item p {
+    line-height: 1.4;
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+}
+
+.legend-item .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot.underweight { background-color: #f39c12; }
+.dot.normal { background-color: #2ecc71; }
+.dot.overweight { background-color: #f39c12; }
+.dot.obese { background-color: #e74c3c; }

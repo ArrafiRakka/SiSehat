@@ -38,6 +38,17 @@ switch ($action) {
         $authController->handleDashboard();
         break;
 
+    case 'bmi':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        // Panggil BMI Controller
+        require_once 'controllers/BMIController.php';
+        $bmiController = new BMIController();
+        $bmiController->handleBMI();
+        break;
+
     case 'logout':
         $authController->handleLogout();
         break;

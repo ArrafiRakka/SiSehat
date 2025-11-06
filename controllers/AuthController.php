@@ -37,7 +37,7 @@ class AuthController {
                     // Login sukses
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $user['username'];
-                    header("Location: dashboard.php");
+                    header("Location: index.php?action=dashboard");
                     exit;
                 } else {
                     $error = "Email/Username atau Password salah!";
@@ -73,7 +73,7 @@ class AuthController {
                 
                 if ($this->userModel->createUser($username, $email, $hashed_password)) {
                     // Sukses, arahkan ke login
-                    header("Location: login.php?status=sukses");
+                    header("Location: index.php?action=login&status=sukses");
                     exit;
                 } else {
                     $error = "Email atau Username sudah terdaftar!";
