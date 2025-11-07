@@ -48,6 +48,17 @@ switch ($action) {
         $bmiController = new BMIController();
         $bmiController->handleBMI();
         break;
+    
+    case 'workout':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        require_once 'controllers/WorkoutController.php';
+        $workoutController = new WorkoutController();
+        $workoutController->index();
+        break;
+
 
     case 'logout':
         $authController->handleLogout();

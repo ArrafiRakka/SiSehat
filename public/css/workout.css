@@ -1,0 +1,235 @@
+/* =========================================
+   WORKOUT CALCULATOR PAGE STYLING
+   Designed to match SiSehat theme
+   ========================================= */
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section Title */
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    background-color: #dc4c4c;
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* ===== FORM SECTION ===== */
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 40px;
+    margin-bottom: 40px;
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.card p.description {
+    text-align: center;
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+select,
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    background-color: #f7f7f7;
+    transition: all 0.2s ease-in-out;
+}
+
+select:focus,
+input:focus {
+    border-color: #dc4c4c;
+    outline: none;
+    background-color: #fff;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.btn-primary {
+    background-color: #dc4c4c;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(220, 76, 76, 0.2);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #c44141;
+}
+
+.btn-secondary {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background-color: #eaeaea;
+}
+
+/* ===== TIPS SECTION ===== */
+.tips {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 30px 40px;
+    margin-bottom: 40px;
+}
+
+.tips h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.tips ul {
+    padding-left: 20px;
+    color: #555;
+}
+
+.tips li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.tips li::marker {
+    color: #dc4c4c;
+}
+
+/* ===== WORKOUT LIST ===== */
+.workout-list {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 30px 40px;
+    margin-bottom: 40px;
+}
+
+.workout-list h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.workout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 20px;
+}
+
+.workout-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    font-weight: 500;
+    color: #444;
+}
+
+.workout-item span {
+    color: #dc4c4c;
+    font-weight: 600;
+}
+
+/* ===== FORMULA SECTION ===== */
+.formula {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 30px 40px;
+    text-align: center;
+}
+
+.formula h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.formula p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.formula .formula-box {
+    background-color: #fff5f5;
+    border: 1px solid #f3b4b4;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+    color: #dc4c4c;
+    margin: 10px auto 15px;
+    display: inline-block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .card, .tips, .workout-list, .formula {
+        padding: 25px;
+    }
+
+    .hero {
+        padding: 40px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
