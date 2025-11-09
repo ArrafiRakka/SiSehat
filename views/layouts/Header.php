@@ -34,7 +34,7 @@ $pageTitle = $pageTitle ?? "SiSehat";
         <div class="navbar-brand">SiSehat</div>
         <nav class="navbar-links">
             <a href="index.php?action=dashboard">Beranda</a>
-            <a href="index.php?action=konsultasi">Konsultasi</a>
+            <a href="index.php?action=consultation">Konsultasi</a>
             <a href="index.php?action=workout">Workout</a>
             <a href="index.php?action=bmi">Kalori Harian</a> <a href="index.php?action=mealplan">Meal Plan</a>
             <a href="index.php?action=profile">Profil</a>

@@ -1,17 +1,16 @@
 <?php
 // index.php
 session_start();
+
+// Dummy login sementara
 $_SESSION['loggedin'] = true;
 $_SESSION['username'] = 'dev';
 $_SESSION['user_id'] = 1;
 
-
 require_once 'controllers/AuthController.php';
-
 $authController = new AuthController();
 
 // Tentukan 'action' (rute)
-// Jika tidak ada action, default-nya 'null'
 $action = $_GET['action'] ?? null;
 
 // Cek status login
@@ -20,7 +19,7 @@ $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
 switch ($action) {
     case 'login':
         if ($is_logged_in) {
-            header("Location: index.php?action=dashboard"); // Jika sudah login, lempar ke dashboard
+            header("Location: index.php?action=dashboard");
             exit;
         }
         $authController->handleLogin();
@@ -45,7 +44,6 @@ switch ($action) {
             header("Location: index.php?action=login");
             exit;
         }
-        // Panggil BMI Controller
         require_once 'controllers/BMIController.php';
         $bmiController = new BMIController();
         $bmiController->handleBMI();
@@ -61,7 +59,7 @@ switch ($action) {
         $workoutController->index();
         break;
 
-     case 'mealplan':
+    case 'mealplan':
         if (!$is_logged_in) {
             header("Location: index.php?action=login");
             exit;
@@ -77,13 +75,39 @@ switch ($action) {
         $controller->save();
         break;
 
+    case 'consultation':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->index();
+        break;
+
+    case 'consultation_payment':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->payment();
+        break;
+
+    case 'consultation_chat':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->chat();
+        break;
+
+    case 'consultation_result':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->result();
+        break;
 
     case 'logout':
         $authController->handleLogout();
         break;
 
     default:
-        // Aksi default: Cek login
         if ($is_logged_in) {
             header("Location: index.php?action=dashboard");
         } else {
