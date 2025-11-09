@@ -1,6 +1,10 @@
 <?php
 // index.php
 session_start();
+$_SESSION['loggedin'] = true;
+$_SESSION['username'] = 'dev';
+$_SESSION['user_id'] = 1;
+
 
 require_once 'controllers/AuthController.php';
 
@@ -31,11 +35,9 @@ switch ($action) {
         break;
 
     case 'dashboard':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login"); // Jika belum login, lempar ke login
-            exit;
-        }
-        $authController->handleDashboard();
+        require_once 'controllers/AuthController.php';
+        $auth = new AuthController();
+        $auth->handleDashboard();
         break;
 
     case 'bmi':
@@ -57,6 +59,22 @@ switch ($action) {
         require_once 'controllers/WorkoutController.php';
         $workoutController = new WorkoutController();
         $workoutController->index();
+        break;
+
+     case 'mealplan':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        require_once 'controllers/MealPlanController.php';
+        $mealPlanController = new MealPlanController();
+        $mealPlanController->index();
+        break;
+
+    case 'savemealplan':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->save();
         break;
 
 

@@ -1,4 +1,8 @@
 <?php
+
+// Tambahkan ini di bagian paling atas Controller.php
+class NotFoundException extends Exception {}
+
   class Controller {
     public function loadModel($modelName) {
       $modelClass = ucfirst($modelName);

@@ -1,0 +1,117 @@
+.dashboard-container {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Hero Section */
+.hero {
+  background: #ffe5e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 10%;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.hero-text h1 { font-size: 2rem; color: #222; margin-bottom: 10px; }
+.hero-text p { color: #555; margin-bottom: 20px; }
+.hero-buttons .btn { margin-right: 10px; }
+.hero-card {
+  background: #f56a6a;
+  color: white;
+  border-radius: 10px;
+  padding: 50px;
+  text-align: center;
+  min-width: 200px;
+}
+
+/* Features */
+.features { text-align: center; padding: 60px 10%; }
+.features h2 { font-size: 1.8rem; margin-bottom: 10px; }
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.2s;
+}
+.card:hover { transform: scale(1.03); }
+.card h3 { color: #c0392b; }
+
+/* Stats */
+.stats {
+  background: #e74c3c;
+  color: white;
+  text-align: center;
+  padding: 50px 10%;
+}
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.stats-grid div h3 { font-size: 1.8rem; }
+
+/* Tips */
+.tips {
+  text-align: center;
+  padding: 60px 10%;
+}
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+.tip-card {
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+}
+.tip-card.green { background: #27ae60; }
+.tip-card.orange { background: #e67e22; }
+.tip-card.blue { background: #3498db; }
+.tip-card.purple { background: #9b59b6; }
+.tip-card.violet { background: #8e44ad; }
+.tip-card.red { background: #c0392b; }
+
+/* Testimoni */
+.testimoni {
+  background: #fafafa;
+  text-align: center;
+  padding: 60px 10%;
+}
+.testimoni-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+.testi-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  max-width: 300px;
+}
+
+/* CTA */
+.cta {
+  background: #e74c3c;
+  color: white;
+  text-align: center;
+  padding: 60px 10%;
+  border-radius: 10px;
+  margin-top: 40px;
+}
+.cta-buttons .btn {
+  margin: 10px;
+}

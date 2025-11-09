@@ -1,0 +1,225 @@
+.mealplan-page {
+  background-color: #f9f9f9;
+  padding: 50px 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+/* === Banner === */
+.banner {
+  background-color: #ff5b2d;
+  color: white;
+  border-radius: 16px;
+  padding: 30px 40px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+.banner h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff; /* teks putih */
+}
+
+.banner p {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* === Card Umum === */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.card p.desc {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+/* === Form === */
+.meal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #ff5b2d;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background-color: #ff5b2d;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #e74a1e;
+}
+
+.btn-secondary {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background-color: #ccc;
+}
+
+/* === List Meal Plan === */
+.meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meal-item {
+  background: #fff6f4;
+  border-radius: 10px;
+  padding: 12px 15px;
+  border: 1px solid #ffd3c7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meal-item strong {
+  color: #ff5b2d;
+  font-weight: 700;
+}
+
+.meal-item span {
+  color: #555;
+  font-size: 14px;
+}
+
+.no-data {
+  color: #777;
+  font-style: italic;
+}
+
+/* === Gallery === */
+.food-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  width: 140px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-card img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.food-card p {
+  font-weight: 600;
+  color: #333;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.food-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* === Responsif === */
+@media (max-width: 768px) {
+  .banner {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .food-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .food-card {
+    width: 100%;
+  }
+}

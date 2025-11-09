@@ -84,5 +84,25 @@ class AuthController {
         // Tampilkan view register
         require 'views/auth/Register.php';
     }
+
+    public function handleDashboard() {
+    // Pastikan session aktif
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Kalau belum login, arahkan ke login page
+    if (empty($_SESSION['loggedin'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+
+    // Ambil data user dari session
+    $username = $_SESSION['username'] ?? 'Guest';
+
+    // Tampilkan view dashboard
+    require 'views/dashboard/Dashboard.php';
+}
+
 }
 ?>

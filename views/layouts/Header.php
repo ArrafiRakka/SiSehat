@@ -9,7 +9,25 @@ $pageTitle = $pageTitle ?? "SiSehat";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($pageTitle); ?> - SiSehat</title>
     <link rel="stylesheet" href="public/css/Style.css">
-    </head>
+
+      <?php 
+        $currentAction = $_GET['action'] ?? '';
+        if ($currentAction === 'dashboard') {
+            echo '<link rel="stylesheet" href="/SiSehat/public/css/dashboard.css">';
+        }
+        ?>
+
+      <?php 
+        // Load CSS tambahan khusus halaman tertentu
+        $currentAction = $_GET['action'] ?? '';
+        if ($currentAction === 'mealplan') {
+            echo '<link rel="stylesheet" href="/SiSehat/public/css/mealplan.css">';
+        }
+    ?>
+
+
+</head>
+
 <body>
     
     <header class="navbar">
