@@ -362,6 +362,121 @@ h2 {
     flex-shrink: 0;
 }
 
+/* ==============================================
+   5. LAYOUT FIX (Navbar, Main, Footer)
+   ============================================== */
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin-top: 60px; /* tinggi navbar */
+}
+
+/* === FOOTER FIX === */
+.footer {
+  background-color: #282828;
+  color: #a0a0a0;
+  padding: 40px 0 20px; /* hilangkan padding horizontal biar gak "ngedorong" kanan */
+  width: 100%;
+  margin-top: auto;
+}
+
+.footer .container {
+  max-width: 1100px;
+  margin: 0 auto; /* biar center */
+  padding: 0 20px; /* kasih ruang kiri-kanan dikit */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px 0;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.footer-section h3 {
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.footer-section a {
+  color: #a0a0a0;
+  text-decoration: none;
+  line-height: 1.6;
+}
+
+.footer-section a:hover {
+  color: #fff;
+}
+
+.social-icons a {
+  background-color: #d9534f;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background-color: #b71c1c;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.contact-item span {
+  margin-right: 8px;
+  font-size: 17px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #444;
+  text-align: center;
+  font-size: 14px;
+  padding-top: 18px;
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-section {
+    margin-bottom: 20px;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+
 .dot.underweight { background-color: #f39c12; }
 .dot.normal { background-color: #2ecc71; }
 .dot.overweight { background-color: #f39c12; }
