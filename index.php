@@ -1,6 +1,7 @@
 <?php
 // index.php
 session_start();
+define('BASE_URL', 'http://localhost/RSIPRAK/');
 
 // Dummy login sementara
 // $_SESSION['loggedin'] = true;
@@ -193,7 +194,11 @@ switch ($action) {
         break;
 
     case 'update_profile':
-        $authController->updateProfile();
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        $authController->handleUpdateProfile(); // Kita akan buat method ini
         break;
 
     case 'update_password':
