@@ -126,6 +126,30 @@ switch ($action) {
         $controller->detail();
         break;
 
+    case 'ganti_makanan':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->gantiMakanan();
+        break;
+
+    case 'proses_ganti_makanan':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->prosesGantiMakanan();
+        break;
+
+    case 'penyesuaian_olahraga':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->penyesuaianOlahraga();
+        break;
+
+    case 'proses_penyesuaian_olahraga':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->prosesPenyesuaianOlahraga();
+        break;
+
 
     case 'consultation':
         if (!$is_logged_in) {
