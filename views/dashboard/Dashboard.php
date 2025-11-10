@@ -8,7 +8,7 @@
             <h1>Kesehatan Terbaik untuk Hidup Anda</h1>
             <p>Program workout yang disesuaikan untuk kebutuhan Anda</p>
             <div class="hero-buttons">
-                <a href="index.php?action=konsultasi" class="btn btn-primary">Mulai Konsultasi</a>
+                <a href="index.php?action=consultation" class="btn btn-primary">Mulai Konsultasi</a>
                 <a href="#" class="btn btn-outline">Pelajari Lebih Lanjut</a>
             </div>
         </div>
@@ -27,28 +27,35 @@
                 <img src="public/assets/icons/consult.svg" alt="">
                 <h3>Konsultasi Online</h3>
                 <p>Konsultasi langsung dengan ahli gizi dan dokter.</p>
-                <a href="#">Pelajari Lebih Lanjut</a>
+                <a href="index.php?action=consultation">Pelajari Lebih Lanjut</a>
+            </div>
+
+            <div class="card">
+                <img src="public/assets/icons/consult.svg" alt="">
+                <h3>BMI</h3>
+                <p>Coba Hitung BMI Anda.</p>
+                <a href="index.php?action=bmi">Pelajari Lebih Lanjut</a>
             </div>
 
             <div class="card">
                 <img src="public/assets/icons/workout.svg" alt="">
                 <h3>Program Workout</h3>
                 <p>Rencana latihan yang disesuaikan dengan kondisi Anda.</p>
-                <a href="#">Pelajari Lebih Lanjut</a>
+                <a href="index.php?action=workout">Pelajari Lebih Lanjut</a>
             </div>
 
             <div class="card">
                 <img src="public/assets/icons/tracking.svg" alt="">
                 <h3>Tracking Kalori</h3>
                 <p>Pantau asupan kalori harian Anda dengan mudah.</p>
-                <a href="#">Pelajari Lebih Lanjut</a>
+                <a href="index.php?action=kalori">Pelajari Lebih Lanjut</a>
             </div>
 
             <div class="card">
                 <img src="public/assets/icons/mealplan.svg" alt="">
                 <h3>Meal Plan</h3>
                 <p>Rencana makan harian sesuai target nutrisi Anda.</p>
-                <a href="#">Pelajari Lebih Lanjut</a>
+                <a href="index.php?action=mealplan">Pelajari Lebih Lanjut</a>
             </div>
         </div>
     </section>

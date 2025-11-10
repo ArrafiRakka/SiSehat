@@ -76,6 +76,7 @@ elseif (!empty($user['username'])) {
     margin: 0;
     font-weight: 700;
     font-size: 1.1rem;
+    text-align: left;
   }
   .profile-subtitle {
     margin: 4px 0 0;
@@ -355,7 +356,7 @@ elseif (!empty($user['username'])) {
     </form>
   </section>
 
-  <section class="feature-card">
+  <!-- <section class="feature-card">
     <div class="feature-icon konsultasi">🩺</div>
     <h3 class="feature-title">Konsultasi Online</h3>
     <p class="feature-desc">Konsultasi dengan dokter berpengalaman kapan saja</p>
@@ -381,7 +382,7 @@ elseif (!empty($user['username'])) {
     <h3 class="feature-title">Meal Plan</h3>
     <p class="feature-desc">Dapatkan rencana makanan sesuai dengan target kalori</p>
     <a href="#" class="feature-link">Lihat Meal Plan →</a>
-  </section>
+  </section> -->
 
 </div>
 <?php include 'views/layouts/footer.php'; ?>
