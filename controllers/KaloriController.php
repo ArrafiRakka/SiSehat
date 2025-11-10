@@ -15,29 +15,7 @@ class KaloriController {
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $currentDate = $_GET['date'] ?? date('Y-m-d');
-        
-        $pageTitle = "Kalori Harian";
-        $userData = $this->model->getUserById($userId);
-        $intakeItems = $this->model->getTodayIntake($userId, $currentDate);
-
-        $keyword = $_GET['keyword'] ?? '';
-        $category = $_GET['category'] ?? 'all';
-        $filteredFoods = [];
-        if (!empty($keyword)) {
-            $filteredFoods = $this->model->getFoodsFiltered($keyword, $category);
-        }
-
-        $edit_id = $_GET['edit_id'] ?? null;
-        $item_to_edit = null;
-        if ($edit_id) {
-            $item_to_edit = $this->model->getIntakeById($edit_id, $userId);
-        }
-
-        require_once 'views/layouts/header.php';
         require_once 'views/kalori/kalori.php';
-        require_once 'views/layouts/footer.php';
     }
 
     public function addIntake() {
@@ -45,6 +23,7 @@ class KaloriController {
         $foodId = $_POST['food_id'];
         $inputGrams = $_POST['input_grams'];
         $mealType = $_POST['meal_type'] ?? 'snack'; 
+        $intakeDate = $_POST['intake_date'] ?? date('Y-m-d');
         
         $food = $this->model->getFoodById($foodId);
         
@@ -52,20 +31,21 @@ class KaloriController {
             $portionMultiplier = $inputGrams / $food['base_grams'];
             $notes = "{$inputGrams}g";
             
-            $this->model->addIntake($userId, $foodId, $mealType, $portionMultiplier, $notes);
+            $this->model->addIntake($userId, $foodId, $mealType, $portionMultiplier, $notes, $intakeDate);
         }
         
-        header('Location: index.php?action=kalori');
+        header('Location: index.php?action=kalori&date=' . $intakeDate);
         exit;
     }
 
     public function deleteIntake() {
         $userId = $_SESSION['user_id'];
         $intakeId = $_POST['intake_id'];
+        $intakeDate = $_POST['intake_date'] ?? date('Y-m-d');
         
         $this->model->deleteIntake($intakeId, $userId);
         
-        header('Location: index.php?action=kalori');
+        header('Location: index.php?action=kalori&date=' . $intakeDate);
         exit;
     }
 
@@ -74,6 +54,7 @@ class KaloriController {
         $intakeId = $_POST['intake_id'];
         $inputGrams = $_POST['input_grams'];
         $mealType = $_POST['meal_type'];
+        $intakeDate = $_POST['intake_date'] ?? date('Y-m-d');
         
         $item = $this->model->getIntakeById($intakeId, $userId);
         $food = $this->model->getFoodById($item['food_id']);
@@ -85,7 +66,7 @@ class KaloriController {
             $this->model->updateIntake($intakeId, $userId, $portionMultiplier, $mealType, $notes);
         }
         
-        header('Location: index.php?action=kalori');
+        header('Location: index.php?action=kalori&date=' . $intakeDate);
         exit;
     }
 }

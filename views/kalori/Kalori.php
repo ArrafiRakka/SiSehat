@@ -102,6 +102,7 @@ if (($userData['target_calories'] ?? 0) > 0) {
                     <?php if ($item_to_edit && $item['id'] == $item_to_edit['id']): ?>
                         <form class="food-item is-editing" method="POST" action="index.php?action=kalori_update">
                             <input type="hidden" name="intake_id" value="<?= $item['id'] ?>">
+                            <input type="hidden" name="intake_date" value="<?= htmlspecialchars($currentDate) ?>">
                             <div class="food-item-content-edit">
                                 <strong>Edit: <?= htmlspecialchars($item['name']) ?></strong>
                                 <div class="edit-fields">
@@ -118,7 +119,7 @@ if (($userData['target_calories'] ?? 0) > 0) {
                             </div>
                             <div class="food-item-actions-edit">
                                 <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                                <a href="index.php?action=kalori" class="btn btn-secondary btn-sm">Batal</a>
+                                <a href="index.php?action=kalori&date=<?= htmlspecialchars($currentDate) ?>" class="btn btn-secondary btn-sm">Batal</a>
                             </div>
                         </form>
                     <?php else: ?>
@@ -129,9 +130,10 @@ if (($userData['target_calories'] ?? 0) > 0) {
                                 <div class="food-item-nutrition"><?= round($item['calories'] * $item['portion_multiplier']) ?> kkal (<?= round($item['portion_multiplier'] * $item['base_grams']) ?>g)</div>
                             </div>
                             <div class="food-item-actions-intake">
-                                <a href="index.php?action=kalori&edit_id=<?= $item['id'] ?>" class="btn-edit">Edit</a>
+                                <a href="index.php?action=kalori&date=<?= htmlspecialchars($currentDate) ?>&edit_id=<?= $item['id'] ?>" class="btn-edit">Edit</a>
                                 <form method="POST" action="index.php?action=kalori_delete" style="display:inline;">
                                     <input type="hidden" name="intake_id" value="<?= $item['id'] ?>">
+                                    <input type="hidden" name="intake_date" value="<?= htmlspecialchars($currentDate) ?>">
                                     <button type="submit" class="btn-delete" onclick="return confirm('Yakin ingin menghapus item ini?')">&times;</button>
                                 </form>
                             </div>
@@ -149,6 +151,7 @@ if (($userData['target_calories'] ?? 0) > 0) {
             
             <form class="food-item" method="POST" action="index.php?action=kalori_add">
                 <input type="hidden" name="food_id" value="<?= $food['id'] ?>">
+                <input type="hidden" name="intake_date" value="<?= htmlspecialchars($currentDate) ?>">
                 
                 <img src="<?= htmlspecialchars($food['image'] ?? '/SiSehat/public/images/default-plate.jpg') ?>" alt="<?= htmlspecialchars($food['name']) ?>" class="food-item-img" onerror="this.src='/SiSehat/public/images/default-plate.jpg'">
                 
