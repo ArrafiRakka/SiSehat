@@ -33,10 +33,11 @@ class AuthController {
             } else {
                 $user = $this->userModel->getUserByEmailOrUsername($email_or_username);
                 
-                if ($user && password_verify($password, $user['password_hash'])) {
+                if ($user && password_verify($password, $user['password'])) {
                     // Login sukses
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $user['username'];
+                    $_SESSION['user_id'] = $user['id'];
                     header("Location: index.php?action=dashboard");
                     exit;
                 } else {
@@ -86,23 +87,80 @@ class AuthController {
     }
 
     public function handleDashboard() {
-    // Pastikan session aktif
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+        // Pastikan session aktif
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Kalau belum login, arahkan ke login page
+        if (empty($_SESSION['loggedin'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+
+        // Ambil data user dari session
+        $username = $_SESSION['username'] ?? 'Guest';
+
+        // Tampilkan view dashboard
+        require 'views/dashboard/Dashboard.php';
     }
 
-    // Kalau belum login, arahkan ke login page
-    if (empty($_SESSION['loggedin'])) {
+    /**
+     * Menangani proses logout
+     */
+    public function handleLogout() {
+        // Hapus semua variabel session
+        session_unset();
+
+        // Hancurkan session
+        session_destroy();
+
+        // Arahkan kembali ke halaman login
         header("Location: index.php?action=login");
         exit;
     }
 
-    // Ambil data user dari session
-    $username = $_SESSION['username'] ?? 'Guest';
+    public function showProfile() {
+        // Ambil user_id dari session
+        $user_id = $_SESSION['user_id'];
+        
+        // Ambil data user dari model
+        $user = $this->userModel->getUserById($user_id);
+        
+        // Tampilkan view dan kirim data $user
+        // Variabel $user akan bisa dipakai di profile.php
+        require 'views/profile/Profile.php';
+    }
 
-    // Tampilkan view dashboard
-    require 'views/dashboard/Dashboard.php';
-}
+    public function updateProfile() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $user_id = $_SESSION['user_id'];
+            // $full_name = $_POST['full_name'];
+            $email = $_POST['email'];
+            // $telepon = $_POST['telepon'];
+            
+            $this->userModel->updateUserProfile($user_id, $email);
+        }
+        // Arahkan kembali ke halaman profil
+        header("Location: index.php?action=profile&status=updated");
+        exit;
+    }
+
+    public function updatePassword() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $user_id = $_SESSION['user_id'];
+            $new_pass = $_POST['new_password'];
+            $confirm_pass = $_POST['confirm_password'];
+
+            // Validasi sederhana
+            if ($new_pass === $confirm_pass && strlen($new_pass) >= 6) {
+                $hashed_password = password_hash($new_pass, PASSWORD_DEFAULT);
+                $this->userModel->updateUserPassword($user_id, $hashed_password);
+            }
+        }
+        header("Location: index.php?action=profile&status=pass_updated");
+        exit;
+    }
 
 }
 ?>

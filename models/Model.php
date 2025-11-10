@@ -7,7 +7,7 @@
       $host = 'localhost';
       $dbuser = 'root';
       $dbpass = '';
-      $dbname = 'Stellar_Station';
+      $dbname = 'SiSehat';
       $dbport = 3306;
               
       $this->dbconn = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
@@ -16,5 +16,4 @@
         die('Database connection failure');
       }
     }
-
   }

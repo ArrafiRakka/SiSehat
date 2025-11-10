@@ -1,6 +1,6 @@
 <?php
 // controllers/BMIController.php
-require_once '../models/BMI.php';
+require_once 'models/BMI.php';
 
 class BMIController {
 
@@ -30,9 +30,9 @@ class BMIController {
         $pageTitle = "BMI Calculator"; // Set judul halaman
         $pageCSS = "bmi.css";
         
-        require '../views/layouts/Header.php';
-        require '../views/BMI/BMI.php';
-        require '../views/layouts/Footer.php';
+        require 'views/layouts/Header.php';
+        require 'views/BMI/BMI.php';
+        require 'views/layouts/Footer.php';
     }
 }
 ?>

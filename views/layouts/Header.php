@@ -35,6 +35,7 @@ $currentAction = $_GET['action'] ?? '';
     <nav class="navbar-links">
       <a href="index.php?action=dashboard">Beranda</a>
       <a href="index.php?action=consultation">Konsultasi</a>
+      <a href="index.php?action=bmi">BMI</a>
       <a href="index.php?action=workout">Workout</a>
       <a href="index.php?action=kalori">Kalori Harian</a>
       <a href="index.php?action=mealplan">Meal Plan</a>

@@ -476,6 +476,35 @@ html, body {
   }
 }
 
+/* Tambahan untuk Halaman Profil */
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 40px 0;
+}
+
+#profile-form h3,
+#password-form h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Style untuk link logout di Navigasi */
+.nav-logout {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
 
 .dot.underweight { background-color: #f39c12; }
 .dot.normal { background-color: #2ecc71; }

@@ -3,9 +3,9 @@
 session_start();
 
 // Dummy login sementara
-$_SESSION['loggedin'] = true;
-$_SESSION['username'] = 'dev';
-$_SESSION['user_id'] = 1;
+// $_SESSION['loggedin'] = true;
+// $_SESSION['username'] = 'dev';
+// $_SESSION['user_id'] = 1;
 
 require_once 'controllers/AuthController.php';
 $authController = new AuthController();
@@ -182,6 +182,22 @@ switch ($action) {
         
     case 'logout':
         $authController->handleLogout();
+        break;
+
+    case 'profile':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        $authController->showProfile();
+        break;
+
+    case 'update_profile':
+        $authController->updateProfile();
+        break;
+
+    case 'update_password':
+        $authController->updatePassword();
         break;
 
     default:
