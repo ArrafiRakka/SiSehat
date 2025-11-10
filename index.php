@@ -69,34 +69,35 @@ switch ($action) {
         $kaloriController->index();
         break;
 
-    case 'kalori_search':
-        if (!$is_logged_in) { exit('Auth error'); }
-        require_once 'controllers/KaloriController.php';
-        $controller = new KaloriController();
-        $controller->searchFoods();
-        break;
-    
     case 'kalori_add':
-        if (!$is_logged_in) { exit('Auth error'); }
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
         require_once 'controllers/KaloriController.php';
-        $controller = new KaloriController();
-        $controller->addIntake();
-        break;
-        
-    case 'kalori_get_intake':
-        if (!$is_logged_in) { exit('Auth error'); }
-        require_once 'controllers/KaloriController.php';
-        $controller = new KaloriController();
-        $controller->getTodayIntake();
+        $kaloriController = new KaloriController();
+        $kaloriController->addIntake();
         break;
 
-    case 'kalori_delete_intake':
-        if (!$is_logged_in) { exit('Auth error'); }
+    case 'kalori_delete':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
         require_once 'controllers/KaloriController.php';
-        $controller = new KaloriController();
-        $controller->deleteIntake();
+        $kaloriController = new KaloriController();
+        $kaloriController->deleteIntake();
         break;
     
+    case 'kalori_update':
+        if (!$is_logged_in) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        require_once 'controllers/KaloriController.php';
+        $kaloriController = new KaloriController();
+        $kaloriController->updateIntake();
+        break;
 
     case 'mealplan':
         if (!$is_logged_in) {
