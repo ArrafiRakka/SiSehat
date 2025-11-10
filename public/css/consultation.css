@@ -1,0 +1,200 @@
+.consultation-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+.text-center-custom { text-align: center; }
+.mb-5-custom { margin-bottom: 3rem; }
+.fw-bold-custom { font-weight: 700; }
+.text-secondary-custom { color: #6c757d; }
+
+/* --- Filter Area Styling --- */
+.filter-container {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+.form-control-custom, .form-select-custom {
+    flex-grow: 0; 
+    width: 200px; 
+    max-width: 200px; 
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin: 0;
+}
+
+/* ... (Bagian Global, Filter, Judul tetap sama) ... */
+.consultation-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+.filter-container {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+/* ... (Styling form/filter tetap sama) ... */
+.list-title {
+    font-weight: bold;
+    font-size: 1.5rem; 
+    margin-bottom: 1.5rem;
+    margin-left: 5%; 
+}
+
+
+/* --- List Dokter (Card) Styling - GRID --- */
+.consultant-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Sedikit menyesuaikan minwidth */
+    gap: 20px;
+    padding: 0 5%; 
+}
+
+.consultation-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    background-color: #fff;
+    padding: 0; /* Hapus padding luar card */
+}
+
+/* KRITIS: TATA LETAK CARD VERTICAL */
+.card-content-vertical-grid {
+    display: flex;
+    flex-direction: column; /* Mengubah tata letak menjadi atas-bawah */
+    align-items: center; /* Konten di tengah horizontal */
+    text-align: center; /* Teks di tengah */
+    width: 100%;
+    padding-bottom: 20px; /* Padding di bagian bawah */
+}
+
+/* --- Area Foto (Kini di Atas) --- */
+.card-photo-area-vertical {
+    width: 100%;
+    padding: 15px 15px 5px; /* Padding atas-kiri-kanan foto */
+}
+.photo-square {
+    /* Foto tidak lagi bundar, kini kotak atau persegi panjang */
+    width: 100%; 
+    height: auto; 
+    max-height: 150px;
+    object-fit: cover; 
+    border-radius: 10px; /* Sedikit lengkungan pada foto */
+}
+
+/* --- Area Detail Teks (Kini di Bawah Foto) --- */
+.card-details-vertical-grid {
+    padding: 10px 20px; /* Padding di sekitar teks */
+    width: 100%;
+    text-align: center; /* Teks di tengah */
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-top: 0 !important; 
+    margin-bottom: 0.25rem;
+}
+.text-muted-custom {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Tags Styling (di tengah) */
+.tags-container {
+    display: flex;
+    gap: 5px;
+    margin: 8px auto 15px; /* Menggunakan auto margin untuk centering */
+    justify-content: center;
+    width: fit-content;
+}
+
+.tag-experience {
+    background-color: #dc3545; /* MERAH */
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.tag-specialty {
+    background-color: #ffc107; /* KUNING */
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Harga dan Tombol (di Bawah Detail) */
+.price-action-area {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.card-price-red {
+    color: #dc3545; /* HARGA WARNA MERAH */
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.6rem; /* Harga lebih besar */
+}
+
+.btn-select-red-grid {
+    display: block;
+    text-align: center;
+    background-color: #dc3545; /* TOMBOL WARNA MERAH */
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.btn-select-red-grid:hover {
+    background-color: #c42d3c;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .consultation-wrapper {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    .filter-container {
+        padding: 0 10px;
+        justify-content: space-between;
+    }
+    .form-control-custom,
+    .form-select-custom {
+        width: 48%; 
+        min-width: unset;
+        max-width: unset;
+    }
+    .consultant-list {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+    .list-title {
+        margin-left: 10px;
+    }
+}

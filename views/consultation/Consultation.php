@@ -1,45 +1,53 @@
-<?php include __DIR__ . '/../layouts/Header.php'; ?>
+<link rel="stylesheet" href="public/css/consultation.css">
 
-<div class="consultation-container">
-    <h2 class="section-title">Konsultasi dengan Ahli Gizi</h2>
-    <p class="section-subtitle">Temukan ahli gizi terbaik untuk membantu kamu menjaga pola makan dan kesehatan tubuh.</p>
+<?php include 'views/layouts/header.php'; ?>
 
-    <div class="consultation-search">
-        <input type="text" id="searchName" placeholder="Cari berdasarkan nama...">
-        <select id="filterGender">
-            <option value="">Jenis Kelamin</option>
-            <option value="Pria">Pria</option>
-            <option value="Wanita">Wanita</option>
-        </select>
-        <select id="filterPrice">
-            <option value="">Tarif Konsultasi</option>
-            <option value="25000">&lt; Rp 25.000</option>
-            <option value="50000">Rp 25.000 - Rp 50.000</option>
-        </select>
+<div class="consultation-wrapper">
+    <div class="text-center-custom mb-5-custom">
+        <h2 class="fw-bold-custom">Konsultasi dengan Ahli Gizi</h2>
+        <p class="text-secondary-custom">Temukan ahli gizi terbaik untuk membantu kamu menjaga pola makan dan kesehatan tubuh.</p>
     </div>
 
-    <div class="nutritionist-list">
+    <div class="filter-container">
+        <input type="text" class="form-control-custom" placeholder="Cari berdasarkan nama...">
+        <select class="form-select-custom"><option selected>Pilih Kota</option></select>
+        <select class="form-select-custom"><option selected>Pengalaman</option></select>
+        <select class="form-select-custom"><option selected>Jenis Kelamin</option></select>
+        <select class="form-select-custom"><option selected>Tarif Konsultasi</option></select>
+    </div>
+    
+    <h3 class="list-title">Daftar Ahli Gizi</h3>
+
+    <div class="consultant-list">
         <?php foreach ($nutritionists as $n): ?>
-            <div class="nutritionist-card" data-gender="<?= $n['gender'] ?>" data-price="<?= $n['price'] ?>">
-                <img src="<?= $n['img'] ?>" alt="<?= $n['name'] ?>">
-                <div class="info">
-                    <h3><?= $n['name'] ?></h3>
-                    <p class="city"><?= $n['city'] ?></p>
-                    <p class="exp">Pengalaman: <?= $n['exp'] ?></p>
-                    <p class="price">Tarif: Rp <?= number_format($n['price'], 0, ',', '.') ?>,-</p>
-                    <a href="index.php?action=konsultasi_bayar&id=<?= $n['id'] ?>" class="btn">Pilih Konsultasi</a>
+            <div class="consultant-item">
+                <div class="consultation-card card-shadow h-100-custom">
+                    
+                    <div class="card-content-vertical-grid">
+                        
+                        <div class="card-photo-area-vertical">
+                            <img src="https://via.placeholder.com/200x150" class="photo-square" alt="<?= $n['name'] ?>">
+                        </div>
+                        
+                        <div class="card-details-vertical-grid">
+                            <h5 class="card-title fw-bold-custom"><?= $n['name'] ?></h5>
+                            <p class="text-muted-custom mb-1-custom"><?= $n['specialty'] ?> | Kota Bogor</p>
+                            
+                            <div class="tags-container">
+                                <span class="tag-experience">3 Tahun</span>
+                                <span class="tag-specialty">Gizi Umum</span>
+                            </div>
+                            
+                            <div class="price-action-area">
+                                <h4 class="card-price-red">Rp 25.000,-</h4>
+                                <a href="#" class="btn-select-red-grid">Pilih</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
 
-<script>
-document.getElementById('searchName').addEventListener('input', function() {
-    const value = this.value.toLowerCase();
-    document.querySelectorAll('.nutritionist-card').forEach(card => {
-        const name = card.querySelector('h3').textContent.toLowerCase();
-        card.style.display = name.includes(value) ? 'flex' : 'none';
-    });
-});
-</script>
+<?php include 'views/layouts/footer.php'; ?>

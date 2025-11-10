@@ -14,6 +14,7 @@ class ConsultationController extends Controller {
             'pageTitle' => 'Konsultasi',
             'nutritionists' => $this->model->getAllNutritionists()
         ];
+        // ⚠️ Ubah layout jadi NULL supaya gak cuma muncul header doang
         $this->loadView('consultation/Consultation', $data);
     }
 
@@ -25,12 +26,12 @@ class ConsultationController extends Controller {
             'pageTitle' => 'Pembayaran Konsultasi',
             'nutritionist' => $nutritionist
         ];
-        $this->loadView('consultation/ConsultationPayment', $data, 'Header');
+        $this->loadView('consultation/ConsultationPayment', $data);
     }
 
     public function chat() {
         $data = ['pageTitle' => 'Chat Konsultasi'];
-        $this->loadView('consultation/ConsultationChat', $data, 'Header');
+        $this->loadView('consultation/ConsultationChat', $data);
     }
 
     public function result() {
@@ -39,6 +40,7 @@ class ConsultationController extends Controller {
             'pageTitle' => 'Hasil Konsultasi',
             'result' => $result
         ];
-        $this->loadView('consultation/ConsultationResult', $data, 'Header');
+        $this->loadView('consultation/ConsultationResult', $data);
     }
 }
+?>
