@@ -1,10 +1,20 @@
 <?php
-// models/Model.php
+  class Model {
+    
+    protected $dbconn;
 
-class Model {
-    // Dummy model base untuk extend model lain (kalau nanti pakai database)
     public function __construct() {
-        // Placeholder kosong dulu
+      $host = 'localhost';
+      $dbuser = 'root';
+      $dbpass = '';
+      $dbname = 'Stellar_Station';
+      $dbport = 3306;
+              
+      $this->dbconn = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
+          
+      if ($this->dbconn->connect_errno) {
+        die('Database connection failure');
+      }
     }
-}
-?>
+
+  }
