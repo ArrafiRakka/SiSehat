@@ -27,13 +27,41 @@ class MealPlanController extends Controller {
 
         // Halaman awal (list meal plan)
         $this->loadView('mealplan/MealPlan', [
-            'savedPlans' => $savedPlans
+        'mealPlans' => $savedPlans
         ]);
+
     }
 
     // Simpan meal plan dari AJAX (buat future kalau mau pisahkan)
     public function save() {
         echo json_encode(['success' => true]);
     }
+
+  public function delete() {
+    $mealPlanModel = $this->loadModel('MealPlan');
+    $id = $_GET['id'] ?? null;
+
+    if ($id) {
+        $mealPlanModel->deleteMealPlan($id);
+    }
+
+    header("Location: index.php?action=mealplan");
+    exit;
+}
+
+public function detail() {
+    $mealPlanModel = $this->loadModel('MealPlan');
+    $id = $_GET['id'] ?? null;
+    $mealPlan = $mealPlanModel->getMealPlanById($id);
+
+    if (!$mealPlan) {
+        echo "<p>Meal plan tidak ditemukan.</p>";
+        return;
+    }
+
+    $this->loadView('mealplan/MealPlanDetail', ['mealPlan' => $mealPlan], 'main');
+}
+
+
 }
 ?>

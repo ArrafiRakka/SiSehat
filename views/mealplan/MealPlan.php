@@ -36,22 +36,61 @@
       </form>
     </div>
 
-    <!-- Daftar meal plan -->
-    <div class="card list-card">
-      <h3>Daftar Meal Plan Anda</h3>
-      <?php if (!empty($savedPlans)): ?>
-        <div class="meal-list">
-          <?php foreach ($savedPlans as $plan): ?>
-            <div class="meal-item">
-              <strong><?= htmlspecialchars($plan['nama_mealplan']); ?></strong>
-              <span>🎯 Target: <?= htmlspecialchars($plan['target_kalori']); ?> kcal</span>
-            </div>
-          <?php endforeach; ?>
+    
+<div class="mealplan-list-container">
+  <h3>Daftar Meal Plan Anda</h3>
+
+  <?php if (!empty($mealPlans)): ?>
+    <?php foreach ($mealPlans as $plan): ?>
+      <div class="mealplan-item">
+        <div class="mealplan-info" onclick="window.location.href='index.php?action=mealplan_detail&id=<?= $plan['id']; ?>'">
+          <strong><?= htmlspecialchars($plan['nama_mealplan']); ?></strong>
+          <span>🎯 Target: <?= htmlspecialchars($plan['target_kalori']); ?> kcal</span>
         </div>
-      <?php else: ?>
-        <p class="no-data">Anda belum membuat Meal Plan!</p>
-      <?php endif; ?>
+        <button class="delete-btn" onclick="confirmDelete(event, '<?= $plan['id']; ?>')">🗑</button>
+      </div>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <p>Anda belum membuat meal plan.</p>
+  <?php endif; ?>
+</div>
+
+<!-- Popup Konfirmasi -->
+<div id="deletePopup" class="popup" style="display:none;">
+  <div class="popup-content">
+    <h3>⚠️ Yakin mau hapus meal plan ini?</h3>
+    <div class="popup-actions">
+      <button id="confirmDeleteBtn" class="btn-danger">Hapus</button>
+      <button id="cancelDeleteBtn" class="btn-secondary">Batal</button>
     </div>
+  </div>
+</div>
+
+<script>
+let deleteId = null;
+
+function confirmDelete(e, id) {
+  e.stopPropagation(); // biar gak ikut buka detail
+  deleteId = id;
+  document.getElementById('deletePopup').style.display = 'flex';
+}
+
+document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+  document.getElementById('deletePopup').style.display = 'none';
+  deleteId = null;
+});
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+  if (deleteId) {
+    window.location.href = 'index.php?action=delete_mealplan&id=' + deleteId;
+  }
+});
+
+document.getElementById('deletePopup').addEventListener('click', (e) => {
+  if (e.target.id === 'deletePopup') e.target.style.display = 'none';
+});
+</script>
+
 
     <!-- Gallery makanan -->
     <div class="food-gallery">

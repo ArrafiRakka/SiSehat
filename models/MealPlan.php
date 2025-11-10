@@ -114,4 +114,17 @@ class MealPlan {
         }
         return null;
     }
+
+    public function deleteMealPlan($id) {
+    if (!isset($_SESSION['mealplans'])) return;
+
+    foreach ($_SESSION['mealplans'] as $key => $mp) {
+        if ($mp['id'] === $id) {
+            unset($_SESSION['mealplans'][$key]);
+            $_SESSION['mealplans'] = array_values($_SESSION['mealplans']); // reset index array
+            break;
+        }
+    }
+}
+
 }

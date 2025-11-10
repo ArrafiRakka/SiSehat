@@ -13,15 +13,18 @@ $currentAction = $_GET['action'] ?? '';
   <link rel="stylesheet" href="public/css/style.css">
 
   <!-- CSS HALAMAN KHUSUS -->
-  <?php 
+<?php 
     if ($currentAction === 'dashboard') {
         echo '<link rel="stylesheet" href="public/css/dashboard.css">';
     } elseif ($currentAction === 'mealplan') {
         echo '<link rel="stylesheet" href="public/css/mealplan.css">';
+    } elseif ($currentAction === 'mealplan_detail') {
+        echo '<link rel="stylesheet" href="public/css/mealplandetail.css">';
     } elseif ($currentAction === 'kalori') {
         echo '<link rel="stylesheet" href="public/css/kalori.css">';
     }
-  ?>
+?>
+
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>

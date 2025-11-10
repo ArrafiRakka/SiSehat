@@ -114,6 +114,19 @@ switch ($action) {
         $controller->save();
         break;
 
+    case 'delete_mealplan':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->delete();
+        break;
+
+    case 'mealplan_detail':
+        require_once 'controllers/MealPlanController.php';
+        $controller = new MealPlanController();
+        $controller->detail();
+        break;
+
+
     case 'consultation':
         if (!$is_logged_in) {
             header("Location: index.php?action=login");
