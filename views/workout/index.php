@@ -14,7 +14,7 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #fff;
+    background: #e8dfdfff;
     color: #333;
   }
   a {
@@ -376,6 +376,6 @@
   });
 </script>
 
-
+<?php include 'views/layouts/footer.php'; ?>
 </body>
 </html>
