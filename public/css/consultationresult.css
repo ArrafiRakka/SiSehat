@@ -1,0 +1,364 @@
+/* Result Page Wrapper */
+.result-wrapper {
+    background: #f8fafc;
+    min-height: calc(100vh - 60px);
+    padding: 2rem 1rem;
+}
+
+.result-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header */
+.result-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.result-title {
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Section Styling */
+.result-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section-title-result {
+    font-size: 1.3rem;
+    color: #1e293b;
+    margin: 0 0 1.25rem 0;
+    font-weight: 600;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+/* Doctor Result Card */
+.doctor-result-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.doctor-result-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.doctor-result-info {
+    flex: 1;
+}
+
+.doctor-result-name {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.consultation-date,
+.consultation-duration {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0.3rem 0;
+}
+
+.btn-download {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.btn-download:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Evaluation Card */
+.evaluation-card {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.evaluation-list {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.evaluation-list li {
+    color: #1e40af;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.evaluation-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Recommendation Card */
+.recommendation-card {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.recommendation-item {
+    margin-bottom: 1.5rem;
+}
+
+.recommendation-item:last-child {
+    margin-bottom: 0;
+}
+
+.recommendation-item h4 {
+    color: #15803d;
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 600;
+}
+
+.recommendation-item ul {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.5rem;
+    list-style: circle;
+}
+
+.recommendation-item li {
+    color: #166534;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.recommendation-item p {
+    color: #166534;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.6;
+}
+
+/* Activity Card */
+.activity-card {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.activity-list {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.activity-list li {
+    color: #92400e;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.activity-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Notes Card */
+.notes-card {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.notes-card::before {
+    content: '"';
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    font-size: 3rem;
+    color: #fca5a5;
+    line-height: 1;
+}
+
+.notes-text {
+    color: #991b1b;
+    font-style: italic;
+    margin: 0;
+    padding-left: 2rem;
+    line-height: 1.7;
+}
+
+/* Action Buttons */
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.btn-large {
+    padding: 1rem 1.75rem;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: #2D9CDB;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1e7bb8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-outline {
+    background: white;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-outline:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .result-wrapper {
+        padding: 1rem 0.5rem;
+    }
+
+    .result-header {
+        padding: 1.5rem;
+    }
+
+    .result-title {
+        font-size: 1.4rem;
+    }
+
+    .result-section {
+        padding: 1.25rem;
+    }
+
+    .section-title-result {
+        font-size: 1.1rem;
+    }
+
+    .doctor-result-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .doctor-result-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .btn-download {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .btn-large {
+        width: 100%;
+    }
+
+    .notes-text {
+        padding-left: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .notes-card::before {
+        font-size: 2rem;
+    }
+}
+
+/* Print Styling */
+@media print {
+    .result-wrapper {
+        background: white;
+        padding: 0;
+    }
+
+    .result-actions,
+    .btn-download {
+        display: none;
+    }
+
+    .result-section {
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+        page-break-inside: avoid;
+    }
+}

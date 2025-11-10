@@ -174,12 +174,18 @@ nav ul li a:hover {
     min-width: 160px;
     flex: 1;
     background-color: var(--white);
+    transition: all 0.3s;
 }
 
 .form-control-custom:focus, .form-select-custom:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(45, 156, 219, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-control-custom:hover, .form-select-custom:hover {
+    border-color: var(--primary);
 }
 
 .list-title {
@@ -202,6 +208,7 @@ nav ul li a:hover {
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
     overflow: hidden;
+    display: flex !important; /* Important for filter functionality */
 }
 
 .consultant-card:hover {
@@ -214,6 +221,7 @@ nav ul li a:hover {
     align-items: flex-start;
     padding: 1.5rem;
     gap: 1.5rem;
+    width: 100%;
 }
 
 /* Doctor Avatar */
@@ -382,6 +390,19 @@ nav ul li a:hover {
     font-size: 0.75rem;
 }
 
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray);
+    font-size: 1.125rem;
+    display: none;
+}
+
+.no-results.show {
+    display: block;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .consultation-wrapper {
@@ -465,4 +486,31 @@ nav ul li a:hover {
     .btn-pilih {
         width: 100%;
     }
+}
+
+/* Additional styles for consultation page */
+.pilih-form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.btn-pilih {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 100px;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.btn-pilih:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
 }
