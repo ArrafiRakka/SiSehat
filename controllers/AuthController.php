@@ -132,16 +132,33 @@ class AuthController {
         require 'views/profile/Profile.php';
     }
 
-    public function updateProfile() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $user_id = $_SESSION['user_id'];
-            // $full_name = $_POST['full_name'];
-            $email = $_POST['email'];
-            // $telepon = $_POST['telepon'];
-            
-            $this->userModel->updateUserProfile($user_id, $email);
+    public function handleUpdateProfile() {
+        // Pastikan ini adalah request POST
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            header("Location: index.php?action=profile");
+            exit;
         }
-        // Arahkan kembali ke halaman profil
+
+        // Ambil data dari session dan form
+        $user_id = $_SESSION['user_id'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $new_password = $_POST['new_password']; // Ambil password baru
+
+        // 1. Update Username dan Email
+        // (Gunakan method update yang sudah ada, tapi sesuaikan parameternya)
+        $this->userModel->updateUserProfile($user_id, $username, $email);
+
+        // 2. Update Password (HANYA JIKA DIISI)
+        if (!empty($new_password)) {
+            // Pastikan password aman (minimal 6 karakter)
+            if (strlen($new_password) >= 6) {
+                $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $this->userModel->updateUserPassword($user_id, $hashed_password);
+            }
+        }
+
+        // 3. Arahkan kembali ke halaman profil
         header("Location: index.php?action=profile&status=updated");
         exit;
     }

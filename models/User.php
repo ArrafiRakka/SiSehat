@@ -60,10 +60,10 @@ class User {
         return $result->fetch_assoc();
     }
 
-    public function updateUserProfile($id, $email) {
-        $sql = "UPDATE users SET email = ? WHERE id = ?";
+    public function updateUserProfile($id, $username, $email) {
+        $sql = "UPDATE users SET username = ?, email = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("si",  $email,  $id);
+        $stmt->bind_param("ssi", $username, $email, $id);
         return $stmt->execute();
     }
 
