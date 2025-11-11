@@ -33,10 +33,16 @@ foreach ($intakeItems as $item) {
     $summaryTotals['carbs'] += ($item['carbs'] ?? 0) * $portion;
     $summaryTotals['fats'] += ($item['fats'] ?? 0) * $portion;
 }
-$calPercent = 0;
-if (($userData['target_calories'] ?? 0) > 0) {
-    $calPercent = ($summaryTotals['calories'] / $userData['target_calories']) * 100;
-}
+
+$targetCalories = ($userData['target_calories'] ?? 0) > 0 ? $userData['target_calories'] : 2000;
+$targetProtein = ($userData['target_protein'] ?? 0) > 0 ? $userData['target_protein'] : 150;
+$targetCarbs = ($userData['target_carbs'] ?? 0) > 0 ? $userData['target_carbs'] : 250;
+$targetFats = ($userData['target_fats'] ?? 0) > 0 ? $userData['target_fats'] : 70;
+
+$calPercent = ($summaryTotals['calories'] / $targetCalories) * 100;
+$proteinPercent = ($summaryTotals['protein'] / $targetProtein) * 100;
+$carbsPercent = ($summaryTotals['carbs'] / $targetCarbs) * 100;
+$fatsPercent = ($summaryTotals['fats'] / $targetFats) * 100;
 ?>
 
 <div class="kalori-page">
@@ -212,7 +218,7 @@ if (($userData['target_calories'] ?? 0) > 0) {
                         </span>
                         <span class="calories-unit">kkal</span>
                         <div class="calories-target">
-                            dari <span id="targetCalories"><?= htmlspecialchars($userData['target_calories'] ?? 2000) ?></span> kkal
+                            dari <span id="targetCalories"><?= htmlspecialchars($targetCalories) ?></span> kkal
                         </div>
                         <div class="calories-percentage" id="caloriesPercentage"><?= round($calPercent) ?>%</div>
                     </div>
@@ -227,11 +233,11 @@ if (($userData['target_calories'] ?? 0) > 0) {
                             <span>Protein</span>
                         </div>
                         <span class="macro-value">
-                            <span id="proteinGram"><?= round($summaryTotals['protein']) ?></span> / <?= htmlspecialchars($userData['target_protein'] ?? 150) ?>g
+                            <span id="proteinGram"><?= round($summaryTotals['protein']) ?></span> / <?= htmlspecialchars($targetProtein) ?>g
                         </span>
                     </div>
                     <div class="progress-bar">
-                        <div id="proteinBar" class="progress-fill protein" style="width: <?= min(100, (($userData['target_protein'] ?? 0) > 0 ? ($summaryTotals['protein'] / $userData['target_protein']) * 100 : 0)) ?>%"></div>
+                        <div id="proteinBar" class="progress-fill protein" style="width: <?= min(100, $proteinPercent) ?>%"></div>
                     </div>
                 </div>
                 <div class="macro-item">
@@ -241,11 +247,11 @@ if (($userData['target_calories'] ?? 0) > 0) {
                             <span>Karbohidrat</span>
                         </div>
                         <span class="macro-value">
-                            <span id="carbsGram"><?= round($summaryTotals['carbs']) ?></span> / <?= htmlspecialchars($userData['target_carbs'] ?? 250) ?>g
+                            <span id="carbsGram"><?= round($summaryTotals['carbs']) ?></span> / <?= htmlspecialchars($targetCarbs) ?>g
                         </span>
                     </div>
                     <div class="progress-bar">
-                        <div id="carbsBar" class="progress-fill carbs" style="width: <?= min(100, (($userData['target_carbs'] ?? 0) > 0 ? ($summaryTotals['carbs'] / $userData['target_carbs']) * 100 : 0)) ?>%"></div>
+                        <div id="carbsBar" class="progress-fill carbs" style="width: <?= min(100, $carbsPercent) ?>%"></div>
                     </div>
                 </div>
                 <div class="macro-item">
@@ -255,11 +261,11 @@ if (($userData['target_calories'] ?? 0) > 0) {
                             <span>Lemak</span>
                         </div>
                         <span class="macro-value">
-                            <span id="fatsGram"><?= round($summaryTotals['fats']) ?></span> / <?= htmlspecialchars($userData['target_fats'] ?? 70) ?>g
+                            <span id="fatsGram"><?= round($summaryTotals['fats']) ?></span> / <?= htmlspecialchars($targetFats) ?>g
                         </span>
                     </div>
                     <div class="progress-bar">
-                        <div id="fatsBar" class="progress-fill fats" style="width: <?= min(100, (($userData['target_fats'] ?? 0) > 0 ? ($summaryTotals['fats'] / $userData['target_fats']) * 100 : 0)) ?>%"></div>
+                        <div id="fatsBar" class="progress-fill fats" style="width: <?= min(100, $fatsPercent) ?>%"></div>
                     </div>
                 </div>
                 

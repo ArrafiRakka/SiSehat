@@ -49,7 +49,7 @@ elseif (!empty($user['username'])) {
   .profile-card {
     background: #fff;
     border-radius: 12px;
-    padding: 24px 32px;
+    padding: 50px 65px;
     box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
     margin-bottom: 24px;
   }
@@ -96,7 +96,7 @@ elseif (!empty($user['username'])) {
   input[type="email"],
   input[type="password"] {
     width: 100%;
-    padding: 10px 14px;
+    padding: 20px 60px;
     border-radius: 10px;
     border: none;
     background-color: #f2f2f2;
