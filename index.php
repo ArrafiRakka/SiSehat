@@ -1,12 +1,6 @@
 <?php
-// index.php
 session_start();
 define('BASE_URL', 'http://localhost/RSIPRAK/');
-
-// Dummy login sementara
-// $_SESSION['loggedin'] = true;
-// $_SESSION['username'] = 'dev';
-// $_SESSION['user_id'] = 1;
 
 require_once 'controllers/AuthController.php';
 $authController = new AuthController();

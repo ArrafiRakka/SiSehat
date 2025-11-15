@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 // File: views/auth/Register.php
 ?>
 <!DOCTYPE html>
@@ -46,4 +46,4 @@
                 Sudah Punya Akun? <a href="index.php?action=login">Login</a>
             </div>
         </div> </div> </body>
-</html>
+</html> -->

@@ -17,11 +17,11 @@
           <h4><?= htmlspecialchars($food['nama']); ?></h4>
           <p><?= htmlspecialchars($food['porsi']); ?></p>
           <ul>
-            <li><strong>Kalori:</strong> <?= $food['kalori']; ?> kcal</li>
-            <li><strong>Gula:</strong> <?= $food['gula']; ?>g</li>
-            <li><strong>Lemak:</strong> <?= $food['lemak']; ?>g</li>
-            <li><strong>Protein:</strong> <?= $food['protein']; ?>g</li>
-            <li><strong>Serat:</strong> <?= $food['serat']; ?>g</li>
+            <li><strong>Kalori:</strong> <?= $food['kalori']?? 0; ?> kcal</li>
+            <li><strong>Gula:</strong> <?= $food['gula']?? 0; ?>g</li>
+            <li><strong>Lemak:</strong> <?= $food['lemak']?? 0; ?>g</li>
+            <li><strong>Protein:</strong> <?= $food['protein']?? 0; ?>g</li>
+            <li><strong>Serat:</strong> <?= $food['serat']?? 0; ?>g</li>
           </ul>
         </div>
         <button class="btn-change">Ganti Makanan?</button>

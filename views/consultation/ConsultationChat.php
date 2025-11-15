@@ -100,7 +100,7 @@ $doctorImg = $_POST['doctor_img'] ?? 'https://ui-avatars.com/api/?name=' . urlen
             <div class="message-wrapper doctor-wrapper">
                 <img src="<?= $doctorImg ?>" alt="<?= $doctorName ?>" class="message-avatar-modern">
                 <div class="message-bubble doctor-bubble">
-                    <p class="message-text">Halo dok, saya ingin tahu tentang pola makan sehat untuk berat badan ideal.</p>
+                    <p class="message-text">Halo, apa yang ingin kamu konsultasikan?</p>
                     <span class="message-time-bubble"><?= date('H:i', strtotime('+1 minute')) ?></span>
                 </div>
             </div>
@@ -139,6 +139,17 @@ $doctorImg = $_POST['doctor_img'] ?? 'https://ui-avatars.com/api/?name=' . urlen
 const doctorImg = '<?= $doctorImg ?>';
 const doctorName = '<?= $doctorName ?>';
 
+// Respon dokter berurutan (tidak random)
+const responses = [
+    'Saya mengerti. Berapa lama Anda mengalami kondisi ini?',
+    'Terima kasih atas informasinya. Bisakah Anda ceritakan lebih detail tentang pola makan Anda saat ini?',
+    'Baik, untuk mencapai berat badan ideal, saya sarankan mengatur porsi makan dan rutin olahraga.',
+    'Apakah ada riwayat penyakit atau alergi makanan tertentu yang perlu saya ketahui?',
+    'Saya akan buatkan rencana makan yang sesuai dengan kebutuhan kalori harian Anda.'
+];
+
+let responseIndex = 0;
+
 // Auto-resize textarea
 const messageInput = document.getElementById('messageInput');
 messageInput.addEventListener('input', function() {
@@ -154,7 +165,6 @@ document.getElementById('chatForm').addEventListener('submit', function(e) {
     if (!message) return;
     
     addMessage(message, 'user');
-    
     messageInput.value = '';
     messageInput.style.height = 'auto';
     
@@ -163,15 +173,12 @@ document.getElementById('chatForm').addEventListener('submit', function(e) {
     
     setTimeout(() => {
         hideTypingIndicator();
-        const responses = [
-            'Terima kasih atas informasinya. Bisakah Anda ceritakan lebih detail tentang pola makan Anda saat ini?',
-            'Saya mengerti. Berapa lama Anda mengalami kondisi ini?',
-            'Baik, untuk mencapai berat badan ideal, saya sarankan mengatur porsi makan dan rutin olahraga.',
-            'Apakah ada riwayat penyakit atau alergi makanan tertentu yang perlu saya ketahui?',
-            'Saya akan buatkan rencana makan yang sesuai dengan kebutuhan kalori harian Anda.'
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        addMessage(randomResponse, 'doctor');
+        if (responseIndex < responses.length) {
+            addMessage(responses[responseIndex], 'doctor');
+            responseIndex++;
+        } else {
+            addMessage('Terima kasih, konsultasi ini sudah cukup untuk saat ini. Silakan tekan tombol "Akhiri Konsultasi" jika sudah selesai.', 'doctor');
+        }
     }, 2000);
 });
 
@@ -225,9 +232,7 @@ function showTypingIndicator() {
 
 function hideTypingIndicator() {
     const indicator = document.getElementById('typingIndicator');
-    if (indicator) {
-        indicator.remove();
-    }
+    if (indicator) indicator.remove();
 }
 
 function endConsultation() {

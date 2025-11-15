@@ -48,7 +48,7 @@ class AuthController {
 
         // Tampilkan view login
         // Variabel $error dan $success akan bisa diakses di dalam view
-        require 'views/auth/Login.php';
+        require 'views/auth/index.php';
     }
 
     /**
@@ -83,7 +83,7 @@ class AuthController {
         }
 
         // Tampilkan view register
-        require 'views/auth/Register.php';
+        require 'views/auth/index.php';
     }
 
     public function handleDashboard() {
