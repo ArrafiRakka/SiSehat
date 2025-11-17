@@ -6,7 +6,7 @@ class User {
 
     public function __construct() {
         // koneksi ke database *HARUS* seseuai dump
-        $this->db = new mysqli('localhost', 'root', '', 'SiSehat');
+        $this->db = new mysqli('localhost', 'root', '', 'SiSehat', 3307);
         
         if ($this->db->connect_error) {
             die("Koneksi database gagal: " . $this->db->connect_error);

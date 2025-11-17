@@ -1,117 +1,624 @@
+/* Import Google Font - Poppins & Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* --- UNIVERSAL STYLES --- */
+:root {
+    --bg-primary: #f4f7fa; /* Light clean background */
+    --color-primary: #f37d7c; /* Purple accent */
+    --color-secondary: #ce1d1d; /* Pink/Red accent */
+    --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.04);
+    --shadow-lift: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --card-radius: 16px;
+    --text-dark: #2c3e50;
+    --text-muted: #7f8c8d;
+}
+
+body {
+    /* Mengganti background body agar seragam dengan dashboard-container */
+    background: var(--bg-primary); 
+}
+
+/* Dashboard Styles - Menggunakan Inter sebagai font utama */
 .dashboard-container {
-  font-family: 'Poppins', sans-serif;
-  color: #333;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background: var(--bg-primary); 
 }
 
-/* Hero Section */
+/* Global Section Styling */
+section {
+    padding: 80px 40px; 
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2.5rem; 
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-align: center;
+    color: var(--text-dark);
+}
+
+.section-title strong {
+    color: var(--color-secondary); 
+}
+
+section > p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+/* Flex Grid Utility (untuk progress, features, tips, testimoni) */
+.progress-grid, .feature-grid, .tips-grid, .testimoni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* --- CARD UNIVERSAL STYLING --- */
+.card-base {
+    background: white;
+    border-radius: var(--card-radius); 
+    padding: 30px;
+    box-shadow: var(--shadow-subtle); /* Shadow utama */
+    transition: all 0.3s ease;
+}
+
+.card-base:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift); /* Shadow saat hover untuk efek lift */
+}
+
+/* ===== UTILITY BUTTONS (BTN) ===== */
+.btn {
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #ff6b6b 100%); 
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff6b6b 0%, var(--color-secondary) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--color-secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(243, 125, 124, 0.2);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+}
+
+.btn-outline:hover {
+    background: var(--color-secondary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ===== HERO SECTION ===== */
 .hero {
-  background: #ffe5e5;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 60px 10%;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-.hero-text h1 { font-size: 2rem; color: #222; margin-bottom: 10px; }
-.hero-text p { color: #555; margin-bottom: 20px; }
-.hero-buttons .btn { margin-right: 10px; }
-.hero-card {
-  background: #f56a6a;
-  color: white;
-  border-radius: 10px;
-  padding: 50px;
-  text-align: center;
-  min-width: 200px;
+    /* Menggunakan card-base untuk konsistensi */
+    background: white;
+    margin: 30px 40px;
+    padding: 60px 40px; 
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-lift); 
+    position: relative;
+    overflow: hidden;
+    /* Menghilangkan border 1px solid #e1e8ed */
 }
 
-/* Features */
-.features { text-align: center; padding: 60px 10%; }
-.features h2 { font-size: 1.8rem; margin-bottom: 10px; }
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
 }
-.card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 20px;
-  transition: transform 0.2s;
-}
-.card:hover { transform: scale(1.03); }
-.card h3 { color: #c0392b; }
 
-/* Stats */
-.stats {
-  background: #e74c3c;
-  color: white;
-  text-align: center;
-  padding: 50px 10%;
+.hero-text {
+    max-width: 50%;
 }
-.stats-grid {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.stats-grid div h3 { font-size: 1.8rem; }
 
-/* Tips */
+.hero-text h1 {
+    font-size: 3rem; 
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.hero-image {
+    width: 350px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a395ff 0%, var(--color-primary) 100%); 
+    box-shadow: 0 15px 40px rgba(111, 95, 239, 0.3);
+    position: relative;
+}
+
+.running-icon {
+    font-size: 120px; 
+    animation: floatImage 4s ease-in-out infinite;
+}
+
+.medical-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px; 
+    height: 60px;
+    background: var(--color-secondary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(243, 125, 124, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ===== PROGRESS SECTION ===== */
+.main-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.progress-section {
+    padding: 40px 0; 
+    background: none;
+}
+
+.progress-section h2 {
+    background: linear-gradient(135deg, #a395ff 0%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.progress-card {
+    padding: 25px; 
+    border-left: none; /* Menghilangkan aksen border left */
+}
+/* Menambahkan class card-base ke progress-card */
+.progress-card:not(.card-base) {
+    background: white;
+    border-radius: var(--card-radius); 
+    box-shadow: var(--shadow-subtle); 
+    transition: all 0.3s ease;
+}
+
+.progress-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+}
+
+.progress-header {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.progress-icon {
+    font-size: 1.5rem; 
+    margin-right: 8px;
+}
+
+.progress-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.progress-value {
+    font-size: 2rem; 
+    font-weight: 700;
+    background: linear-gradient(135deg, #a395ff 0%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.progress-unit {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+    padding-top: 50px; 
+    padding-bottom: 80px;
+    background: none;
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ini yang membuat semua item (ikon, judul, paragraf, link) rata tengah secara horizontal */
+    text-align: center; 
+    /* ... properti lainnya ... */
+}
+
+.feature-card:hover {
+    border-color: var(--color-secondary);
+}
+
+.feature-icon {
+    width: 60px; 
+    height: 60px;
+    font-size: 1.8rem;
+    margin: 0 0 20px; 
+    background: var(--bg-primary); /* Mengubah ke background utama */
+    color: var(--color-primary);
+    border-radius: 12px;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.05);
+    background: white; /* Mengembalikan ke putih saat hover jika ingin lebih menonjol */
+}
+
+.feature-card h3 {
+    font-size: 1.3rem; 
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 0.95rem; 
+    margin-bottom: 15px;
+}
+
+.feature-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ===== TIPS SECTION ===== */
 .tips {
-  text-align: center;
-  padding: 60px 10%;
+    /* Menghilangkan background abu-abu untuk keseragaman */
+    background: var(--bg-primary);
+    padding: 80px 40px;
 }
-.tips-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-.tip-card {
-  border-radius: 12px;
-  padding: 20px;
-  color: white;
-}
-.tip-card.green { background: #27ae60; }
-.tip-card.orange { background: #e67e22; }
-.tip-card.blue { background: #3498db; }
-.tip-card.purple { background: #9b59b6; }
-.tip-card.violet { background: #8e44ad; }
-.tip-card.red { background: #c0392b; }
 
-/* Testimoni */
+.tips h2 {
+    background: linear-gradient(135deg, #0a4e41 0%, #127965 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Perubahan pada file CSS Anda */
+
+/* KARTU AIR (HIJAU PASTEL) */
+.tip-card.green { 
+    background: #d4edda; 
+    border-left-color: #155724; 
+    /* Ubah warna judul jika latar terlalu terang */
+    color: #155724; 
+}
+.tip-card.green h4 {
+    color: #155724; 
+}
+
+/* KARTU BUAH (ORANYE PASTEL) */
+.tip-card.orange { 
+    background: #ffe3c1; 
+    border-left-color: #856404; 
+    color: #856404; 
+}
+.tip-card.orange h4 {
+    color: #856404;
+}
+
+/* KARTU TIDUR (BIRU PASTEL) */
+.tip-card.blue { 
+    background: #cce5ff; 
+    border-left-color: #004085; 
+    color: #004085; 
+}
+.tip-card.blue h4 {
+    color: #004085;
+}
+
+.tip-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.tip-card p {
+    font-size: 0.95rem;
+}
+
+/* Mengubah warna border left untuk tip-card */
+.tip-card.green { border-left-color: #cefff5; }
+.tip-card.orange { border-left-color: #e6cda5; }
+.tip-card.blue { border-left-color: #a9d0ea; }
+
+.tips-btn {
+    margin-top: 30px;}
+
+/* ===== TESTIMONIALS SECTION ===== */
 .testimoni {
-  background: #fafafa;
-  text-align: center;
-  padding: 60px 10%;
-}
-.testimoni-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-}
-.testi-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 20px;
-  max-width: 300px;
+    /* Mengganti background putih dengan background utama */
+    background: var(--bg-primary);
+    padding: 50px 40px 80px;
 }
 
-/* CTA */
-.cta {
-  background: #e74c3c;
-  color: white;
-  text-align: center;
-  padding: 60px 10%;
-  border-radius: 10px;
-  margin-top: 40px;
+.testimoni h2 {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
-.cta-buttons .btn {
-  margin: 10px;
+
+.testimoni-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Disesuaikan agar lebih fleksibel */
+}
+
+.testi-card {
+    /* Menggunakan card-base untuk konsistensi */
+    background: white; 
+    padding: 30px;
+    box-shadow: var(--shadow-subtle);
+    border: none; /* Menghilangkan border 1px solid */
+}
+
+.testi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+}
+
+.testi-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.testi-card p {
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    font-style: italic; /* Sedikit sentuhan gaya */
+}
+
+.testi-card .rating {
+    font-size: 1.1rem;
+}
+
+/* ===== STATS & CTA SECTION (Digabung) ===== */
+.stats-cta {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 40px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #a395ff 100%);
+    color: white;
+    border-radius: var(--card-radius);
+    margin: 50px 40px;
+    padding: 40px; 
+    box-shadow: 0 15px 40px rgba(111, 95, 239, 0.4);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; 
+}
+
+.stats-grid div {
+    padding: 20px; 
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background 0.3s ease;
+}
+
+.stats-grid div:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+.stats-grid div h3 {
+    font-size: 2.5rem; 
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.stats-grid div p {
+    font-size: 0.9rem;
+}
+
+.cta-content {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cta-content h2 {
+    font-size: 2rem; 
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: 800;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+    text-align: left;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.cta-buttons .btn-primary {
+    background: white;
+    color: var(--color-primary);
+}
+
+.cta-buttons .btn-primary:hover {
+    background: #e1e8ed; /* Sedikit lebih gelap dari f4f7fa */
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.cta-buttons .btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.cta-buttons .btn-outline:hover {
+    background: white;
+    color: var(--color-primary);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .hero-content {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 968px) {
+    section, .main-content-wrapper {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .hero {
+        margin: 20px;
+        padding: 50px 30px;
+    }
+    .hero-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .hero-text {
+        max-width: 100%;
+        text-align: center;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .hero-image {
+        width: 300px;
+        height: 300px;
+    }
+    .running-icon {
+        font-size: 100px;
+    }
+    .stats-cta {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin: 30px 20px;
+    }
+    .cta-content {
+        text-align: center;
+    }
+    .cta-content h2, .cta-content p {
+        text-align: center;
+    }
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+/* Penyesuaian untuk tata letak 6 kartu fitur agar lebih rapi di desktop/tablet */
+@media (min-width: 969px) {
+    .feature-grid {
+        /* Memastikan 6 fitur terbagi rata menjadi 2 baris 3 kolom,
+           mengganti perilaku 'auto-fit' agar lebih terstruktur untuk 6 item. */
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .hero-buttons {
+        flex-direction: column;
+    }
+    .btn {
+        width: 100%;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .progress-grid, .feature-grid, .tips-grid, .testimoni-grid {
+        gap: 15px;
+        grid-template-columns: 1fr; /* 1 kolom di mobile untuk kejelasan */
+    }
+    .card-base {
+        padding: 25px;
+    }
 }
