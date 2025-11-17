@@ -49,9 +49,9 @@ $role = $_SESSION['role'] ?? 'guest';
           <a href="index.php?action=mealplan">Meal Plan</a>
       <?php endif; ?>
 
-      <?php if ($role === 'admin'): ?>
-          <a href="index.php?action=userList">Kelola User</a>
-          <?php endif; ?>
+      <!-- <?php if ($role === 'admin'): ?>
+          <a href="index.php?action=admin_users">Kelola User</a>
+      <?php endif; ?> -->
 
       <a href="index.php?action=profile">Profil</a>
       <a href="index.php?action=logout" class="navbar-logout" title="Logout">

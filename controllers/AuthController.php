@@ -89,16 +89,40 @@ class AuthController {
     }
 
     public function handleDashboard() {
+        // Pastikan session aktif
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
+        // Kalau belum login, tendang ke login
         if (empty($_SESSION['loggedin'])) {
             header("Location: index.php?action=login");
             exit;
         }
 
-        require __DIR__ . '/../views/dashboard/Dashboard.php';
+        $username = $_SESSION['username'] ?? 'Guest';
+        $role = $_SESSION['role'] ?? 'user';
+
+        // --- LOGIKA PEMISAH DASHBOARD ---
+        if ($role === 'admin') {
+            // 1. Panggil Model User
+            require_once 'models/User.php';
+            $userModel = new User();
+                
+            // 2. Ambil Jumlah User dari Database
+            $totalUsers = $userModel->getUserCount();
+
+            // (Opsional: Ambil juga jumlah makanan biar sekalian)
+            require_once 'models/Kalori.php';
+            $kaloriModel = new Kalori();
+            $totalFoods = count($kaloriModel->getAllFoodsMaster()); 
+
+            // 3. Kirim ke View
+            require 'views/dashboard/AdminDashboard.php';
+        } else {
+            // Dashboard User Biasa
+            require 'views/dashboard/Dashboard.php';
+        }
     }
 
     public function handleLogout() {

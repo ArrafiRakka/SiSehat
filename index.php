@@ -10,6 +10,8 @@ $action = $_GET['action'] ?? null;
 
 // Cek status login
 $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+// Cek role (admin/user)
+$role = $_SESSION['role'] ?? 'guest';
 
 switch ($action) {
     case 'login':
@@ -34,165 +36,146 @@ switch ($action) {
         $auth->handleDashboard();
         break;
 
+    // --- RUTE USER (KESEHATAN) ---
     case 'bmi':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/BMIController.php';
         $bmiController = new BMIController();
         $bmiController->handleBMI();
         break;
     
     case 'workout':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/WorkoutController.php';
         $workoutController = new WorkoutController();
         $workoutController->index();
         break;
 
     case 'kalori':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/KaloriController.php';
         $kaloriController = new KaloriController();
         $kaloriController->index();
         break;
 
     case 'kalori_add':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/KaloriController.php';
         $kaloriController = new KaloriController();
         $kaloriController->addIntake();
         break;
 
     case 'kalori_delete':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/KaloriController.php';
         $kaloriController = new KaloriController();
         $kaloriController->deleteIntake();
         break;
     
     case 'kalori_update':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/KaloriController.php';
         $kaloriController = new KaloriController();
         $kaloriController->updateIntake();
         break;
 
     case 'mealplan':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/MealPlanController.php';
         $mealPlanController = new MealPlanController();
         $mealPlanController->index();
         break;
-
+    
+    // ... (Meal plan sub-actions: save, delete, detail, ganti_makanan, dll) ...
     case 'savemealplan':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->save();
+        (new MealPlanController())->save();
         break;
-
     case 'delete_mealplan':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->delete();
+        (new MealPlanController())->delete();
         break;
-
     case 'mealplan_detail':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->detail();
+        (new MealPlanController())->detail();
         break;
-
     case 'ganti_makanan':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->gantiMakanan();
+        (new MealPlanController())->gantiMakanan();
         break;
-
     case 'proses_ganti_makanan':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->prosesGantiMakanan();
+        (new MealPlanController())->prosesGantiMakanan();
         break;
-
     case 'penyesuaian_olahraga':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->penyesuaianOlahraga();
+        (new MealPlanController())->penyesuaianOlahraga();
         break;
-
     case 'proses_penyesuaian_olahraga':
         require_once 'controllers/MealPlanController.php';
-        $controller = new MealPlanController();
-        $controller->prosesPenyesuaianOlahraga();
+        (new MealPlanController())->prosesPenyesuaianOlahraga();
         break;
-
 
     case 'consultation':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/ConsultationController.php';
-        $controller = new ConsultationController();
-        $controller->index();
+        (new ConsultationController())->index();
         break;
-
     case 'consultation_payment':
         require_once 'controllers/ConsultationController.php';
-        $controller = new ConsultationController();
-        $controller->payment();
+        (new ConsultationController())->payment();
         break;
-
     case 'consultation_chat':
         require_once 'controllers/ConsultationController.php';
-        $controller = new ConsultationController();
-        $controller->chat();
+        (new ConsultationController())->chat();
         break;
-
     case 'consultation_result':
         require_once 'controllers/ConsultationController.php';
-        $controller = new ConsultationController();
-        $controller->result();
+        (new ConsultationController())->result();
         break;
-        
+
+    // --- RUTE ADMIN (BARU) ---
+    case 'admin_food':
+        // Cek Login & Role Admin
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleFoodManagement();
+        break;
+
+    case 'admin_food_edit':
+        if (!$is_logged_in || $role !== 'admin') { header("Location: index.php?action=dashboard"); exit; }
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->handleFoodEdit();
+        break;
+    
+    case 'admin_users':
+        // Cek Login & Role Admin
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleUserManagement();
+        break;
+
+    // --- RUTE UMUM ---
     case 'logout':
         $authController->handleLogout();
         break;
 
     case 'profile':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         $authController->showProfile();
         break;
 
     case 'update_profile':
-        if (!$is_logged_in) {
-            header("Location: index.php?action=login");
-            exit;
-        }
-        $authController->handleUpdateProfile(); // Kita akan buat method ini
+        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
+        $authController->handleUpdateProfile();
         break;
 
     case 'update_password':

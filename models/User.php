@@ -5,8 +5,7 @@ class User {
     private $db;
 
     public function __construct() {
-        // koneksi ke database *HARUS* seseuai dump
-        $this->db = new mysqli('localhost', 'root', '', 'SiSehat', 3307);
+        $this->db = new mysqli('localhost', 'root', '', 'SiSehat', 3306);
         
         if ($this->db->connect_error) {
             die("Koneksi database gagal: " . $this->db->connect_error);
@@ -81,6 +80,27 @@ class User {
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("si", $hashed_password, $id);
         return $stmt->execute();
+    }
+
+    // --- TAMBAHAN UNTUK ADMIN ---
+
+    // 1. Ambil Semua User
+    public function getAllUsers() {
+        $result = $this->db->query("SELECT * FROM users ORDER BY created_at DESC");
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // 2. Hapus User
+    public function deleteUser($id) {
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
+    public function getUserCount() {
+        $result = $this->db->query("SELECT COUNT(*) as total FROM users");
+        $row = $result->fetch_assoc();
+        return $row['total'];
     }
 }
 

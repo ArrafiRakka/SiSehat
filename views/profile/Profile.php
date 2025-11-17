@@ -1,21 +1,19 @@
 <?php include 'views/layouts/Header.php'; ?>
 
 <?php
-// Logika ini mengasumsikan $user (dari AuthController) sudah ada
-// dan berisi data seperti ['username' => 'afi', 'email' => 'afi@...']
+// Pastikan variabel $user tersedia. Jika tidak, set array kosong agar tidak error.
+$user = $user ?? [];
 
-$initials = '??'; // Default
+$initials = '??'; // Default inisial
 
-// Coba ambil dari full_name jika ada
+// Logika membuat inisial dari nama
 if (!empty($user['full_name'])) {
     $names = explode(' ', $user['full_name']);
     $initials = strtoupper(substr($names[0], 0, 1));
     if (count($names) > 1) {
         $initials .= strtoupper(substr($names[count($names) - 1], 0, 1));
     }
-} 
-// Jika tidak, ambil dari username
-elseif (!empty($user['username'])) {
+} elseif (!empty($user['username'])) {
     $initials = strtoupper(substr($user['username'], 0, 2));
 }
 ?>
@@ -27,305 +25,215 @@ elseif (!empty($user['username'])) {
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SiSehat Profile</title>
 <style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
-  }
+  /* --- Reset & Base --- */
+  * { box-sizing: border-box; }
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    background-color: #f9f9f9;
+    background-color: #f5f7fa;
     color: #333;
   }
 
-  /* Container */
+  /* --- Container --- */
   .container {
-    max-width: 660px;
-    margin: 36px auto 60px;
+    max-width: 500px;
+    margin: 40px auto 60px;
     padding: 0 20px;
   }
 
-  /* Profile Card */
+  /* --- Profile Card --- */
   .profile-card {
     background: #fff;
-    border-radius: 12px;
-    padding: 50px 65px;
-    box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
-    margin-bottom: 24px;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   }
+
+  /* --- Header --- */
   .profile-header {
     display: flex;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 35px;
   }
   .profile-avatar {
     background-color: #db5757;
     color: #fff;
-    width: 48px;
-    height: 48px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    font-weight: 700;
-    font-size: 1.25rem;
+    font-weight: 600;
+    font-size: 1.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 14px;
+    margin-right: 20px;
     flex-shrink: 0;
   }
   .profile-name {
     margin: 0;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    color: #2c3e50;
     text-align: left;
   }
   .profile-subtitle {
-    margin: 4px 0 0;
-    font-size: 0.85rem;
-    color: #999;
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+    color: #95a5a6;
     font-weight: 500;
   }
 
-  /* Form Fields */
+  /* --- Form Inputs --- */
   label {
     display: block;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #555;
+    margin-top: 20px;
   }
+  
   input[type="text"],
   input[type="email"],
   input[type="password"] {
     width: 100%;
-    padding: 20px 60px;
-    border-radius: 10px;
-    border: none;
-    background-color: #f2f2f2;
-    font-size: 0.9rem;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd; /* Border abu-abu halus */
+    background-color: #fff;
+    font-size: 1rem;
     color: #333;
-    margin-bottom: 20px;
-    font-weight: 500;
+    transition: all 0.3s ease;
+    outline: none;
   }
+
+  /* Style saat Mode Baca (Readonly) */
   input[readonly] {
+    background-color: #f9f9f9; /* Abu-abu sangat muda */
+    color: #666;
+    border-color: #eee;
     cursor: default;
   }
 
+  /* Style saat Mode Edit (Aktif) */
+  input:not([readonly]) {
+    border-color: #db5757; /* Border merah */
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(219, 87, 87, 0.1);
+  }
+
+  /* --- PASSWORD FIELD FIX (PENTING) --- */
   .password-field {
     position: relative;
-    display: flex;
-    align-items: center;
+    width: 100%;
   }
+  
   .password-field input {
-    flex-grow: 1;
-    margin-bottom: 0;
+    width: 100%;
+    padding-right: 90px; /* Memberi ruang kosong di kanan agar teks tidak nabrak tombol */
+    margin-bottom: 0; /* Reset margin bawaan */
   }
+
   .show-password {
     position: absolute;
     right: 12px;
-    font-size: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%); /* Tepat di tengah vertikal */
+    font-size: 0.85rem;
     color: #db5757;
-    background: none;
+    background: transparent;
     border: none;
     cursor: pointer;
     font-weight: 600;
+    z-index: 2;
+    padding: 5px;
+  }
+  .show-password:hover {
+    text-decoration: underline;
+  }
+  
+  /* Helper Text */
+  #pass-hint {
+    display: none; /* Sembunyi default */
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #7f8c8d;
   }
 
-  /* Profile Buttons */
+  /* --- Buttons --- */
   .profile-buttons {
-    margin-top: 24px;
+    margin-top: 35px;
     display: flex;
-    gap: 14px;
+    gap: 15px;
+  }
+  
+  .action-buttons {
+    display: none; /* Sembunyi default */
+    width: 100%;
+    gap: 15px;
+  }
+
+  .btn-edit, .btn-save, .btn-cancel {
+    flex: 1;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    height: 48px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
+
   .btn-edit {
     background-color: #db5757;
-    border: none;
     color: white;
-    font-weight: 600;
-    border-radius: 12px;
-    height: 42px;
-    width: 180px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgb(219 87 87 / 0.6);
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(219, 87, 87, 0.3);
   }
-  .btn-edit:hover {
-    background-color: #bf4848;
-  }
-  .btn-logout {
-    background: transparent;
-    color: #db5757;
-    font-weight: 600;
-    border: 1.5px solid #db5757;
-    border-radius: 12px;
-    height: 42px;
-    width: 150px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  .btn-logout:hover {
-    background-color: #db5757;
+  
+  .btn-cancel {
+    background-color: #95a5a6;
     color: white;
+  }
+  
+  .btn-save {
+    background-color: #2ecc71;
+    color: white;
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+  }
+  
+  .btn-edit:hover, .btn-save:hover, .btn-cancel:hover {
+    opacity: 0.9;
   }
 
-  /* Feature Cards */
-  .feature-card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px 20px;
-    box-shadow: 0 3px 6px rgb(0 0 0 / 0.08);
-    margin-bottom: 18px;
+  /* Notifikasi Sukses */
+  .alert-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     text-align: center;
-  }
-  .feature-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    margin: 0 auto 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-  }
-  .feature-icon.konsultasi {
-    background-color: #e8f7e9;
-    color: #339933;
-  }
-  .feature-icon.workout {
-    background-color: #ffe7d8;
-    color: #db5757;
-  }
-  .feature-icon.tracking {
-    background-color: #ebe9ff;
-    color: #5c59f7;
-  }
-  .feature-icon.meal {
-    background-color: #f3e7ff;
-    color: #db57c7;
-  }
-  .feature-title {
-    font-weight: 700;
-    margin: 0 0 6px;
-    font-size: 1rem;
-  }
-  .feature-desc {
-    margin: 0 0 10px;
-    font-size: 0.85rem;
-    color: #666;
-  }
-  .feature-link {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #db5757;
-    text-decoration: none;
-  }
-  .feature-link:hover {
-    text-decoration: underline;
-  }
-
-  /* Footer */
-  footer {
-    background-color: #292929;
-    color: #ccc;
-    padding: 36px 20px 18px;
-    font-size: 0.85rem;
-  }
-  footer .footer-container {
-    max-width: 940px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: space-between;
-  }
-  footer h4 {
-    color: white;
-    margin-top: 0;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  .footer-section {
-    flex: 1 1 220px;
-    min-width: 180px;
-  }
-  .footer-description {
-    line-height: 1.4;
-    color: #bbb;
-    margin: 12px 0 22px;
-  }
-  .social-icons {
-    display: flex;
-    gap: 12px;
-  }
-  .social-icons a {
-    background-color: #db5757;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-weight: 700;
     font-size: 0.9rem;
-  }
-  .footer-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .footer-list li {
-    margin-bottom: 10px;
-  }
-  .footer-list li a {
-    color: #bbb;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .footer-list li a:hover {
-    text-decoration: underline;
-  }
-  .footer-contact p {
-    margin: 6px 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-  .footer-contact p svg,
-  .footer-contact p span {
-    font-size: 1rem;
-  }
-  /* Footer bottom text */
-  .footer-bottom {
-    border-top: 1px solid #444;
-    text-align: center;
-    margin-top: 32px;
-    padding-top: 10px;
-    color: #666;
-    font-size: 0.8rem;
-  }
-
-  /* Icons inside footer contact (simple inline svg as fallback) */
-  .icon-mail::before {
-    content: "📧";
-    display: inline-block;
-  }
-  .icon-phone::before {
-    content: "📞";
-    display: inline-block;
-  }
-  .icon-location::before {
-    content: "📍";
-    display: inline-block;
+    border: 1px solid #c3e6cb;
   }
 </style>
 </head>
 <body>
+
 <div class="container">
 
     <section class="profile-card">
+    
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'updated'): ?>
+        <div class="alert-success">
+            Profil berhasil diperbarui!
+        </div>
+    <?php endif; ?>
+
     <div class="profile-header">
       <div class="profile-avatar"><?php echo htmlspecialchars($initials); ?></div>
       <div>
@@ -334,57 +242,117 @@ elseif (!empty($user['username'])) {
       </div>
     </div>
     
-    <form method="POST" action="<?php echo BASE_URL; ?>index.php?action=update_profile">
+    <form id="profileForm" method="POST" action="index.php?action=update_profile">
     
       <label for="username">Username</label>
-      <input id="username" name="username" type="text" value="<?php echo htmlspecialchars($user['username']); ?>" readonly />
+      <input id="username" name="username" type="text" value="<?php echo htmlspecialchars($user['username'] ?? ''); ?>" readonly required />
 
       <label for="email">Email</label>
-      <input id="email" name="email" type="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly />
+      <input id="email" name="email" type="email" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" readonly required />
 
-      <label id="pass-label" for="new_password">Password</label>
+      <label for="new_password">Password</label>
       <div class="password-field">
-          <input id="new_password" name="new_password" type="password" value="••••••••" readonly disabled />
+          <input id="new_password" name="new_password" type="password" placeholder="••••••••" readonly disabled />
+          
           <button type="button" id="show-pass-btn" class="show-password" style="display: none;">Tampilkan</button>
       </div>
+      <small id="pass-hint">Kosongkan jika tidak ingin mengubah password.</small>
 
       <div class="profile-buttons">
         <button type="button" id="btn-edit" class="btn-edit">Edit Profil</button>
         
-        <button type="submit" id="btn-save" class="btn-edit" style="display: none;">Simpan Perubahan</button>
+        <div id="edit-actions" class="action-buttons">
+             <button type="button" id="btn-cancel" class="btn-cancel">Batal</button>
+             <button type="submit" id="btn-save" class="btn-save">Simpan</button>
+        </div>
       </div>
     </form>
   </section>
 
-  <!-- <section class="feature-card">
-    <div class="feature-icon konsultasi">🩺</div>
-    <h3 class="feature-title">Konsultasi Online</h3>
-    <p class="feature-desc">Konsultasi dengan dokter berpengalaman kapan saja</p>
-    <a href="#" class="feature-link">Mulai Konsultasi →</a>
-  </section>
-
-  <section class="feature-card">
-    <div class="feature-icon workout">💪</div>
-    <h3 class="feature-title">Program Workout</h3>
-    <p class="feature-desc">Program latihan yang disesuaikan dengan kebutuhan Anda</p>
-    <a href="#" class="feature-link">Lihat Program →</a>
-  </section>
-
-  <section class="feature-card">
-    <div class="feature-icon tracking">📊</div>
-    <h3 class="feature-title">Tracking Kalori</h3>
-    <p class="feature-desc">Pantau asupan kalori harian dengan mudah</p>
-    <a href="#" class="feature-link">Mulai Tracking →</a>
-  </section>
-
-  <section class="feature-card">
-    <div class="feature-icon meal">🍎</div>
-    <h3 class="feature-title">Meal Plan</h3>
-    <p class="feature-desc">Dapatkan rencana makanan sesuai dengan target kalori</p>
-    <a href="#" class="feature-link">Lihat Meal Plan →</a>
-  </section> -->
-
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnEdit = document.getElementById('btn-edit');
+    const editActions = document.getElementById('edit-actions');
+    const btnCancel = document.getElementById('btn-cancel');
+    
+    // Ambil semua input kecuali password
+    const textInputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="email"]');
+    
+    const passInput = document.getElementById('new_password');
+    const showPassBtn = document.getElementById('show-pass-btn');
+    const passHint = document.getElementById('pass-hint');
+    
+    // Simpan nilai asli buat tombol Batal
+    const originalValues = {};
+    textInputs.forEach(input => {
+        originalValues[input.id] = input.value;
+    });
+
+    // --- 1. KLIK EDIT PROFIL ---
+    btnEdit.addEventListener('click', function() {
+        // UI Toggle
+        btnEdit.style.display = 'none';
+        editActions.style.display = 'flex';
+        
+        // Buka Input Teks
+        textInputs.forEach(input => {
+            input.removeAttribute('readonly');
+        });
+
+        // Buka Input Password
+        passInput.removeAttribute('readonly');
+        passInput.removeAttribute('disabled');
+        passInput.value = ''; // Kosongkan biar user ngetik baru
+        passInput.placeholder = 'Masukkan password baru...'; // Placeholder baru
+
+        // Tampilkan Helper Password
+        showPassBtn.style.display = 'block';
+        passHint.style.display = 'block';
+        
+        // Fokus ke Username
+        document.getElementById('username').focus();
+    });
+
+    // --- 2. KLIK BATAL ---
+    btnCancel.addEventListener('click', function() {
+        // UI Toggle
+        btnEdit.style.display = 'flex';
+        editActions.style.display = 'none';
+        
+        // Reset Input Teks
+        textInputs.forEach(input => {
+            input.setAttribute('readonly', true);
+            input.value = originalValues[input.id]; // Balikin nilai lama
+        });
+
+        // Reset Input Password
+        passInput.setAttribute('readonly', true);
+        passInput.setAttribute('disabled', true);
+        passInput.value = ''; 
+        passInput.placeholder = '••••••••';
+        passInput.type = 'password'; // Pastikan balik jadi bintang-bintang
+        
+        // Sembunyikan Helper
+        showPassBtn.style.display = 'none';
+        showPassBtn.textContent = 'Tampilkan';
+        passHint.style.display = 'none';
+    });
+
+    // --- 3. TOGGLE PASSWORD (LIHAT/SEMBUNYI) ---
+    showPassBtn.addEventListener('click', function() {
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            this.textContent = 'Sembunyikan';
+        } else {
+            passInput.type = 'password';
+            this.textContent = 'Tampilkan';
+        }
+    });
+});
+</script>
+
 <?php include 'views/layouts/footer.php'; ?>
 
 </body>
