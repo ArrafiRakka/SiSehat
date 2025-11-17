@@ -2,64 +2,70 @@
 
 class User {
     
-    private $db; // untuk koneksi database
+    private $db;
 
-    // nyambungin ke db
     public function __construct() {
-        // sesuai dengan db kita
-        $this->db = new mysqli('localhost', 'root', '', 'SiSehat'); // Ganti 'rsiprak' jika perlu
+        // koneksi ke database *HARUS* seseuai dump
+        $this->db = new mysqli('localhost', 'root', '', 'SiSehat');
         
-        // Cek jika koneksi gagal
         if ($this->db->connect_error) {
             die("Koneksi database gagal: " . $this->db->connect_error);
         }
     }
 
-    // ambil username/email dari db, kalo semisal gaada dia bakal ketolak
-    public function getUserByEmailOrUsername($email_or_username) {
-        
-        $sql = "SELECT * FROM users WHERE email = ? OR username = ?";
-        
-        $stmt = $this->db->prepare($sql); 
-        
-        $stmt->bind_param("ss", $email_or_username, $email_or_username);
+    /* ======================================
+       GET USER BY EMAIL OR USERNAME
+    ====================================== */
+    public function getUserByEmailOrUsername($value) {
+
+        $sql = "SELECT * FROM users WHERE email = ? OR username = ? LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ss", $value, $value);
         $stmt->execute();
         
         $result = $stmt->get_result();
         
         if ($result->num_rows === 1) {
             return $result->fetch_assoc();
-        } else {
-            return false;
         }
+        return false;
     }
 
-    // method untuk user yg baru daftar 
+    /* ======================================
+       REGISTER USER BARU
+    ====================================== */
     public function createUser($username, $email, $hashed_password) {
-        
-        $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        
+
+        // Cek duplikasi email/username
+        $checkUser = $this->getUserByEmailOrUsername($email);
+        if ($checkUser) return false;
+
+        $checkUser2 = $this->getUserByEmailOrUsername($username);
+        if ($checkUser2) return false;
+
+        $sql = "INSERT INTO users (username, email, password, role)
+                VALUES (?, ?, ?, '')";
+
         $stmt = $this->db->prepare($sql);
-        
         $stmt->bind_param("sss", $username, $email, $hashed_password);
-        
-        if ($stmt->execute()) {
-            return true; // Sukses
-        } else {
-            return false; // gagal (kalo semisal email udh kepake)
-        }
+
+        return $stmt->execute();
     }
 
+    /* ======================================
+       GET USER BY ID
+    ====================================== */
     public function getUserById($id) {
-        // Ambil data (tanpa password)
-        $sql = "SELECT id, username, email FROM users WHERE id = ?";
+        $sql = "SELECT id, username, email, role FROM users WHERE id = ? LIMIT 1";
         $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("i", $id); // 'i' untuk integer
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $stmt->get_result()->fetch_assoc();
     }
 
+    /* ======================================
+       UPDATE PROFIL (USERNAME / EMAIL)
+    ====================================== */
     public function updateUserProfile($id, $username, $email) {
         $sql = "UPDATE users SET username = ?, email = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
@@ -67,12 +73,15 @@ class User {
         return $stmt->execute();
     }
 
+    /* ======================================
+       GANTI PASSWORD
+    ====================================== */
     public function updateUserPassword($id, $hashed_password) {
         $sql = "UPDATE users SET password = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("si", $hashed_password, $id);
         return $stmt->execute();
     }
+}
 
-} 
 ?>
