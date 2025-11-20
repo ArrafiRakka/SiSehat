@@ -230,17 +230,14 @@
         <label for="jenisWorkout">Jenis Workout</label>
         <select id="jenisWorkout" name="jenisWorkout" aria-label="Pilih Jenis Workout">
           <option value="" selected disabled>Pilih Jenis Workout</option>
-          <option value="lari">Lari</option>
-          <option value="berenang">Berenang</option>
-          <option value="situp">Sit-up</option>
-          <option value="angkatBeban">Angkat Beban</option>
-          <option value="zumba">Zumba</option>
-          <option value="bersepeda">Bersepeda</option>
-          <option value="pushup">Push-up</option>
-          <option value="yoga">Yoga</option>
-          <option value="aerobik">Aerobik</option>
-          <option value="jumpingJack">Jumping Jack</option>
-        </select>
+            <?php foreach ($workouts as $key => $data): ?>
+                <option 
+                    value="<?= htmlspecialchars($key) ?>" 
+                    <?= ($selectedKey === $key) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($data['name']) ?>
+                </option>
+            <?php endforeach; ?>
+       </select>
       </div>
       <div class="form-group">
         <label for="durasi">Durasi (menit)</label>
@@ -290,7 +287,7 @@
   </section>
 
   <section class="card calories-table-section">
-    <h2>Jenis Workout & Kalori per Jam</h2>
+    <h2>Contoh Jenis Workout & Kalori per Jam</h2>
     <div class="calories-table">
       <div class="calories-cell">
         <span class="workout-name">Lari</span>

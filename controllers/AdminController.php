@@ -4,16 +4,19 @@
 require_once 'models/Kalori.php';
 // Jika nanti ada User Model, require juga di sini
 require_once 'models/User.php'; 
+require_once 'models/WorkoutModel.php';
 
 class AdminController {
     
     private $kaloriModel;
     private $userModel;
+    private $workoutModel;
 
     public function __construct() {
         // 1. Inisialisasi Model
         $this->kaloriModel = new Kalori();
         $this->userModel = new User();
+        $this->workoutModel = new WorkoutModel();
 
         // 2. Cek Security (Wajib Admin)
         if (session_status() === PHP_SESSION_NONE) {
@@ -130,5 +133,75 @@ class AdminController {
         // Tampilkan View Edit
         require 'views/admin/food_edit.php';
     }
+
+    /**
+     * Halaman Kelola Jenis Workout (CRUD)
+     */
+    public function handleWorkoutManagement() {
+        // --- LOGIKA TAMBAH WORKOUT (POST) ---
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_workout'])) {
+            $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug']))); // Clean slug
+            $nama = trim($_POST['nama_workout']);
+            $met = (float) $_POST['met_value'];
+            
+            if ($this->workoutModel->addWorkout($key_slug, $nama, $met)) {
+                header("Location: index.php?action=admin_workouts&status=added");
+                exit;
+            } else {
+                // Tambahkan penanganan error jika perlu
+                $error = "Gagal menambahkan workout.";
+            }
+        }
+
+        // --- LOGIKA HAPUS WORKOUT (Soft Delete via GET) ---
+        if (isset($_GET['delete_id'])) {
+            $id = (int)$_GET['delete_id'];
+            // Panggil fungsi delete di Model (Soft Delete)
+            if ($this->workoutModel->deleteWorkout($id)) {
+                header("Location: index.php?action=admin_workouts&status=deleted");
+                exit;
+            } else {
+                $error = "Gagal menghapus workout.";
+            }
+        }
+
+        // --- LOGIKA TAMPILKAN DATA ---
+        $workouts = $this->workoutModel->getAllAdminWorkouts();
+
+        // Panggil View
+        require 'views/admin/workout_management.php';
+    }
+
+    /**
+     * Halaman Edit Workout
+     */
+    public function handleWorkoutEdit() {
+        $id = (int)($_GET['id'] ?? 0);
+        $workout = $this->workoutModel->getWorkoutById($id);
+
+        if (!$workout) {
+            echo "Workout tidak ditemukan!";
+            exit;
+        }
+
+        // Jika Form Disubmit (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_workout'])) {
+            $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug'])));
+            $nama = trim($_POST['nama_workout']);
+            $met = (float) $_POST['met_value'];
+            $is_active = isset($_POST['is_active']) ? true : false;
+
+            if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $is_active)) {
+                header("Location: index.php?action=admin_workouts&status=updated");
+                exit;
+            } else {
+                $error = "Gagal mengupdate workout.";
+            }
+        }
+        
+        // Tampilkan View Edit
+        require 'views/admin/workout_edit.php';
+    } 
+
 }
 ?>

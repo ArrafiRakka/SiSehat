@@ -163,6 +163,27 @@ switch ($action) {
         $adminController->handleUserManagement();
         break;
 
+    case 'admin_workouts':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $controller = new AdminController();
+        $controller->handleWorkoutManagement();
+        break; // Stop di sini jika aksi ditemukan
+
+    // !!! TAMBAHKAN JUGA UNTUK EDIT !!!
+    case 'admin_workout_edit':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $controller = new AdminController();
+        $controller->handleWorkoutEdit();
+        break;
+
     // --- RUTE UMUM ---
     case 'logout':
         $authController->handleLogout();

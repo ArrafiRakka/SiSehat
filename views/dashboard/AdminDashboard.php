@@ -56,6 +56,19 @@
             <a href="#" style="display: block; margin-top: 15px; color: #f39c12; text-decoration: none; font-weight: bold; font-size: 0.9rem;">Cek Pesan &rarr;</a>
         </div>
 
+        <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid #8e44ad;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin: 0; color: #7f8c8d; font-size: 0.9rem;">Database Workout</h3>
+                    <p style="margin: 5px 0 0; font-size: 2rem; font-weight: bold; color: #2c3e50;">
+                        <?= '10+' ?>
+                    </p>
+                </div>
+                <div style="font-size: 2.5rem; color: #8e44ad; opacity: 0.2;">💪</div>
+            </div>
+            <a href="index.php?action=admin_workouts" style="display: block; margin-top: 15px; color: #8e44ad; text-decoration: none; font-weight: bold; font-size: 0.9rem;">Kelola Workout &rarr;</a>
+        </div>
+
     </div>
 
     <h3 style="color: #2c3e50; margin-bottom: 20px;">Menu Pengelolaan</h3>
@@ -69,11 +82,11 @@
             </div>
         </a>
 
-        <a href="#" style="text-decoration: none; color: inherit;">
+        <a href="index.php?action=admin_workouts" style="text-decoration: none; color: inherit;">
             <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div style="background: #e3f2fd; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #2980b9; font-size: 1.5rem;">🏋️</div>
+                <div style="background: #f1e6f9; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: #8e44ad; font-size: 1.5rem;">🏋️</div>
                 <h4 style="margin: 0; color: #2c3e50;">Kelola Workout</h4>
-                <p style="margin: 10px 0 0; font-size: 0.9rem; color: #7f8c8d;">Update program latihan dan video.</p>
+                <p style="margin: 10px 0 0; font-size: 0.9rem; color: #7f8c8d;">Tambah, edit, atau hapus jenis workout dan nilai METs.</p>
             </div>
         </a>
 
