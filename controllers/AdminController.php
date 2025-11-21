@@ -143,8 +143,10 @@ class AdminController {
             $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug']))); // Clean slug
             $nama = trim($_POST['nama_workout']);
             $met = (float) $_POST['met_value'];
-            
-            if ($this->workoutModel->addWorkout($key_slug, $nama, $met)) {
+            $fokus_otot = trim($_POST['fokus_otot']);
+            $tujuan_utama = trim($_POST['tujuan_utama']);
+
+            if ($this->workoutModel->addWorkout($key_slug, $nama, $met, $fokus_otot, $tujuan_utama)) {
                 header("Location: index.php?action=admin_workouts&status=added");
                 exit;
             } else {
@@ -175,33 +177,40 @@ class AdminController {
     /**
      * Halaman Edit Workout
      */
-    public function handleWorkoutEdit() {
-        $id = (int)($_GET['id'] ?? 0);
-        $workout = $this->workoutModel->getWorkoutById($id);
+    // controllers/AdminController.php
 
-        if (!$workout) {
-            echo "Workout tidak ditemukan!";
-            exit;
-        }
+public function handleWorkoutEdit() {
+    $id = (int)($_GET['id'] ?? 0);
+    $workout = $this->workoutModel->getWorkoutById($id);
 
-        // Jika Form Disubmit (POST)
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_workout'])) {
-            $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug'])));
-            $nama = trim($_POST['nama_workout']);
-            $met = (float) $_POST['met_value'];
-            $is_active = isset($_POST['is_active']) ? true : false;
+    if (!$workout) {
+        echo "Workout tidak ditemukan!";
+        exit;
+    }
 
-            if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $is_active)) {
-                header("Location: index.php?action=admin_workouts&status=updated");
-                exit;
-            } else {
-                $error = "Gagal mengupdate workout.";
-            }
-        }
+    // Jika Form Disubmit (POST)
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_workout'])) {
+        $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug'])));
+        $nama = trim($_POST['nama_workout']);
+        $met = (float) $_POST['met_value'];
+        $is_active = isset($_POST['is_active']) ? true : false;
+
+        // !!! TAMBAHAN WAJIB DI SINI !!!
+        $fokus = trim($_POST['fokus_otot']);
+        $tujuan = trim($_POST['tujuan_utama']);
         
-        // Tampilkan View Edit
-        require 'views/admin/workout_edit.php';
-    } 
+        // Panggil Model dengan SEMUA 7 parameter
+        if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $fokus, $tujuan, $is_active)) {
+            header("Location: index.php?action=admin_workouts&status=updated");
+            exit;
+        } else {
+            $error = "Gagal mengupdate workout.";
+        }
+    }
+    
+    // Tampilkan View Edit
+    require 'views/admin/workout_edit.php';
+}
 
 }
 ?>

@@ -63,5 +63,47 @@ class WorkoutController {
         // Pastikan path view relatif terhadap root project (sama seperti pola yang dipakai)
         include 'views/workout/index.php';
     }
+
+    public function handleRecommendation() {
+    $recommendationResult = null;
+    $error = null;
+    $request = $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST : $_REQUEST;
+
+    // Data dropdown untuk view (Pilihan statis untuk form)
+    $tujuanOptions = ['Kardio/Stamina', 'Kekuatan', 'Fleksibilitas', 'Penurunan Berat Badan'];
+    $levelOptions = ['Pemula', 'Menengah', 'Mahir'];
+
+    // Inisialisasi variabel input untuk menyimpan nilai setelah submit
+    $targetKalori = null;
+    $tujuan = null;
+    $level = null;
+    $duration = null;
+    $weight = null; 
+
+    if (!empty($request) && isset($request['request_recommendation'])) {
+        // Ambil dan validasi input
+        $targetKalori = (float)($request['targetKalori'] ?? 0);
+        $tujuan = trim($request['tujuan'] ?? '');
+        $level = trim($request['level'] ?? '');
+        $duration = (int)($request['duration'] ?? 0);
+        $weight = (float)($request['beratBadan'] ?? 0); // Berat Badan wajib!
+        
+        // Minimal validasi
+        if ($targetKalori <= 0 || $duration <= 0 || $weight <= 0 || empty($tujuan) || empty($level)) {
+            $error = "Semua input (Kalori, Durasi, BB, Tujuan, Level) wajib diisi.";
+        } else {
+            // Panggil LOGIKA MODEL di Tahap 3
+            // Kita akan buat method getRecommendation di WorkoutModel
+            $recommendationResult = $this->model->getRecommendation($targetKalori, $tujuan, $level, $duration, $weight);
+            
+            if ($recommendationResult === null) {
+                $error = "Maaf, sistem gagal membuat rekomendasi dengan parameter tersebut.";
+            }
+        }
+    }
+
+    // Include view
+    require 'views/workout/recommendation.php';
+}
 }
 

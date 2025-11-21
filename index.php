@@ -184,6 +184,16 @@ switch ($action) {
         $controller->handleWorkoutEdit();
         break;
 
+    case 'workout_recommendation':
+        if (!$is_logged_in || $role !== 'user') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/WorkoutController.php';
+    $controller = new WorkoutController();
+    $controller->handleRecommendation();
+    break;
+
     // --- RUTE UMUM ---
     case 'logout':
         $authController->handleLogout();

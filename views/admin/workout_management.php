@@ -51,6 +51,31 @@
                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
             </div>
 
+            
+            <div>
+                <label for="fokus_otot" style="display: block; font-weight: 600; margin-bottom: 5px;">Fokus Otot</label>
+                <select id="fokus_otot" name="fokus_otot" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                    <option value="" disabled selected>Pilih Fokus Otot</option>
+                    <option value="Kardio">Kardio</option>
+                    <option value="Kaki & Glutes">Kaki & Glutes</option>
+                    <option value="Inti (Core)">Inti (Core)</option>
+                    <option value="Tubuh Atas">Tubuh Atas</option>
+                    <option value="Full Body">Full Body</option>
+                    <option value="Fleksibilitas">Fleksibilitas</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="tujuan_utama" style="display: block; font-weight: 600; margin-bottom: 5px;">Tujuan Utama</label>
+                <select id="tujuan_utama" name="tujuan_utama" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                    <option value="" disabled selected>Pilih Tujuan Utama</option>
+                    <option value="Kardio/Stamina">Kardio/Stamina</option>
+                    <option value="Kekuatan">Kekuatan</option>
+                    <option value="Fleksibilitas">Fleksibilitas</option>
+                    <option value="Penurunan Berat Badan">Penurunan Berat Badan</option>
+                </select>
+            </div>
+            
             <button type="submit" name="add_workout" 
                     style="padding: 10px 15px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
                 Tambah Data
@@ -63,50 +88,53 @@
         
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <thead>
-                <tr style="background-color: #ecf0f1;">
-                    <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">ID</th>
-                    <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Nama Workout</th>
-                    <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Key Slug</th>
-                    <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Nilai METs</th>
-                    <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Status</th>
-                    <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($workouts)): ?>
-                    <?php foreach ($workouts as $w): ?>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($w['id']) ?></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($w['nama_workout']) ?></td>
-                        <td style="padding: 10px; border: 1px solid #ddd; font-family: monospace; font-size: 0.9em;"><?= htmlspecialchars($w['key_slug']) ?></td>
-                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><?= htmlspecialchars($w['met_value']) ?></td>
-                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                            <span style="display: inline-block; padding: 4px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: 600; background-color: <?= $w['is_active'] ? '#d4edda' : '#f8d7da' ?>; color: <?= $w['is_active'] ? '#155724' : '#721c24' ?>;">
-                                <?= $w['is_active'] ? 'Aktif' : 'Nonaktif' ?>
-                            </span>
-                        </td>
-                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
-                            <a href="index.php?action=admin_workout_edit&id=<?= $w['id'] ?>" 
-                               style="background-color: #2980b9; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem;">
-                                Edit
-                            </a>
-                            
-                            <?php if ($w['is_active']): // Hanya tampilkan tombol nonaktif jika sedang aktif ?>
-                                <a href="index.php?action=admin_workouts&delete_id=<?= $w['id'] ?>" 
-                                   onclick="return confirm('Yakin ingin menonaktifkan workout <?= htmlspecialchars($w['nama_workout']) ?>?')"
-                                   style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; margin-left: 5px;">
-                                    Nonaktifkan
-                                </a>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="6" style="padding: 10px; text-align: center; color: #7f8c8d;">Belum ada data workout yang terdaftar.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
+        <tr style="background-color: #ecf0f1;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">ID</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Nama Workout</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Key Slug</th>
+            <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Nilai METs</th>
+            
+            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Fokus Otot</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Tujuan Utama</th>
+            <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php if (!empty($workouts)): ?>
+        <?php foreach ($workouts as $w): ?>
+        <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($w['id']) ?></td>
+            <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($w['nama_workout']) ?></td>
+            <td style="padding: 10px; border: 1px solid #ddd; font-family: monospace; font-size: 0.9em;"><?= htmlspecialchars($w['key_slug']) ?></td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><?= htmlspecialchars($w['met_value']) ?></td>
+            
+            <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.9em;"><?= htmlspecialchars($w['fokus_otot']) ?></td>
+            <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.9em;"><?= htmlspecialchars($w['tujuan_utama']) ?></td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                <span style="display: inline-block; padding: 4px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: 600; background-color: <?= $w['is_active'] ? '#d4edda' : '#f8d7da' ?>; color: <?= $w['is_active'] ? '#155724' : '#721c24' ?>;">
+                    <?= $w['is_active'] ? 'Aktif' : 'Nonaktif' ?>
+                </span>
+            </td>
+            
+        <td style="padding: 10px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
+            <a href="index.php?action=admin_workout_edit&id=<?= $w['id'] ?>" style="background-color: #2980b9; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem;">
+                Edit
+            </a>
+                <?php if ($w['is_active']): // Hanya tampilkan tombol nonaktif jika sedang aktif ?>
+                    <a href="index.php?action=admin_workouts&delete_id=<?= $w['id'] ?>" onclick="return confirm('Yakin ingin menonaktifkan workout <?= htmlspecialchars($w['nama_workout']) ?>?')" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; margin-left: 5px;">
+                        Nonaktifkan
+                     </a>
+        <?php endif; ?>
+        </td>
+        </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="8" style="padding: 10px; text-align: center; color: #7f8c8d;">Belum ada data workout yang terdaftar.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
         </table>
     </div>
 </div>

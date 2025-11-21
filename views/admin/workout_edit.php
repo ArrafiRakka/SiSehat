@@ -33,6 +33,46 @@
                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
             </div>
 
+            <div>
+                    <label for="fokus_otot" style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Fokus Otot</label>
+                    <select id="fokus_otot" name="fokus_otot" required 
+                            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="" disabled>Pilih Fokus Otot</option>
+                        
+                        <?php 
+                        $fokusOptions = ['Kardio', 'Kaki & Glutes', 'Inti (Core)', 'Tubuh Atas', 'Full Body', 'Fleksibilitas'];
+                        $currentFokus = $workout['fokus_otot'] ?? '';
+                        foreach ($fokusOptions as $opt): 
+                        ?>
+                            <option value="<?= htmlspecialchars($opt) ?>" 
+                                <?= ($currentFokus === $opt) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($opt) ?>
+                            </option>
+                        <?php endforeach; ?>
+                        
+                    </select>
+                </div>
+
+                <div>
+                    <label for="tujuan_utama" style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Tujuan Utama</label>
+                    <select id="tujuan_utama" name="tujuan_utama" required 
+                            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="" disabled>Pilih Tujuan Utama</option>
+                        
+                        <?php
+                        $tujuanOptions = ['Kardio/Stamina', 'Kekuatan', 'Fleksibilitas', 'Penurunan Berat Badan'];
+                        $currentTujuan = $workout['tujuan_utama'] ?? '';
+                        foreach ($tujuanOptions as $opt): 
+                        ?>
+                            <option value="<?= htmlspecialchars($opt) ?>" 
+                                <?= ($currentTujuan === $opt) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($opt) ?>
+                            </option>
+                        <?php endforeach; ?>
+                        
+                    </select>
+                </div>
+
             <div style="margin-bottom: 25px;">
                 <label style="display: block; font-weight: 600; margin-bottom: 10px; color: #34495e;">Status Workout</label>
                 <?php $isActive = (int)($workout['is_active'] ?? 0); ?>

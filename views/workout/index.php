@@ -274,7 +274,16 @@
   </section>
   <?php endif; ?>
 
-
+  <section class="card calculator-form">
+    <div style="margin-top: 5px; padding-top: 15px; text-align: center;">
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">
+           <p style="font-size: 1.3rem; font-weight: 700;">Butuh ide workout?</p>
+           <a href="index.php?action=workout_recommendation" style="color: #ce4c49; font-weight: 700; text-decoration: underline;">
+                Dapatkan Rekomendasi Sesi Workout Sekarang &rarr;
+            </a>
+        </p>
+    </div>
+  </section>
 
   <section class="card tips">
     <h2>Tips Membakar Kalori Lebih Efektif</h2>
