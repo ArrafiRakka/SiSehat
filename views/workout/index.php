@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Workout Calculator</title>
 <style>
-  /* Reset & Base */
   * {
     box-sizing: border-box;
   }
@@ -22,21 +21,18 @@
     color: inherit;
   }
 
-  /* Container */
   .container {
     max-width: 900px;
     margin: 30px auto 70px auto;
     padding: 0 20px;
   }
 
-  /* Heading */
   h1.page-title {
     font-weight: 700;
     font-size: 1.35rem;
     margin-bottom: 20px;
   }
 
-  /* Workout Calculator Hero */
   .hero-calculator {
     background-color: #ce4c49;
     color: white;
@@ -49,7 +45,6 @@
     box-shadow: 0 3px 6px rgb(0 0 0 / 0.15);
   }
 
-  /* Card style shared */
   .card {
     background-color: #f8f8f8;
     border-radius: 12px;
@@ -58,7 +53,6 @@
     box-shadow: 0 3px 6px rgb(0 0 0 / 0.07);
   }
 
-  /* Form */
   form h2 {
     font-weight: 700;
     font-size: 1.15rem;
@@ -97,7 +91,6 @@
     background-color: #eee;
   }
   
-  /* Buttons */
   .btn-group {
     margin-top: 10px;
   }
@@ -127,7 +120,6 @@
     filter: brightness(0.95);
   }
 
-  /* Tips list */
   .tips h2 {
     font-weight: 700;
     font-size: 1.1rem;
@@ -152,7 +144,6 @@
     color: #ce4c49;
   }
 
-  /* Workout & calories table-like cards: */
   .calories-table {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
@@ -185,7 +176,6 @@
     font-style: italic;
   }
 
-  /* Calculator explanation card */
   .calculator-info h2 {
     font-weight: 700;
     font-size: 1.1rem;
@@ -359,19 +349,15 @@
 </div>
 
 <script>
-  // Setelah halaman dimuat
   document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector("form");
     const hasil = document.getElementById("hasilKalori");
 
-    // Hanya jalan kalau ada hasil dan user baru submit form
     if (hasil && window.location.href.includes("hitung")) {
       hasil.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // Tambahkan event listener untuk kirim form
     form?.addEventListener("submit", function() {
-      // Delay kecil biar scroll terjadi setelah reload selesai
       setTimeout(() => {
         const hasilBaru = document.getElementById("hasilKalori");
         if (hasilBaru) {

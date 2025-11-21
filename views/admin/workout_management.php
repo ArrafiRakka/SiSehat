@@ -7,7 +7,6 @@
     </h1>
 
     <?php 
-    // Tampilkan pesan status (added, updated, deleted)
     if (isset($_GET['status'])): 
         $message = '';
         $class = '';
@@ -121,7 +120,7 @@
             <a href="index.php?action=admin_workout_edit&id=<?= $w['id'] ?>" style="background-color: #2980b9; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem;">
                 Edit
             </a>
-                <?php if ($w['is_active']): // Hanya tampilkan tombol nonaktif jika sedang aktif ?>
+                <?php if ($w['is_active']):  ?>
                     <a href="index.php?action=admin_workouts&delete_id=<?= $w['id'] ?>" onclick="return confirm('Yakin ingin menonaktifkan workout <?= htmlspecialchars($w['nama_workout']) ?>?')" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; margin-left: 5px;">
                         Nonaktifkan
                      </a>

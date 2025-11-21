@@ -134,9 +134,7 @@ class AdminController {
         require 'views/admin/food_edit.php';
     }
 
-    /**
-     * Halaman Kelola Jenis Workout (CRUD)
-     */
+    
     public function handleWorkoutManagement() {
         // --- LOGIKA TAMBAH WORKOUT (POST) ---
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_workout'])) {
@@ -150,7 +148,6 @@ class AdminController {
                 header("Location: index.php?action=admin_workouts&status=added");
                 exit;
             } else {
-                // Tambahkan penanganan error jika perlu
                 $error = "Gagal menambahkan workout.";
             }
         }
@@ -158,7 +155,6 @@ class AdminController {
         // --- LOGIKA HAPUS WORKOUT (Soft Delete via GET) ---
         if (isset($_GET['delete_id'])) {
             $id = (int)$_GET['delete_id'];
-            // Panggil fungsi delete di Model (Soft Delete)
             if ($this->workoutModel->deleteWorkout($id)) {
                 header("Location: index.php?action=admin_workouts&status=deleted");
                 exit;
@@ -170,14 +166,8 @@ class AdminController {
         // --- LOGIKA TAMPILKAN DATA ---
         $workouts = $this->workoutModel->getAllAdminWorkouts();
 
-        // Panggil View
         require 'views/admin/workout_management.php';
     }
-
-    /**
-     * Halaman Edit Workout
-     */
-    // controllers/AdminController.php
 
 public function handleWorkoutEdit() {
     $id = (int)($_GET['id'] ?? 0);
@@ -195,11 +185,9 @@ public function handleWorkoutEdit() {
         $met = (float) $_POST['met_value'];
         $is_active = isset($_POST['is_active']) ? true : false;
 
-        // !!! TAMBAHAN WAJIB DI SINI !!!
         $fokus = trim($_POST['fokus_otot']);
         $tujuan = trim($_POST['tujuan_utama']);
         
-        // Panggil Model dengan SEMUA 7 parameter
         if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $fokus, $tujuan, $is_active)) {
             header("Location: index.php?action=admin_workouts&status=updated");
             exit;
@@ -208,7 +196,6 @@ public function handleWorkoutEdit() {
         }
     }
     
-    // Tampilkan View Edit
     require 'views/admin/workout_edit.php';
 }
 
