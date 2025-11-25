@@ -4,7 +4,7 @@ class Kalori {
     private $db;
 
     public function __construct() {
-        $this->db = new mysqli("localhost", "root", "", "sisehat", 3307);
+        $this->db = new mysqli("localhost", "root", "", "sisehat", 3306);
         if ($this->db->connect_error) {
             die("Koneksi database gagal: " . $this->db->connect_error);
         }

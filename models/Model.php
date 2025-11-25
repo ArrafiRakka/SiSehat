@@ -8,7 +8,7 @@
       $dbuser = 'root';
       $dbpass = '';
       $dbname = 'SiSehat';
-      $dbport = 3307;
+      $dbport = 3306;
               
       $this->dbconn = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
           
