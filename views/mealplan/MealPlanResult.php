@@ -17,20 +17,27 @@
           <h4><?= htmlspecialchars($food['nama']); ?></h4>
           <p><?= htmlspecialchars($food['porsi']); ?></p>
           <ul>
-            <li><strong>Kalori:</strong> <?= $food['kalori']?? 0; ?> kcal</li>
-            <li><strong>Gula:</strong> <?= $food['gula']?? 0; ?>g</li>
-            <li><strong>Lemak:</strong> <?= $food['lemak']?? 0; ?>g</li>
-            <li><strong>Protein:</strong> <?= $food['protein']?? 0; ?>g</li>
-            <li><strong>Serat:</strong> <?= $food['serat']?? 0; ?>g</li>
+            <li><strong>Kalori:</strong> <?= $food['kalori'] ?? 0; ?> kcal</li>
+            <li><strong>Gula:</strong> <?= $food['gula'] ?? 0; ?> g</li>
+            <li><strong>Lemak:</strong> <?= $food['lemak'] ?? 0; ?> g</li>
+            <li><strong>Protein:</strong> <?= $food['protein'] ?? 0; ?> g</li>
+            <li><strong>Serat:</strong> <?= $food['serat'] ?? 0; ?> g</li>
           </ul>
         </div>
-        <button class="btn-change">Ganti Makanan?</button>
+        <button class="btn-change"
+          onclick="window.location.href='index.php?action=mealplan_detail&id=<?= $mealPlan['id']; ?>'">
+          Lihat Detail
+        </button>
       </div>
     <?php endforeach; ?>
   </div>
 
   <div class="mealplan-actions">
-    <button class="btn-secondary">Sesuaikan dengan Olahraga?</button>
+    <button class="btn-secondary"
+      onclick="window.location.href='index.php?action=penyesuaian_olahraga&id=<?= $mealPlan['id']; ?>'">
+      Sesuaikan dengan Olahraga?
+    </button>
+
     <div class="mealplan-btn-group">
       <button id="saveMealPlanBtn" class="btn-primary">Simpan</button>
       <button onclick="window.location.href='index.php?action=mealplan'" class="btn-reset">Buat Ulang</button>

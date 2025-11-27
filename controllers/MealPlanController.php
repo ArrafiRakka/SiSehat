@@ -3,25 +3,37 @@ require_once 'Controller.php';
 
 class MealPlanController extends Controller {
 
+    /* ============================================
+       HALAMAN UTAMA MEALPLAN + CREATE MEALPLAN
+    ============================================ */
     public function index() {
 
         $mealPlanModel = $this->loadModel('MealPlan');
 
-        // User login
+        // user login (fallback id 1 kalau session belum ada)
         $userId = $_SESSION['user_id'] ?? 1;
 
-        // Ambil mealplan user dari DB
+        // ambil mealplan yang pernah dibuat user
         $savedPlans = $mealPlanModel->getMealPlansByUser($userId);
 
         // FORM SUBMIT → buat mealplan baru
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $targetKalori = $_POST['target_kalori'] ?? 0;
-            $namaMealPlan = $_POST['nama_mealplan'] ?? '';
+            $targetKalori = (int)($_POST['target_kalori'] ?? 0);
+            $namaMealPlan = trim($_POST['nama_mealplan'] ?? '');
 
-            // Create mealplan (DB)
+            if ($targetKalori <= 0 || $namaMealPlan === '') {
+                // kalau input kosong / tidak valid, balik ke form
+                $this->loadView('mealplan/MealPlan', [
+                    'mealPlans' => $savedPlans,
+                    'error' => 'Target kalori dan nama mealplan wajib diisi.'
+                ]);
+                return;
+            }
+
+            // create mealplan (DB + snapshot foods)
             $mealPlan = $mealPlanModel->createMealPlan($userId, $targetKalori, $namaMealPlan);
 
-            // Redirect ke halaman hasil
+            // tampilkan hasil
             $this->loadView('mealplan/MealPlanResult', [
                 'mealPlan' => $mealPlan
             ]);
@@ -36,13 +48,14 @@ class MealPlanController extends Controller {
 
     /* ============================================
        DELETE MEALPLAN
+       mealplan_foods auto kehapus (FK CASCADE)
     ============================================ */
     public function delete() {
         $mealPlanModel = $this->loadModel('MealPlan');
         $id = $_GET['id'] ?? null;
 
         if ($id) {
-            $mealPlanModel->deleteMealPlan($id);
+            $mealPlanModel->deleteMealPlan((int)$id);
         }
 
         header("Location: index.php?action=mealplan");
@@ -51,12 +64,18 @@ class MealPlanController extends Controller {
 
     /* ============================================
        DETAIL MEALPLAN
+       ambil header + snapshot foods
     ============================================ */
     public function detail() {
         $mealPlanModel = $this->loadModel('MealPlan');
         $id = $_GET['id'] ?? null;
 
-        $mealPlan = $mealPlanModel->getMealPlanById($id);
+        if (!$id) {
+            echo "<p>Meal plan tidak ditemukan.</p>";
+            return;
+        }
+
+        $mealPlan = $mealPlanModel->getMealPlanById((int)$id);
 
         if (!$mealPlan) {
             echo "<p>Meal plan tidak ditemukan.</p>";
@@ -71,39 +90,55 @@ class MealPlanController extends Controller {
 
     /* ============================================
        HALAMAN GANTI MAKANAN
+       snapshot_id = id row mealplan_foods
     ============================================ */
     public function gantiMakanan() {
-        $mealPlanModel = $this->loadModel('MealPlan');
+    $mealPlanModel = $this->loadModel('MealPlan');
 
-        $mealPlanId = $_GET['id'] ?? null;
-        $foodName   = $_GET['nama'] ?? null;
+    // ambil mealplan id dari URL
+    $mealPlanId = $_GET['id'] ?? null;
 
-        $mealPlan = $mealPlanModel->getMealPlanById($mealPlanId);
+    // ambil nama makanan dari URL (fallback kalau param beda)
+    $foodName = $_GET['nama'] ?? $_GET['food'] ?? $_GET['food_name'] ?? null;
 
-        if (!$mealPlan || !$foodName) {
-            echo "<p>Data tidak ditemukan.</p>";
-            return;
-        }
-
-        $this->loadView('mealplan/GantiMakanan', [
-            'mealPlan'       => $mealPlan,
-            'foodName'       => $foodName,
-            'availableFoods' => $mealPlanModel->getAvailableFoods()
-        ]);
+    if (!$mealPlanId || !$foodName) {
+        echo "<p>Data tidak ditemukan.</p>";
+        return;
     }
 
+    $mealPlan = $mealPlanModel->getMealPlanById($mealPlanId);
+
+    if (!$mealPlan) {
+        echo "<p>Meal plan tidak ditemukan.</p>";
+        return;
+    }
+
+    $this->loadView('mealplan/GantiMakanan', [
+        'mealPlan'       => $mealPlan,
+        'foodName'       => $foodName,
+        'availableFoods' => $mealPlanModel->getAvailableFoods()
+    ]);
+}
+
+
+
     /* ============================================
-       PROSES GANTI MAKANAN (Database)
+       PROSES GANTI MAKANAN
+       update snapshot row mealplan_foods
     ============================================ */
     public function prosesGantiMakanan() {
         $mealPlanModel = $this->loadModel('MealPlan');
 
         $mealPlanId = $_POST['mealplan_id'] ?? null;
-        $oldFood    = $_POST['old_food'] ?? null;
-        $newFood    = $_POST['new_food'] ?? null;
+        $snapshotId = $_POST['snapshot_id'] ?? null;
+        $newFoodId  = $_POST['new_food_id'] ?? null;
 
-        if ($mealPlanId && $oldFood && $newFood) {
-            $mealPlanModel->replaceFood($mealPlanId, $oldFood, $newFood);
+        if ($mealPlanId && $snapshotId && $newFoodId) {
+            $mealPlanModel->replaceFoodBySnapshotId(
+                (int)$mealPlanId,
+                (int)$snapshotId,
+                (int)$newFoodId
+            );
         }
 
         header("Location: index.php?action=mealplan_detail&id=" . urlencode($mealPlanId));
@@ -117,16 +152,20 @@ class MealPlanController extends Controller {
         $mealPlanModel = $this->loadModel('MealPlan');
 
         $id = $_GET['id'] ?? null;
+        if (!$id) {
+            echo "<p>Meal plan tidak ditemukan.</p>";
+            return;
+        }
 
-        $mealPlan = $mealPlanModel->getMealPlanById($id);
+        $mealPlan = $mealPlanModel->getMealPlanById((int)$id);
 
         if (!$mealPlan) {
             echo "<p>Meal plan tidak ditemukan.</p>";
             return;
         }
 
-        // simpan id mealplan
-        $_SESSION['selected_mealplan_id'] = $id;
+        // simpan id mealplan yg dipilih
+        $_SESSION['selected_mealplan_id'] = (int)$id;
 
         $this->loadView('mealplan/PenyesuaianOlahraga', [
             'mealPlan' => $mealPlan
@@ -134,7 +173,8 @@ class MealPlanController extends Controller {
     }
 
     /* ============================================
-       PROSES PENAMBAHAN MAKANAN DARI OLAHRAGA
+       PROSES PENYESUAIAN OLAHRAGA
+       tambah snapshot foods baru
     ============================================ */
     public function prosesPenyesuaianOlahraga() {
 
@@ -151,14 +191,14 @@ class MealPlanController extends Controller {
 
         $mealPlanModel = $this->loadModel('MealPlan');
 
-        // update makanan berdasarkan kalori tambahan
-        $updatedMealPlan = $mealPlanModel->addFoodsForExtraCalories($mealPlanId, $kaloriTerbakar);
+        // tambah makanan berdasarkan extraCalories (snapshot insert)
+        $mealPlanModel->addFoodsForExtraCalories((int)$mealPlanId, $kaloriTerbakar);
 
-        // simpan ke session untuk ditampilkan di UI
+        // simpan info olahraga buat UI detail
         $_SESSION['olahraga'] = [
-            'jenis'          => $jenis,
-            'durasi'         => $durasi,
-            'kalori_terbakar'=> $kaloriTerbakar
+            'jenis'           => $jenis,
+            'durasi'          => $durasi,
+            'kalori_terbakar' => $kaloriTerbakar
         ];
 
         header("Location: index.php?action=mealplan_detail&id=" . urlencode($mealPlanId));

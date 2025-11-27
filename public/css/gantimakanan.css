@@ -1,0 +1,141 @@
+/* ===== STYLE SAMA KAYAK BMI / MEALPLAN ===== */
+.mealplan-page {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+.mealplan-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.mealplan-box {
+  width: 100%;
+  max-width: 820px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 42px 48px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  border: 1px solid #ececec;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 28px;
+}
+
+/* ===== Banner ===== */
+.banner {
+  background: #ff5b2d;
+  color: #fff;
+  border-radius: 14px;
+  padding: 28px 32px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 14px rgba(255,91,45,0.25);
+}
+
+.banner h2 {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.banner p {
+  font-size: 15px;
+  opacity: 0.95;
+  color: rgba(255,255,255,0.95);
+}
+
+/* ===== Card ===== */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 26px;
+  border: 1px solid #f2f2f2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* ===== Search input ===== */
+.search-wrap {
+  margin-bottom: 18px;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.25s;
+}
+
+.search-wrap input:focus {
+  background: #fff;
+  border-color: #ff5b2d;
+  box-shadow: 0 0 0 3px rgba(255,91,45,0.12);
+  outline: none;
+}
+
+/* ===== Grid makanan ===== */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.food-item {
+  background: #fff7f5;
+  border: 1px solid #ffd3c7;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.food-item:hover {
+  transform: translateY(-2px);
+  border-color: #ff5b2d;
+}
+
+.food-item img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #eee;
+}
+
+.food-info {
+  margin-top: 8px;
+}
+
+.food-name {
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+}
+
+.food-cal {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .mealplan-box {
+    padding: 26px 20px;
+    border-radius: 14px;
+  }
+  .page-title {
+    font-size: 22px;
+  }
+}
