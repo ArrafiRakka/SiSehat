@@ -22,7 +22,7 @@
 | **1** | **🔐 Otentikasi Pengguna** | Login dan Registrasi aman untuk berbagai peran (e.g., Admin, Ahli Gizi, Pengguna). |
 | **2** | **📝 Menghitung BMI** | Perhitungan BMI dan dapat mengetahui klasifikasi status kesehatan. |
 | **3** | **📈 Konsultasi** | Melakukan konsultasi dengan ahli gizi dengan memilih ahli gizi sesuai dengan kriteria pengguna. |
-| **4** | **📅 Workout** | Fitur untuk mengelola jadwal atau mendapatkan rekomendasi workout. |
+| **4** | **📅 Workout** | Fitur untuk menghitung kaloriyang terbakar dan mendapatkan rekomendasi workout. |
 | **5** | **📊 Kalori Harian** | Menghitung kalori harian agar dapat mengatur makanan sehari-hari. |
 | **6** | **📊 Meal Plan** | Perencanaan makanan agar dapat mengatur gizi atau kalori. |
 
