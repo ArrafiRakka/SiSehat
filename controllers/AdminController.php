@@ -2,21 +2,23 @@
 // controllers/AdminController.php
 
 require_once 'models/Kalori.php';
-// Jika nanti ada User Model, require juga di sini
 require_once 'models/User.php'; 
 require_once 'models/WorkoutModel.php';
+require_once 'models/ConsultationModel.php';
 
 class AdminController {
     
     private $kaloriModel;
     private $userModel;
     private $workoutModel;
+    private $consultationModel;
 
     public function __construct() {
         // 1. Inisialisasi Model
         $this->kaloriModel = new Kalori();
         $this->userModel = new User();
         $this->workoutModel = new WorkoutModel();
+        $this->consultationModel = new ConsultationModel();
 
         // 2. Cek Security (Wajib Admin)
         if (session_status() === PHP_SESSION_NONE) {
@@ -28,6 +30,20 @@ class AdminController {
             header("Location: index.php?action=dashboard");
             exit;
         }
+    }
+
+    /**
+     * Halaman Dashboard Admin
+     */
+    public function handleDashboard() {
+        // Ambil total users
+        $totalUsers = $this->userModel->getTotalUsers();
+        
+        // Ambil statistik konsultasi
+        $consultationStats = $this->consultationModel->getConsultationStats();
+        
+        // Load View Dashboard
+        require 'views/admin/dashboard.php';
     }
 
     /**
@@ -98,15 +114,8 @@ class AdminController {
     }
 
     /**
-     * Halaman Kelola User (Opsional / Tahap Selanjutnya)
+     * Halaman Edit Makanan
      */
-    public function handleUserList() {
-        // Contoh sederhana jika nanti mau buat list user
-        // $users = $this->userModel->getAllUsers(); 
-        // require 'views/admin/user_list.php';
-        echo "Halaman Kelola User (Belum dibuat)";
-    }
-
     public function handleFoodEdit() {
         $id = $_GET['id'] ?? 0;
         $food = $this->kaloriModel->getFoodById($id);
@@ -134,7 +143,9 @@ class AdminController {
         require 'views/admin/food_edit.php';
     }
 
-    
+    /**
+     * Halaman Kelola Workout
+     */
     public function handleWorkoutManagement() {
         // --- LOGIKA TAMBAH WORKOUT (POST) ---
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_workout'])) {
@@ -169,35 +180,177 @@ class AdminController {
         require 'views/admin/workout_management.php';
     }
 
-public function handleWorkoutEdit() {
-    $id = (int)($_GET['id'] ?? 0);
-    $workout = $this->workoutModel->getWorkoutById($id);
+    /**
+     * Halaman Edit Workout
+     */
+    public function handleWorkoutEdit() {
+        $id = (int)($_GET['id'] ?? 0);
+        $workout = $this->workoutModel->getWorkoutById($id);
 
-    if (!$workout) {
-        echo "Workout tidak ditemukan!";
-        exit;
+        if (!$workout) {
+            echo "Workout tidak ditemukan!";
+            exit;
+        }
+
+        // Jika Form Disubmit (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_workout'])) {
+            $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug'])));
+            $nama = trim($_POST['nama_workout']);
+            $met = (float) $_POST['met_value'];
+            $is_active = isset($_POST['is_active']) ? true : false;
+
+            $fokus = trim($_POST['fokus_otot']);
+            $tujuan = trim($_POST['tujuan_utama']);
+            
+            if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $fokus, $tujuan, $is_active)) {
+                header("Location: index.php?action=admin_workouts&status=updated");
+                exit;
+            } else {
+                $error = "Gagal mengupdate workout.";
+            }
+        }
+        
+        require 'views/admin/workout_edit.php';
     }
 
-    // Jika Form Disubmit (POST)
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_workout'])) {
-        $key_slug = strtolower(str_replace(' ', '', trim($_POST['key_slug'])));
-        $nama = trim($_POST['nama_workout']);
-        $met = (float) $_POST['met_value'];
-        $is_active = isset($_POST['is_active']) ? true : false;
-
-        $fokus = trim($_POST['fokus_otot']);
-        $tujuan = trim($_POST['tujuan_utama']);
+    /**
+     * Halaman Kelola Konsultasi - List Semua Konsultasi
+     */
+    public function handleConsultationManagement() {
+        // Filter berdasarkan status (opsional)
+        $status = $_GET['status_filter'] ?? 'all';
         
-        if ($this->workoutModel->updateWorkout($id, $key_slug, $nama, $met, $fokus, $tujuan, $is_active)) {
-            header("Location: index.php?action=admin_workouts&status=updated");
+        // Ambil semua konsultasi dengan detail
+        $consultations = $this->consultationModel->getAllConsultationsForAdmin($status);
+        
+        // Load View
+        require 'views/admin/consultation_management.php';
+    }
+
+    /**
+     * Detail Konsultasi Spesifik
+     */
+    public function handleConsultationDetail() {
+        $id = $_GET['id'] ?? 0;
+        
+        if (!$id) {
+            header("Location: index.php?action=admin_consultations");
             exit;
-        } else {
-            $error = "Gagal mengupdate workout.";
+        }
+        
+        // Ambil detail lengkap konsultasi
+        $consultation = $this->consultationModel->getConsultationById($id);
+        
+        if (!$consultation) {
+            echo "Konsultasi tidak ditemukan!";
+            exit;
+        }
+        
+        // Ambil pesan-pesan chat
+        $messages = $this->consultationModel->getMessages($id);
+        
+        // Ambil hasil konsultasi (jika ada)
+        $result = $this->consultationModel->getConsultationResult($id);
+        
+        // Load View
+        require 'views/admin/consultation_detail.php';
+    }
+
+    /**
+     * Halaman Kelola Ahli Gizi (CRUD)
+     */
+    public function handleNutritionistManagement() {
+        // --- LOGIKA TAMBAH AHLI GIZI (POST) ---
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_nutritionist'])) {
+            $name = trim($_POST['name']);
+            $specialty = trim($_POST['specialty']);
+            $city = trim($_POST['city']);
+            $experience = (int)$_POST['experience'];
+            $price = (float)$_POST['price'];
+            $gender = $_POST['gender'];
+            $img = !empty($_POST['img']) ? $_POST['img'] : 'public/images/default-doctor.jpg';
+            
+            if ($this->consultationModel->addNutritionist($name, $specialty, $city, $experience, $price, $gender, $img)) {
+                header("Location: index.php?action=admin_nutritionists&status=added");
+                exit;
+            }
+        }
+        
+        // --- LOGIKA HAPUS AHLI GIZI (GET) ---
+        if (isset($_GET['delete_id'])) {
+            $id = (int)$_GET['delete_id'];
+            
+            // Cek apakah masih ada konsultasi aktif
+            $activeCount = $this->consultationModel->countActiveConsultationsByNutritionist($id);
+            
+            if ($activeCount > 0) {
+                echo "<script>alert('Tidak bisa menghapus ahli gizi yang masih memiliki konsultasi aktif!'); window.location='index.php?action=admin_nutritionists';</script>";
+                exit;
+            }
+            
+            if ($this->consultationModel->deleteNutritionist($id)) {
+                header("Location: index.php?action=admin_nutritionists&status=deleted");
+                exit;
+            }
+        }
+        
+        // --- AMBIL DATA ---
+        $nutritionists = $this->consultationModel->getAllNutritionists();
+        
+        // Load View
+        require 'views/admin/nutritionist_management.php';
+    }
+
+    /**
+     * Edit Ahli Gizi
+     */
+    public function handleNutritionistEdit() {
+        $id = (int)($_GET['id'] ?? 0);
+        $nutritionist = $this->consultationModel->getNutritionistById($id);
+        
+        if (!$nutritionist) {
+            echo "Ahli gizi tidak ditemukan!";
+            exit;
+        }
+        
+        // Jika Form Disubmit (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_nutritionist'])) {
+            $name = trim($_POST['name']);
+            $specialty = trim($_POST['specialty']);
+            $city = trim($_POST['city']);
+            $experience = (int)$_POST['experience'];
+            $price = (float)$_POST['price'];
+            $gender = $_POST['gender'];
+            $img = !empty($_POST['img']) ? $_POST['img'] : $nutritionist['img'];
+            
+            if ($this->consultationModel->updateNutritionist($id, $name, $specialty, $city, $experience, $price, $gender, $img)) {
+                header("Location: index.php?action=admin_nutritionists&status=updated");
+                exit;
+            } else {
+                $error = "Gagal mengupdate ahli gizi.";
+            }
+        }
+        
+        require 'views/admin/nutritionist_edit.php';
+    }
+
+    /**
+     * Update Status Konsultasi (AJAX atau GET)
+     */
+    public function handleConsultationUpdateStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['consultation_id'] ?? 0;
+            $newStatus = $_POST['new_status'] ?? '';
+            
+            if ($id && in_array($newStatus, ['pending', 'active', 'completed', 'cancelled'])) {
+                if ($this->consultationModel->updateConsultationStatus($id, $newStatus)) {
+                    echo json_encode(['success' => true, 'message' => 'Status berhasil diupdate']);
+                    exit;
+                }
+            }
+            echo json_encode(['success' => false, 'message' => 'Gagal update status']);
+            exit;
         }
     }
-    
-    require 'views/admin/workout_edit.php';
-}
-
 }
 ?>

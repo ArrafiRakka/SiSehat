@@ -15,6 +15,8 @@
             <option value="Jakarta">Jakarta</option>
             <option value="Bandung">Bandung</option>
             <option value="Surabaya">Surabaya</option>
+            <option value="Yogyakarta">Yogyakarta</option>
+            <option value="Malang">Malang</option>
         </select>
         <select class="form-select-custom" id="experienceFilter">
             <option value="">Semua Pengalaman</option>
@@ -39,205 +41,85 @@
     <h3 class="list-title">Daftar Ahli Gizi <span id="resultCount" style="color: #666; font-size: 16px;"></span></h3>
 
     <div class="consultant-list" id="nutritionists">
-        <!-- Data Ahli Gizi 1 -->
-        <div class="consultant-card consultant-item" 
-             data-city="Jakarta" 
-             data-experience="5" 
-             data-gender="Perempuan" 
-             data-price="25000"
-             data-name="dr. fitri ananda, s.gz">
-            <div class="card-content">
-                <div class="doctor-avatar">FA</div>
-                <div class="doctor-info">
-                    <h4 class="doctor-name">Dr. Fitri Ananda, S.Gz</h4>
-                    <p class="doctor-details">Gizi Klinis | Jakarta</p>
-                    <div class="rating-container">
-                        <div class="stars">★★★★★</div>
-                        <div class="rating-details">
-                            <span class="rating">4.9</span>
-                            <span class="consultations">(257 konsultasi)</span>
+        <?php if (isset($data['nutritionists']) && count($data['nutritionists']) > 0): ?>
+            <?php foreach ($data['nutritionists'] as $nutritionist): 
+                // Ekstrak angka dari experience untuk filter
+                preg_match('/\d+/', $nutritionist['experience'], $matches);
+                $experienceYears = isset($matches[0]) ? $matches[0] : 0;
+                
+                // Generate bintang rating
+                $fullStars = floor($nutritionist['rating']);
+                $halfStar = ($nutritionist['rating'] - $fullStars) >= 0.5 ? 1 : 0;
+                $emptyStars = 5 - $fullStars - $halfStar;
+                
+                $stars = str_repeat('★', $fullStars);
+                if ($halfStar) $stars .= '☆';
+                $stars .= str_repeat('☆', $emptyStars);
+                
+                // Generate avatar
+                $initials = '';
+                $nameParts = explode(' ', $nutritionist['name']);
+                foreach ($nameParts as $part) {
+                    if (ctype_upper($part[0])) {
+                        $initials .= $part[0];
+                        if (strlen($initials) >= 2) break;
+                    }
+                }
+                if (strlen($initials) < 2 && isset($nameParts[0])) {
+                    $initials = strtoupper(substr($nameParts[0], 0, 2));
+                }
+            ?>
+                <div class="consultant-card consultant-item" 
+                     data-city="<?= htmlspecialchars($nutritionist['city']) ?>" 
+                     data-experience="<?= htmlspecialchars($experienceYears) ?>" 
+                     data-gender="<?= htmlspecialchars($nutritionist['gender']) ?>" 
+                     data-price="<?= htmlspecialchars($nutritionist['price']) ?>"
+                     data-name="<?= htmlspecialchars(strtolower($nutritionist['name'])) ?>">
+                    <div class="card-content">
+                        <?php if (!empty($nutritionist['img'])): ?>
+                            <img src="<?= htmlspecialchars($nutritionist['img']) ?>" 
+                                 alt="<?= htmlspecialchars($nutritionist['name']) ?>" 
+                                 class="doctor-avatar" 
+                                 style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                        <?php else: ?>
+                            <div class="doctor-avatar"><?= htmlspecialchars($initials) ?></div>
+                        <?php endif; ?>
+                        
+                        <div class="doctor-info">
+                            <h4 class="doctor-name"><?= htmlspecialchars($nutritionist['name']) ?></h4>
+                            <p class="doctor-details">
+                                <?= htmlspecialchars($nutritionist['specialty']) ?> | 
+                                <?= htmlspecialchars($nutritionist['city']) ?>
+                            </p>
+                            <div class="rating-container">
+                                <div class="stars"><?= $stars ?></div>
+                                <div class="rating-details">
+                                    <span class="rating"><?= number_format($nutritionist['rating'], 1) ?></span>
+                                    <span class="consultations">(<?= number_format($nutritionist['total_consultations']) ?> konsultasi)</span>
+                                </div>
+                            </div>
+                            <div class="tags-container">
+                                <span class="tag experience"><?= htmlspecialchars($nutritionist['experience']) ?></span>
+                                <span class="tag specialty"><?= htmlspecialchars($nutritionist['specialty']) ?></span>
+                                <span class="tag gender"><?= htmlspecialchars($nutritionist['gender']) ?></span>
+                            </div>
+                        </div>
+                        <div class="action-section">
+                            <div class="price">Rp <?= number_format($nutritionist['price'], 0, ',', '.') ?>,-</div>
+                            <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
+                                <input type="hidden" name="doctor_id" value="<?= htmlspecialchars($nutritionist['id']) ?>">
+                                <button type="submit" class="btn-pilih">Pilih</button>
+                            </form>
                         </div>
                     </div>
-                    <div class="tags-container">
-                        <span class="tag experience">5 Tahun</span>
-                        <span class="tag specialty">Gizi Klinis</span>
-                        <span class="tag gender">Perempuan</span>
-                    </div>
                 </div>
-                <div class="action-section">
-                    <div class="price">Rp 25.000,-</div>
-                    <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
-                        <input type="hidden" name="doctor_id" value="1">
-                        <input type="hidden" name="doctor_name" value="Dr. Fitri Ananda, S.Gz">
-                        <input type="hidden" name="doctor_city" value="Jakarta">
-                        <input type="hidden" name="doctor_experience" value="5 Tahun">
-                        <input type="hidden" name="doctor_price" value="25000">
-                        <input type="hidden" name="doctor_specialty" value="Gizi Klinis">
-                        <button type="submit" class="btn-pilih">Pilih</button>
-                    </form>
-                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <p style="font-size: 18px; font-weight: bold;">Belum ada ahli gizi tersedia.</p>
+                <p>Silakan coba lagi nanti.</p>
             </div>
-        </div>
-
-        <!-- Data Ahli Gizi 2 -->
-        <div class="consultant-card consultant-item" 
-             data-city="Bandung" 
-             data-experience="4" 
-             data-gender="Laki-laki" 
-             data-price="25000"
-             data-name="dr. yoga pratama, s.gz">
-            <div class="card-content">
-                <div class="doctor-avatar">YP</div>
-                <div class="doctor-info">
-                    <h4 class="doctor-name">Dr. Yoga Pratama, S.Gz</h4>
-                    <p class="doctor-details">Gizi Olahraga | Bandung</p>
-                    <div class="rating-container">
-                        <div class="stars">★★★★☆</div>
-                        <div class="rating-details">
-                            <span class="rating">4.7</span>
-                            <span class="consultations">(189 konsultasi)</span>
-                        </div>
-                    </div>
-                    <div class="tags-container">
-                        <span class="tag experience">4 Tahun</span>
-                        <span class="tag specialty">Gizi Olahraga</span>
-                        <span class="tag gender">Laki-laki</span>
-                    </div>
-                </div>
-                <div class="action-section">
-                    <div class="price">Rp 25.000,-</div>
-                    <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
-                        <input type="hidden" name="doctor_id" value="2">
-                        <input type="hidden" name="doctor_name" value="Dr. Yoga Pratama, S.Gz">
-                        <input type="hidden" name="doctor_city" value="Bandung">
-                        <input type="hidden" name="doctor_experience" value="4 Tahun">
-                        <input type="hidden" name="doctor_price" value="25000">
-                        <input type="hidden" name="doctor_specialty" value="Gizi Olahraga">
-                        <button type="submit" class="btn-pilih">Pilih</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Data Ahli Gizi 3 -->
-        <div class="consultant-card consultant-item" 
-             data-city="Surabaya" 
-             data-experience="8" 
-             data-gender="Perempuan" 
-             data-price="25000"
-             data-name="dr. lala widya, s.gz">
-            <div class="card-content">
-                <div class="doctor-avatar">LW</div>
-                <div class="doctor-info">
-                    <h4 class="doctor-name">Dr. Lala Widya, S.Gz</h4>
-                    <p class="doctor-details">Gizi Anak | Surabaya</p>
-                    <div class="rating-container">
-                        <div class="stars">★★★★★</div>
-                        <div class="rating-details">
-                            <span class="rating">4.8</span>
-                            <span class="consultations">(312 konsultasi)</span>
-                        </div>
-                    </div>
-                    <div class="tags-container">
-                        <span class="tag experience">8 Tahun</span>
-                        <span class="tag specialty">Gizi Anak</span>
-                        <span class="tag gender">Perempuan</span>
-                    </div>
-                </div>
-                <div class="action-section">
-                    <div class="price">Rp 25.000,-</div>
-                    <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
-                        <input type="hidden" name="doctor_id" value="3">
-                        <input type="hidden" name="doctor_name" value="Dr. Lala Widya, S.Gz">
-                        <input type="hidden" name="doctor_city" value="Surabaya">
-                        <input type="hidden" name="doctor_experience" value="8 Tahun">
-                        <input type="hidden" name="doctor_price" value="25000">
-                        <input type="hidden" name="doctor_specialty" value="Gizi Anak">
-                        <button type="submit" class="btn-pilih">Pilih</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Data Ahli Gizi 4 -->
-        <div class="consultant-card consultant-item" 
-             data-city="Jakarta" 
-             data-experience="3" 
-             data-gender="Laki-laki" 
-             data-price="75000"
-             data-name="dr. budi santoso, s.gz, m.sc">
-            <div class="card-content">
-                <div class="doctor-avatar">BS</div>
-                <div class="doctor-info">
-                    <h4 class="doctor-name">Dr. Budi Santoso, S.Gz, M.Sc</h4>
-                    <p class="doctor-details">Diet & Nutrisi | Jakarta</p>
-                    <div class="rating-container">
-                        <div class="stars">★★★★★</div>
-                        <div class="rating-details">
-                            <span class="rating">4.9</span>
-                            <span class="consultations">(445 konsultasi)</span>
-                        </div>
-                    </div>
-                    <div class="tags-container">
-                        <span class="tag experience">3 Tahun</span>
-                        <span class="tag specialty">Diet & Nutrisi</span>
-                        <span class="tag gender">Laki-laki</span>
-                    </div>
-                </div>
-                <div class="action-section">
-                    <div class="price">Rp 75.000,-</div>
-                    <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
-                        <input type="hidden" name="doctor_id" value="4">
-                        <input type="hidden" name="doctor_name" value="Dr. Budi Santoso, S.Gz, M.Sc">
-                        <input type="hidden" name="doctor_city" value="Jakarta">
-                        <input type="hidden" name="doctor_experience" value="3 Tahun">
-                        <input type="hidden" name="doctor_price" value="75000">
-                        <input type="hidden" name="doctor_specialty" value="Diet & Nutrisi">
-                        <button type="submit" class="btn-pilih">Pilih</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Data Ahli Gizi 5 -->
-        <div class="consultant-card consultant-item" 
-             data-city="Bandung" 
-             data-experience="7" 
-             data-gender="Perempuan" 
-             data-price="120000"
-             data-name="dr. siti nurhaliza, s.gz, rd">
-            <div class="card-content">
-                <div class="doctor-avatar">SN</div>
-                <div class="doctor-info">
-                    <h4 class="doctor-name">Dr. Siti Nurhaliza, S.Gz, RD</h4>
-                    <p class="doctor-details">Gizi Medis | Bandung</p>
-                    <div class="rating-container">
-                        <div class="stars">★★★★★</div>
-                        <div class="rating-details">
-                            <span class="rating">5.0</span>
-                            <span class="consultations">(521 konsultasi)</span>
-                        </div>
-                    </div>
-                    <div class="tags-container">
-                        <span class="tag experience">7 Tahun</span>
-                        <span class="tag specialty">Gizi Medis</span>
-                        <span class="tag gender">Perempuan</span>
-                    </div>
-                </div>
-                <div class="action-section">
-                    <div class="price">Rp 120.000,-</div>
-                    <form action="index.php?action=consultation_payment" method="POST" class="pilih-form">
-                        <input type="hidden" name="doctor_id" value="5">
-                        <input type="hidden" name="doctor_name" value="Dr. Siti Nurhaliza, S.Gz, RD">
-                        <input type="hidden" name="doctor_city" value="Bandung">
-                        <input type="hidden" name="doctor_experience" value="7 Tahun">
-                        <input type="hidden" name="doctor_price" value="120000">
-                        <input type="hidden" name="doctor_specialty" value="Gizi Medis">
-                        <button type="submit" class="btn-pilih">Pilih</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <?php endif; ?>
     </div>
 
     <div id="noResults" style="display: none; text-align: center; padding: 40px; color: #666;">

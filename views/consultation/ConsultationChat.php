@@ -4,12 +4,14 @@
 <?php include 'views/layouts/header.php'; ?>
 
 <?php
-// Ambil data dari POST (dari payment page)
-$doctorName = $_POST['doctor_name'] ?? 'Dr. Fitri Ananda, S.Gz';
-$doctorId = $_POST['doctor_id'] ?? '1';
-$doctorSpecialty = $_POST['doctor_specialty'] ?? 'Gizi Klinis';
-$doctorCity = $_POST['doctor_city'] ?? 'Jakarta';
-$doctorImg = $_POST['doctor_img'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($doctorName) . '&background=2D9CDB&color=fff&size=80';
+// PERBAIKAN: Ambil dari $data yang dikirim controller
+$consultation = $data['consultation'] ?? [];
+$consultationId = $data['consultation_id'] ?? 0;
+
+$doctorName = $consultation['nutritionist_name'] ?? 'Dr. Fitri Ananda, S.Gz';
+$doctorSpecialty = $consultation['specialty'] ?? 'Gizi Klinis';
+$doctorCity = $consultation['city'] ?? 'Jakarta';
+$doctorImg = $consultation['img'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($doctorName) . '&background=2D9CDB&color=fff&size=80';
 ?>
 
 <div class="chat-page-wrapper">
@@ -136,8 +138,10 @@ $doctorImg = $_POST['doctor_img'] ?? 'https://ui-avatars.com/api/?name=' . urlen
 </div>
 
 <script>
+// PERBAIKAN: Ambil dari PHP
 const doctorImg = '<?= $doctorImg ?>';
 const doctorName = '<?= $doctorName ?>';
+const currentConsultationId = <?= $consultationId ?>; // TAMBAHKAN INI
 
 // Respon dokter berurutan (tidak random)
 const responses = [
@@ -235,10 +239,54 @@ function hideTypingIndicator() {
     if (indicator) indicator.remove();
 }
 
+// PERBAIKAN: Fungsi endConsultation menggunakan AJAX dengan error handling lebih baik
 function endConsultation() {
-    if (confirm('Apakah Anda yakin ingin mengakhiri konsultasi?')) {
-        window.location.href = 'index.php?action=consultation_result';
+    if (!confirm('Apakah Anda yakin ingin mengakhiri konsultasi?')) {
+        return;
     }
+    
+    console.log('Ending consultation with ID:', currentConsultationId);
+    
+    // Gunakan AJAX untuk memanggil endpoint end_consultation
+    fetch('index.php?action=end_consultation', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            consultation_id: currentConsultationId
+        })
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        // Cek apakah response adalah JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            return response.text().then(text => {
+                console.error('Response bukan JSON:', text);
+                throw new Error('Server mengembalikan response non-JSON. Mungkin ada PHP error.');
+            });
+        }
+        
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        
+        if (data.success) {
+            // Redirect ke halaman result
+            console.log('Redirecting to result page...');
+            window.location.href = 'index.php?action=consultation_result&id=' + data.consultation_id;
+        } else {
+            alert('Gagal mengakhiri konsultasi: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error detail:', error);
+        alert('Terjadi kesalahan: ' + error.message + '\n\nSilakan cek console browser (F12) untuk detail.');
+    });
 }
 </script>
 

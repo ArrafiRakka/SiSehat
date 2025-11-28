@@ -8,51 +8,57 @@
         <h2 class="section-title">Pembayaran Konsultasi</h2>
 
         <?php
-        // Ambil data dari POST atau data yang di-pass dari controller
-        $nutritionist = [
-            'id' => $_POST['doctor_id'] ?? $data['nutritionist']['id'] ?? '1',
-            'name' => $_POST['doctor_name'] ?? $data['nutritionist']['name'] ?? 'Dr. Fitri Ananda, S.Gz',
-            'city' => $_POST['doctor_city'] ?? $data['nutritionist']['city'] ?? 'Jakarta',
-            'exp' => $_POST['doctor_experience'] ?? $data['nutritionist']['exp'] ?? '5 Tahun',
-            'price' => $_POST['doctor_price'] ?? $data['nutritionist']['price'] ?? '25000',
-            'specialty' => $_POST['doctor_specialty'] ?? $data['nutritionist']['specialty'] ?? 'Gizi Klinis',
-            'img' => $_POST['doctor_img'] ?? $data['nutritionist']['img'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($_POST['doctor_name'] ?? $data['nutritionist']['name'] ?? 'Dr. Fitri Ananda') . '&background=2D9CDB&color=fff&size=100'
-        ];
+        // Ambil data nutritionist dari controller (sudah dari database)
+        $nutritionist = $data['nutritionist'] ?? null;
+        
+        if (!$nutritionist) {
+            echo '<div class="alert alert-danger">Data ahli gizi tidak ditemukan.</div>';
+            echo '<a href="index.php?action=consultation" class="btn btn-secondary">Kembali ke Daftar Ahli Gizi</a>';
+            include 'views/layouts/footer.php';
+            exit;
+        }
         ?>
 
-        <?php if ($nutritionist): ?>
-            <div class="doctor-summary">
-                <img src="<?= $nutritionist['img'] ?>" alt="<?= $nutritionist['name'] ?>" class="doctor-image">
-                <div class="doctor-info">
-                    <h3><?= $nutritionist['name'] ?></h3>
-                    <p><strong>Kota:</strong> <?= $nutritionist['city'] ?></p>
-                    <p><strong>Pengalaman:</strong> <?= $nutritionist['exp'] ?></p>
-                    <p><strong>Spesialisasi:</strong> <?= $nutritionist['specialty'] ?></p>
-                    <p class="price"><strong>Tarif Konsultasi:</strong> Rp <?= number_format($nutritionist['price'], 0, ',', '.') ?>,-</p>
-                </div>
+        <div class="doctor-summary">
+            <img src="<?= htmlspecialchars($nutritionist['img']) ?>" 
+                 alt="<?= htmlspecialchars($nutritionist['name']) ?>" 
+                 class="doctor-image">
+            <div class="doctor-info">
+                <h3><?= htmlspecialchars($nutritionist['name']) ?></h3>
+                <p><strong>Kota:</strong> <?= htmlspecialchars($nutritionist['city']) ?></p>
+                <p><strong>Pengalaman:</strong> <?= htmlspecialchars($nutritionist['experience']) ?></p>
+                <p><strong>Spesialisasi:</strong> <?= htmlspecialchars($nutritionist['specialty']) ?></p>
+                <p><strong>Rating:</strong> ⭐ <?= number_format($nutritionist['rating'], 1) ?> 
+                   (<?= number_format($nutritionist['total_consultations']) ?> konsultasi)</p>
+                <p class="price"><strong>Tarif Konsultasi:</strong> 
+                   Rp <?= number_format($nutritionist['price'], 0, ',', '.') ?>,-</p>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <form class="payment-form" action="index.php?action=consultation_chat" method="POST">
-            <!-- Hidden inputs untuk pass data ke chat -->
-            <input type="hidden" name="doctor_id" value="<?= $nutritionist['id'] ?>">
-            <input type="hidden" name="doctor_name" value="<?= $nutritionist['name'] ?>">
-            <input type="hidden" name="doctor_price" value="<?= $nutritionist['price'] ?>">
-            <input type="hidden" name="doctor_img" value="<?= $nutritionist['img'] ?>">
+        <form class="payment-form" action="index.php?action=consultation_process_payment" method="POST">
+            <!-- Hidden input untuk ID nutritionist -->
+            <input type="hidden" name="nutritionist_id" value="<?= htmlspecialchars($nutritionist['id']) ?>">
             
             <div class="form-group">
-                <label for="method" class="form-label">Metode Pembayaran</label>
-                <select id="method" name="method" class="form-select" required>
+                <label for="payment_method" class="form-label">Metode Pembayaran <span style="color: red;">*</span></label>
+                <select id="payment_method" name="payment_method" class="form-select" required>
                     <option value="">-- Pilih Metode Pembayaran --</option>
-                    <option value="transfer_bank">Transfer Bank</option>
-                    <option value="ewallet">E-Wallet (Gopay, OVO, DANA)</option>
-                    <option value="kartu_kredit">Kartu Kredit / Debit</option>
+                    <option value="Transfer Bank">Transfer Bank (BCA, Mandiri, BNI)</option>
+                    <option value="E-Wallet">E-Wallet (Gopay, OVO, DANA, ShopeePay)</option>
+                    <option value="Kartu Kredit">Kartu Kredit / Debit</option>
+                    <option value="QRIS">QRIS</option>
+                    <option value="Virtual Account">Virtual Account</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="note" class="form-label">Catatan Tambahan (Opsional)</label>
-                <textarea id="note" name="note" class="form-textarea" rows="3" placeholder="Contoh: Saya ingin konsultasi tentang berat badan ideal..."></textarea>
+                <label for="note" class="form-label">Catatan / Keluhan (Opsional)</label>
+                <textarea id="note" 
+                          name="note" 
+                          class="form-textarea" 
+                          rows="4" 
+                          placeholder="Ceritakan keluhan atau tujuan konsultasi Anda. Contoh: Saya ingin konsultasi tentang program diet untuk menurunkan berat badan..."></textarea>
+                <small class="form-text">Informasi ini akan membantu ahli gizi memahami kebutuhan Anda</small>
             </div>
 
             <div class="payment-summary">
@@ -60,15 +66,39 @@
                     <span>Biaya Konsultasi:</span>
                     <span>Rp <?= number_format($nutritionist['price'], 0, ',', '.') ?>,-</span>
                 </div>
+                <div class="summary-item">
+                    <span>Biaya Admin:</span>
+                    <span>Rp 0,-</span>
+                </div>
+                <div class="summary-divider"></div>
                 <div class="summary-item total">
                     <span><strong>Total Pembayaran:</strong></span>
                     <span><strong>Rp <?= number_format($nutritionist['price'], 0, ',', '.') ?>,-</strong></span>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-payment">Konfirmasi dan Lanjutkan ke Chat</button>
-            <a href="index.php?action=consultation" class="btn btn-secondary">Kembali ke Daftar Ahli Gizi</a>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-payment">
+                    <i class="fas fa-credit-card"></i> Bayar & Mulai Konsultasi
+                </button>
+
+                <a href="index.php?action=consultation" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+
         </form>
+
+        <div class="payment-info">
+            <h4>ℹ️ Informasi Pembayaran</h4>
+            <ul>
+                <li>Pembayaran bersifat satu kali untuk satu sesi konsultasi</li>
+                <li>Setelah pembayaran, Anda akan langsung terhubung dengan ahli gizi</li>
+                <li>Konsultasi berlangsung melalui chat online</li>
+                <li>Anda akan mendapatkan rekomendasi menu dan program gizi personal</li>
+                <li>Hasil konsultasi dapat diakses kapan saja di menu Riwayat</li>
+            </ul>
+        </div>
     </div>
 </div>
 
