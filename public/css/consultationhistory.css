@@ -1,0 +1,397 @@
+/* Consultation History Styles */
+.consultation-history-wrapper {
+   min-height: 100vh;
+   background: #f5f7fa;
+   padding: 40px 20px;
+}
+
+.history-header {
+   max-width: 1000px;
+   margin: 0 auto 30px;
+}
+
+.history-header-content {
+   background: white;
+   padding: 30px;
+   border-radius: 16px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.btn-back-history {
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+   color: #2D9CDB;
+   text-decoration: none;
+   font-weight: 600;
+   margin-bottom: 15px;
+   transition: color 0.2s;
+   font-size: 14px;
+}
+
+.btn-back-history:hover {
+   color: #1e7bb3;
+}
+
+.history-title {
+   color: #2c3e50;
+   font-size: 32px;
+   font-weight: 700;
+   margin: 0 0 8px 0;
+}
+
+.history-subtitle {
+   color: #7f8c8d;
+   font-size: 16px;
+   margin: 0;
+}
+
+.history-container {
+   max-width: 1000px;
+   margin: 0 auto;
+}
+
+.history-container {
+   max-width: 900px;
+   margin: 0 auto;
+}
+
+/* Alert Messages */
+.alert-message {
+   padding: 15px 20px;
+   border-radius: 12px;
+   margin-bottom: 20px;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   font-size: 14px;
+}
+
+.alert-success {
+   background: #d4edda;
+   color: #155724;
+   border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+   background: #f8d7da;
+   color: #721c24;
+   border: 1px solid #f5c6cb;
+}
+
+/* Empty State */
+.empty-history {
+   text-align: center;
+   padding: 80px 20px;
+   background: white;
+   border-radius: 16px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.empty-icon {
+   font-size: 80px;
+   margin-bottom: 20px;
+   opacity: 0.5;
+}
+
+.empty-history h3 {
+   color: #2c3e50;
+   font-size: 24px;
+   margin: 0 0 10px 0;
+}
+
+.empty-history p {
+   color: #7f8c8d;
+   font-size: 16px;
+   margin: 0 0 30px 0;
+}
+
+.btn-start-consultation {
+   display: inline-flex;
+   align-items: center;
+   gap: 10px;
+   background: #2D9CDB;
+   color: white;
+   padding: 14px 28px;
+   border-radius: 10px;
+   text-decoration: none;
+   font-weight: 600;
+   font-size: 16px;
+   transition: all 0.3s;
+}
+
+.btn-start-consultation:hover {
+   background: #1e7bb3;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
+}
+
+/* History List */
+.history-list {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+/* History Card */
+.history-card {
+   background: white;
+   border-radius: 16px;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+   overflow: hidden;
+   transition: all 0.3s;
+   max-width: 900px;
+   margin: 0 auto 20px;
+}
+
+.history-card:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.history-card-header {
+   padding: 20px 24px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: 1px solid #ecf0f1;
+   gap: 16px;
+}
+
+.doctor-info-history {
+   display: flex;
+   align-items: center;
+   gap: 16px;
+}
+
+.doctor-avatar-history {
+   width: 56px;
+   height: 56px;
+   border-radius: 50%;
+   background: linear-gradient(135deg, #2D9CDB 0%, #1e7bb3 100%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   font-weight: 700;
+   font-size: 20px;
+   flex-shrink: 0;
+   box-shadow: 0 2px 8px rgba(45, 156, 219, 0.3);
+}
+
+.doctor-details {
+   flex: 1;
+}
+
+.doctor-name-history {
+   font-size: 17px;
+   font-weight: 700;
+   color: #2c3e50;
+   margin: 0 0 4px 0;
+}
+
+.doctor-specialty-history {
+   font-size: 13px;
+   color: #7f8c8d;
+   margin: 0;
+}
+
+/* Status Badge */
+.status-badge-history {
+   padding: 8px 20px;
+   border-radius: 20px;
+   font-size: 13px;
+   font-weight: 700;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+}
+
+.status-active {
+   background: linear-gradient(135deg, #52c234 0%, #27ae60 100%);
+   color: white;
+}
+
+.status-completed {
+   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+   color: white;
+}
+
+.status-pending {
+   background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+   color: white;
+}
+
+.status-cancelled {
+   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+   color: white;
+}
+
+/* Card Body */
+.history-card-body {
+   padding: 20px 24px;
+}
+
+.consultation-meta {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 24px;
+   margin-bottom: 16px;
+}
+
+.meta-item {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.meta-icon {
+   width: 36px;
+   height: 36px;
+   border-radius: 8px;
+   background: #f8f9fa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-shrink: 0;
+}
+
+.meta-icon svg {
+   color: #2D9CDB;
+}
+
+.meta-content span {
+   display: block;
+}
+
+.meta-label {
+   font-size: 11px;
+   color: #95a5a6;
+   margin-bottom: 2px;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+   font-weight: 600;
+}
+
+.meta-value {
+   font-size: 14px;
+   color: #2c3e50;
+   font-weight: 600;
+}
+
+/* Note Section */
+.consultation-note-section {
+   margin-top: 16px;
+   padding: 14px 16px;
+   background: #f8f9fa;
+   border-radius: 10px;
+   border-left: 3px solid #2D9CDB;
+}
+
+.note-label {
+   font-size: 12px;
+   font-weight: 700;
+   color: #2c3e50;
+   margin-bottom: 6px;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+}
+
+.note-text {
+   font-size: 13px;
+   color: #5a6c7d;
+   line-height: 1.5;
+   margin: 0;
+}
+
+/* Card Footer */
+.history-card-footer {
+   padding: 16px 24px;
+   background: #f8f9fa;
+   display: flex;
+   justify-content: flex-end;
+   gap: 10px;
+   border-top: 1px solid #ecf0f1;
+}
+
+.btn-action-history {
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   padding: 10px 20px;
+   border-radius: 8px;
+   text-decoration: none;
+   font-weight: 600;
+   font-size: 13px;
+   transition: all 0.3s;
+   border: none;
+   cursor: pointer;
+}
+
+.btn-primary-action {
+   background: linear-gradient(135deg, #2D9CDB 0%, #1e7bb3 100%);
+   color: white;
+}
+
+.btn-primary-action:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
+}
+
+.btn-secondary-action {
+   background: white;
+   color: #2D9CDB;
+   border: 2px solid #2D9CDB;
+}
+
+.btn-secondary-action:hover {
+   background: #2D9CDB;
+   color: white;
+}
+
+.btn-disabled {
+   background: #ecf0f1;
+   color: #95a5a6;
+   cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .consultation-history-wrapper {
+       padding: 20px 15px;
+   }
+   
+   .history-header-content {
+       padding: 20px;
+   }
+   
+   .history-title {
+       font-size: 24px;
+   }
+   
+   .history-card-header {
+       flex-direction: column;
+       align-items: flex-start;
+       gap: 12px;
+       padding: 16px 20px;
+   }
+   
+   .consultation-meta {
+       flex-direction: column;
+       gap: 12px;
+   }
+   
+   .history-card-body {
+       padding: 16px 20px;
+   }
+   
+   .history-card-footer {
+       flex-direction: column;
+       padding: 12px 20px;
+   }
+   
+   .btn-action-history {
+       width: 100%;
+       justify-content: center;
+       padding: 12px 20px;
+   }
+}

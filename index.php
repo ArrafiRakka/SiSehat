@@ -2,6 +2,9 @@
 session_start();
 define('BASE_URL', 'http://localhost/RSIPRAK/');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once 'controllers/AuthController.php';
 $authController = new AuthController();
 
@@ -31,6 +34,16 @@ switch ($action) {
         require_once 'controllers/AuthController.php';
         $auth = new AuthController();
         $auth->handleDashboard();
+        break;
+
+    case 'admin_dashboard':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleDashboard();
         break;
 
     // --- RUTE USER (KESEHATAN) ---
@@ -83,7 +96,6 @@ switch ($action) {
         $mealPlanController->index();
         break;
     
-    // ... (Meal plan sub-actions: save, delete, detail, ganti_makanan, dll) ...
     case 'savemealplan':
         require_once 'controllers/MealPlanController.php';
         (new MealPlanController())->save();
@@ -113,27 +125,68 @@ switch ($action) {
         (new MealPlanController())->prosesPenyesuaianOlahraga();
         break;
 
+    // --- CONSULTATION ROUTES ---
     case 'consultation':
-        if (!$is_logged_in) { header("Location: index.php?action=login"); exit; }
         require_once 'controllers/ConsultationController.php';
-        (new ConsultationController())->index();
+        $controller = new ConsultationController();
+        $controller->index();
         break;
+        
     case 'consultation_payment':
         require_once 'controllers/ConsultationController.php';
-        (new ConsultationController())->payment();
+        $controller = new ConsultationController();
+        $controller->payment();
         break;
+        
+    case 'consultation_process_payment':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->processPayment();
+        break;
+        
     case 'consultation_chat':
         require_once 'controllers/ConsultationController.php';
-        (new ConsultationController())->chat();
+        $controller = new ConsultationController();
+        $controller->chat();
         break;
-    case 'consultation_result':
+        
+    case 'consultation_send_message':
         require_once 'controllers/ConsultationController.php';
-        (new ConsultationController())->result();
+        $controller = new ConsultationController();
+        $controller->sendMessage();
+        break;
+        
+    case 'end_consultation':
+        if (!$is_logged_in) { 
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit; 
+        }
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->endConsultation();
         break;
 
-    // --- RUTE ADMIN (BARU) ---
+    case 'consultation_result':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->result();
+        break;
+        
+    case 'consultation_history':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->history();
+        break;
+
+    case 'end_consultation_test':
+        require_once 'controllers/ConsultationController.php';
+        $controller = new ConsultationController();
+        $controller->endConsultationTest();
+        break;
+
+    // --- ADMIN ROUTES ---
     case 'admin_food':
-        // Cek Login & Role Admin
         if (!$is_logged_in || $role !== 'admin') { 
             header("Location: index.php?action=dashboard"); 
             exit; 
@@ -144,13 +197,16 @@ switch ($action) {
         break;
 
     case 'admin_food_edit':
-        if (!$is_logged_in || $role !== 'admin') { header("Location: index.php?action=dashboard"); exit; }
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
         require_once 'controllers/AdminController.php';
-        (new AdminController())->handleFoodEdit();
+        $adminController = new AdminController();
+        $adminController->handleFoodEdit();
         break;
     
     case 'admin_users':
-        // Cek Login & Role Admin
         if (!$is_logged_in || $role !== 'admin') { 
             header("Location: index.php?action=dashboard"); 
             exit; 
@@ -166,8 +222,8 @@ switch ($action) {
             exit; 
         }
         require_once 'controllers/AdminController.php';
-        $controller = new AdminController();
-        $controller->handleWorkoutManagement();
+        $adminController = new AdminController();
+        $adminController->handleWorkoutManagement();
         break; 
 
     case 'admin_workout_edit':
@@ -176,8 +232,60 @@ switch ($action) {
             exit; 
         }
         require_once 'controllers/AdminController.php';
-        $controller = new AdminController();
-        $controller->handleWorkoutEdit();
+        $adminController = new AdminController();
+        $adminController->handleWorkoutEdit();
+        break;
+
+    // === ADMIN KONSULTASI ===
+    case 'admin_consultations':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleConsultationManagement();
+        break;
+
+    case 'admin_consultation_detail':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleConsultationDetail();
+        break;
+
+    // === ADMIN AHLI GIZI ===
+    case 'admin_nutritionists':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleNutritionistManagement();
+        break;
+
+    case 'admin_nutritionist_edit':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleNutritionistEdit();
+        break;
+
+    case 'admin_consultation_update_status':
+        if (!$is_logged_in || $role !== 'admin') { 
+            header("Location: index.php?action=dashboard"); 
+            exit; 
+        }
+        require_once 'controllers/AdminController.php';
+        $adminController = new AdminController();
+        $adminController->handleConsultationUpdateStatus();
         break;
 
     case 'workout_recommendation':
@@ -186,9 +294,9 @@ switch ($action) {
             exit; 
         }
         require_once 'controllers/WorkoutController.php';
-    $controller = new WorkoutController();
-    $controller->handleRecommendation();
-    break;
+        $controller = new WorkoutController();
+        $controller->handleRecommendation();
+        break;
 
     // --- RUTE UMUM ---
     case 'logout':

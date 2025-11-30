@@ -1,0 +1,474 @@
+/* ==================================== */
+/* GLOBAL ADMIN CSS (public/css/admin.css) */
+/* ==================================== */
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+/* Base Body & Container */
+body {
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background: #f4f7f9; /* Latar Belakang Abu-abu Muda */
+   color: #333;
+   line-height: 1.6;
+}
+
+.admin-container {
+   padding: 20px 30px;
+   max-width: 1400px;
+   margin: 0 auto;
+}
+
+.main-content {
+   background: #fff;
+   padding: 30px;
+   border-radius: 12px;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Header Section */
+header {
+   margin-bottom: 30px;
+   padding-bottom: 15px;
+   border-bottom: 2px solid #eee;
+}
+
+header h1 {
+   color: #2c3e50; /* Biru Tua */
+   font-size: 28px;
+   margin-bottom: 5px;
+}
+
+header p {
+   color: #7f8c8d;
+   font-size: 15px;
+}
+
+/* Card General */
+.card {
+   background: white;
+   padding: 25px;
+   border-radius: 10px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+   margin-bottom: 30px;
+}
+
+.card h3 {
+   color: #2c3e50;
+   margin-top: 0;
+   margin-bottom: 20px;
+   font-size: 20px;
+   border-bottom: 1px solid #f0f0f0;
+   padding-bottom: 10px;
+}
+
+/* Alert Messages */
+.alert {
+   padding: 15px;
+   border-radius: 8px;
+   margin-bottom: 20px;
+   font-weight: 500;
+}
+
+.alert-success {
+   background: #e8f5e9; /* Hijau Muda */
+   color: #27ae60; /* Hijau Tua */
+   border: 1px solid #c8e6c9;
+}
+
+.alert-error {
+   background: #ffebee; /* Merah Muda */
+   color: #e74c3c; /* Merah Tua */
+   border: 1px solid #ffccbc;
+}
+
+/* Back Button */
+.btn-back {
+   display: inline-block;
+   background: #95a5a6;
+   color: white;
+   padding: 8px 15px;
+   text-decoration: none;
+   border-radius: 5px;
+   margin-bottom: 20px;
+   transition: background 0.3s;
+   font-size: 14px;
+}
+.btn-back:hover {
+   background: #7f8c8d;
+}
+
+/* --- Form Styling --- */
+.form-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 20px;
+   margin-bottom: 25px;
+}
+
+.form-group {
+   display: flex;
+   flex-direction: column;
+}
+
+.form-group label {
+   font-weight: 600;
+   margin-bottom: 8px;
+   color: #2c3e50;
+   font-size: 14px;
+}
+
+.form-group input, .form-group select {
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   font-size: 14px;
+   transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group select:focus {
+   border-color: #e74c3c;
+   outline: none;
+   box-shadow: 0 0 0 1px #e74c3c;
+}
+
+.form-group small {
+   color: #7f8c8d;
+   font-size: 12px;
+   margin-top: 5px;
+}
+
+.form-info {
+   background: #f7f9fb;
+   padding: 15px;
+   border-radius: 8px;
+   border-left: 4px solid #3498db;
+   margin-bottom: 20px;
+   font-size: 14px;
+}
+
+.preview-img, .nutritionist-img {
+   width: 80px;
+   height: 80px;
+   border-radius: 50%;
+   object-fit: cover;
+   margin-top: 10px;
+   border: 3px solid #eee;
+}
+
+/* --- Table Styling --- */
+table {
+   width: 100%;
+   border-collapse: separate;
+   border-spacing: 0;
+   font-size: 14px;
+}
+
+table thead {
+   background: #34495e;
+   color: white;
+}
+
+table th, table td {
+   padding: 15px;
+   text-align: left;
+   border-bottom: 1px solid #eee;
+}
+
+table th {
+   font-weight: 600;
+}
+
+table tbody tr:hover {
+   background: #f8f9fa;
+}
+
+table tbody tr:last-child td {
+   border-bottom: none;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+   background: #e74c3c;
+   color: white;
+   padding: 12px 24px;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 15px;
+   font-weight: 600;
+   transition: background 0.3s;
+}
+.btn-primary:hover {
+   background: #c0392b;
+}
+
+.btn-sm {
+   padding: 6px 12px;
+   font-size: 13px;
+   text-decoration: none;
+   border-radius: 4px;
+   display: inline-block;
+   margin-right: 5px;
+   transition: all 0.3s;
+   font-weight: 500;
+}
+
+.btn-info {
+   background: #3498db;
+   color: white;
+}
+.btn-info:hover {
+   background: #2980b9;
+}
+
+.btn-warning {
+   background: #f39c12;
+   color: white;
+}
+.btn-warning:hover {
+   background: #e67e22;
+}
+
+.btn-danger {
+   background: #e74c3c;
+   color: white;
+}
+.btn-danger:hover {
+   background: #c0392b;
+}
+
+/* --- DETAIL CONSULTATION SPECIFIC STYLES --- */
+.detail-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: 25px;
+}
+
+/* Utility / Garis Pemisah */
+hr {
+   border: 0;
+   border-top: 1px solid #ddd;
+   margin: 30px 0;
+}
+
+.info-box {
+   background: #fcfdff; /* Latar belakang sedikit berbeda */
+   padding: 20px;
+   border-radius: 8px;
+   border: 1px solid #e0e0e0;
+}
+
+.info-box h3, .info-box h4 {
+   color: #333;
+   margin-top: 0;
+   margin-bottom: 15px;
+   font-size: 18px;
+   font-weight: 600;
+}
+
+.info-box h4 {
+   color: #1e88e5;
+   font-size: 16px;
+   margin-bottom: 10px;
+}
+
+.info-item {
+   display: flex;
+   justify-content: space-between;
+   padding: 8px 0;
+   border-bottom: 1px dashed #f0f0f0;
+   font-size: 15px;
+}
+
+.info-item:last-child {
+   border-bottom: none;
+   padding-bottom: 0;
+}
+
+.info-item label {
+   font-weight: 500;
+   color: #666;
+   flex-basis: 40%;
+}
+
+.info-item span, .info-item p {
+   flex-basis: 60%;
+   text-align: right;
+   color: #333;
+   margin: 0; /* Penting untuk <p> */
+}
+/* Flex-override for multiline notes/activity */
+.info-box .info-item[style*="display: block"] {
+   display: block !important;
+   text-align: left;
+}
+.info-box .info-item[style*="display: block"] label {
+   display: block !important;
+   text-align: left !important;
+   flex-basis: auto;
+}
+.info-box .info-item[style*="display: block"] span, 
+.info-box .info-item[style*="display: block"] p {
+   text-align: left !important;
+   flex-basis: auto;
+}
+
+
+/* Chat History */
+.chat-history {
+   max-height: 500px;
+   overflow-y: auto;
+   padding: 10px;
+   border: 1px solid #e0e0e0;
+   border-radius: 8px;
+   background: #f7f7f7;
+}
+
+.message {
+   margin-bottom: 15px;
+   padding: 10px 15px;
+   border-radius: 15px;
+   max-width: 80%;
+   position: relative;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message.user {
+   background-color: #e3f2fd; /* Biru muda untuk user */
+   margin-left: auto;
+   border-top-right-radius: 5px;
+}
+
+.message.nutritionist {
+   background-color: #e8f5e9; /* Hijau muda untuk ahli gizi */
+   margin-right: auto;
+   border-top-left-radius: 5px;
+}
+
+.message .sender {
+   font-weight: bold;
+   font-size: 12px;
+   margin-bottom: 5px;
+   color: #555;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+   padding-bottom: 3px;
+}
+
+.message .content {
+   font-size: 14px;
+   word-wrap: break-word;
+   white-space: pre-wrap;
+   margin-bottom: 5px;
+}
+
+.message .time {
+   display: block;
+   text-align: right;
+   font-size: 10px;
+   color: #999;
+}
+
+
+/* --- KELOLA CONSULTATION SPECIFIC STYLES --- */
+.filter-tabs {
+   display: flex;
+   flex-wrap: wrap; /* Agar responsif */
+   gap: 10px;
+   margin-bottom: 25px;
+}
+.filter-tabs a {
+   padding: 8px 16px;
+   border-radius: 6px;
+   text-decoration: none;
+   background: #ecf0f1;
+   color: #555;
+   font-weight: 500;
+   transition: background 0.3s, color 0.3s;
+}
+.filter-tabs a:hover {
+   background: #bdc3c7;
+}
+.filter-tabs a.active {
+   background: #e74c3c; /* Merah Utama */
+   color: white;
+}
+
+/* Status Badges */
+.status-badge {
+   padding: 4px 12px;
+   border-radius: 12px;
+   font-size: 12px;
+   font-weight: bold;
+   display: inline-block;
+}
+.status-pending { 
+   background: #f39c12; /* Kuning/Orange */
+   color: white; 
+}
+.status-active { 
+   background: #3498db; /* Biru */
+   color: white; 
+}
+.status-completed { 
+   background: #27ae60; /* Hijau */
+   color: white; 
+}
+.status-cancelled { 
+   background: #95a5a6; /* Abu-abu */
+   color: white; 
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+   .main-content {
+       padding: 20px;
+   }
+
+   .detail-grid {
+       grid-template-columns: 1fr;
+   }
+
+   .info-item {
+       flex-direction: column;
+       align-items: flex-start;
+   }
+
+   .info-item label {
+       flex-basis: auto;
+       margin-bottom: 2px;
+   }
+
+   .info-item span, .info-item p {
+       flex-basis: auto;
+       text-align: left;
+   }
+
+   .message {
+       max-width: 100%;
+   }
+
+      /* --- KELOLA CONSULTATION SPECIFIC STYLES --- */
+   .filter-tabs {
+      display: flex; /* <-- INI KUNCI AGAR FILTER HORIZONTAL */
+      flex-wrap: wrap; 
+      gap: 10px;
+      margin-bottom: 25px;
+   }
+   .filter-tabs a {
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      background: #ecf0f1;
+      color: #555;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+   }
+   .filter-tabs a.active {
+      background: #e74c3c; /* Merah Utama */
+      color: white;
+   }
+}
