@@ -164,7 +164,7 @@ input {
 /* Panel Overlay (Yang Bergerak) */
 .overlay {
     /* Ganti bg.jpg dengan gambar Anda */
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../images/duh.jpg');
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('SiSehat/publicimg/duh.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

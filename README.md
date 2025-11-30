@@ -32,7 +32,7 @@
 Berdasarkan struktur repositori, aplikasi ini dikembangkan dengan:
 
 * **Backend:** PHP Native (Menggunakan Arsitektur MVC).
-* **Database:** MySQL / Workbench.
+* **Database:** MySQL / Workbench / PHPMyadmin.
 * **Frontend:** HTML, CSS, JavaScript (kemungkinan besar menggunakan framework CSS seperti Bootstrap di folder `/public`).
 
 ## ⚙ Prasyarat dan Instalasi
